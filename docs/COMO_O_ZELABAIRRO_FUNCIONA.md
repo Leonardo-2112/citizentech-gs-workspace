@@ -1,7 +1,7 @@
 # Como o ZelaBairro funciona — guia para o grupo
 
 > Explicação em linguagem simples, para todo mundo do grupo conseguir explicar o projeto inteiro em qualquer apresentação.
-> A regra oficial está no **Documento Base v1.4** (`docs/ZelaBairro-Documento-Base.pdf`); este guia só explica. Se discordarem, vale o Documento Base.
+> A regra oficial está no **Documento Base v1.5** (`docs/ZelaBairro-Documento-Base.pdf`); este guia só explica. Se discordarem, vale o Documento Base.
 
 ---
 

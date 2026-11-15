@@ -4,7 +4,7 @@
 Matheus Jones Sousa de Freitas (RM 573559) · Vitor Goncalves de Souza (RM 569023) · Joao Machado Nascimento (RM 572364)
 
 Parte da disciplina **Artificial Intelligence & Chatbot** da Global Solution 2026/2 (FIAP, CitizenTech).
-Tudo segue o **Documento Base v1.4** (nomes de categorias, status, campos e contratos), em `docs/ZelaBairro-Documento-Base.pdf` do repositório do grupo.
+Tudo segue o **Documento Base v1.5** (nomes de categorias, status, campos e contratos), em `docs/ZelaBairro-Documento-Base.pdf` do repositório do grupo.
 
 **O que tem aqui**
 

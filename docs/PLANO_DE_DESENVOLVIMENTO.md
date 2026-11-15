@@ -1,7 +1,7 @@
 # Plano de desenvolvimento — ZelaBairro (GS 2026/2)
 
-> Versão de 15/11/2026 (atualizada para o Documento Base **v1.4**: login por e-mail e senha com `tb_gestor` (RN15–RN17), fotos com `tb_foto` (RN18) e o fluxo da previsão da IA explicado na seção 7.4). Entrega: **19/11/2026 até 23h55, sem prorrogação.**
-> Este plano não cria regra nova: as regras e os nomes vêm do **Documento Base v1.4** (`docs/ZelaBairro-Documento-Base.pdf`), os critérios de nota vêm de [`CRITERIOS_DE_ACEITE.md`](CRITERIOS_DE_ACEITE.md) e o "jeito de fazer" vem dos nossos projetos anteriores, resumidos em [`referencias/`](referencias/).
+> Versão de 15/11/2026 (atualizada para o Documento Base **v1.5**: login por e-mail e senha com `tb_gestor` (RN15–RN17), fotos com `tb_foto` (RN18) e o fluxo da previsão da IA explicado na seção 7.4). Entrega: **19/11/2026 até 23h55, sem prorrogação.**
+> Este plano não cria regra nova: as regras e os nomes vêm do **Documento Base v1.5** (`docs/ZelaBairro-Documento-Base.pdf`), os critérios de nota vêm de [`CRITERIOS_DE_ACEITE.md`](CRITERIOS_DE_ACEITE.md) e o "jeito de fazer" vem dos nossos projetos anteriores, resumidos em [`referencias/`](referencias/).
 > Se este plano e o Documento Base discordarem, vale o Documento Base.
 
 ## 0. Como usar este plano
@@ -54,9 +54,9 @@ Nenhum projeto anterior tem **Banco de Dados** nem **IA**. Para IA, a referênci
 
 | # | Tarefa | Vale | Pronto quando |
 |---|---|---|---|
-| 1 | Preencher `DATA_DOWNLOAD` na 1ª célula do notebook 01 e apagar o aviso "Preencha antes de entregar" | Notebooks (60) | Não sobra nenhum "PREENCHER" nos notebooks |
+| 1 | ~~Preencher a data de download~~ feito em 15/11: data de **acesso** 15/11/2026 e versão dos arquivos (10/08/2026), já que a data exata do download não foi registrada | Notebooks (60) | Feito |
 | 2 | ~~Reexecutar os 3 notebooks~~ (feito em 15/11; reexecutar de novo só se mudarem dados) — opcional rodar na máquina do grupo (01 e 03: minutos; 02: até ~3 h), o que tira o caminho `/home/claude/...` das saídas | Notebooks (60) + regra de IA | Saídas com o caminho de quem rodou; métricas iguais às do README |
-| 3 | Reescrever as conclusões dos notebooks **com as palavras do grupo** (os números estão certos) | Notebooks (60) + arguição | Cada integrante consegue explicar as conclusões |
+| 3 | Conclusões reescritas em linguagem simples (15/11). **Falta o grupo revisar**; roteiro e divisão por integrante em `entregas/1-ia-chatbot/ROTEIRO_APRESENTACAO_IA.md` | Notebooks (60) + arguição | Cada integrante explica as conclusões sem ler |
 | 4 | Gerar o `.zip` com `python scripts/empacotar.py`, incluindo `.idea` na lista de pastas ignoradas | Item zerado se faltar arquivo | O zip abre, tem `identificacao.txt` na raiz e não tem `__pycache__`, `.venv` nem `.idea` |
 | 5 | ~~Chatbot: falar "risco alto/baixo" em vez de "68% de chance" (D4)~~ feito em 15/11 | Apresentação: métricas (20) | Chat sem porcentagem |
 | 6 | (Opcional, nível 2) Publicar a Flask no Render para a Java chamá-la (seção 7.4 do Documento Base) | — (desejável) | `/health` público respondendo |

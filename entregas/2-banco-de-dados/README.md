@@ -1,7 +1,7 @@
 # 2 · Building Relational Database
 
 **Primeira matéria do caminho crítico:** a Java só testa de verdade quando este script estiver rodando no Oracle da FIAP.
-Base: Documento Base v1.4, seção 6 (9 tabelas, dicionário, seed) e [`docs/PLANO_DE_DESENVOLVIMENTO.md`](../../docs/PLANO_DE_DESENVOLVIMENTO.md) seção 2.2.
+Base: Documento Base v1.5, seção 6 (9 tabelas, dicionário, seed) e [`docs/PLANO_DE_DESENVOLVIMENTO.md`](../../docs/PLANO_DE_DESENVOLVIMENTO.md) seção 2.2.
 
 ## O que colocar nesta pasta
 | Arquivo | Conteúdo |

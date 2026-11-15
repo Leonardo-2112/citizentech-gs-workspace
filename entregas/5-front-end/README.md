@@ -1,6 +1,6 @@
 # 5 · Front-End Design Engineering
 
-Depende da **API Java publicada** (mocks não são aceitos). Base: Documento Base v1.4, seção 9; padrões em [`docs/referencias/01-EcoScoreEngine.md`](../../docs/referencias/01-EcoScoreEngine.md) e [`03-receitario-cp5.md`](../../docs/referencias/03-receitario-cp5.md); plano seção 4.
+Depende da **API Java publicada** (mocks não são aceitos). Base: Documento Base v1.5, seção 9; padrões em [`docs/referencias/01-EcoScoreEngine.md`](../../docs/referencias/01-EcoScoreEngine.md) e [`03-receitario-cp5.md`](../../docs/referencias/03-receitario-cp5.md); plano seção 4.
 
 > **Atenção:** a matéria exige um **repositório GitHub público** com pelo menos **5 commits de cada integrante** (15 no total). Este repositório é privado, então o código do front deve viver num repositório público próprio (ex.: `zelabairro-front`). Esta pasta guarda só o que ajuda a entrega: links, checklist e, se quiserem, uma cópia final.
 

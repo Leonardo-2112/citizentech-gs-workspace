@@ -1,7 +1,7 @@
 # 3 · Computational Thinking Using Python — ZelaBairro Terminal
 
 Ferramenta de triagem do gestor que funciona **sem internet** (dados em JSON). Independente das outras matérias.
-Base: Documento Base v1.4, seção 10; estilo do professor em [`docs/referencias/05-python-professor-1tdspv.md`](../../docs/referencias/05-python-professor-1tdspv.md); plano seção 2.3.
+Base: Documento Base v1.5, seção 10; estilo do professor em [`docs/referencias/05-python-professor-1tdspv.md`](../../docs/referencias/05-python-professor-1tdspv.md); plano seção 2.3.
 
 ## O que colocar nesta pasta
 | Arquivo | Conteúdo |

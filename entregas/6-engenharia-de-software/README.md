@@ -1,6 +1,6 @@
 # 6 · Software Engineering and Business Model
 
-Consolida tudo. Entrega: **um único PDF** (não zip) com os links do backlog (Jira ou Trello) e do vídeo pitch. Base: Documento Base v1.4, seções 3, 4, 5, 9 e 11; plano seção 5.
+Consolida tudo. Entrega: **um único PDF** (não zip) com os links do backlog (Jira ou Trello) e do vídeo pitch. Base: Documento Base v1.5, seções 3, 4, 5, 9 e 11; plano seção 5.
 
 ## O que colocar nesta pasta
 | Arquivo | Conteúdo |

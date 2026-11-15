@@ -18,7 +18,7 @@ from reportlab.platypus import (BaseDocTemplate, Frame, KeepTogether, ListFlowab
                                 Preformatted, Spacer, Table, TableStyle)
 from reportlab.platypus.tableofcontents import TableOfContents
 
-VERSAO = "1.4"
+VERSAO = "1.5"
 DATA = "15/11/2026"
 SAIDA = Path(__file__).with_name("ZelaBairro-Documento-Base.pdf")
 
@@ -735,6 +735,10 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
               "<b>Categoria sem dados:</b> \"Iluminação pública apagada\" não tem nenhum chamado no "
               "SP156 a partir de 2018. Os modelos não aprenderam nada sobre ela (ver 7.4).",
               "<b>Limitações a citar:</b> período inclui a pandemia; os dados vão só até set/2023.",
+              "<b>Data (v1.5):</b> a data exata do download não foi registrada; o notebook 01 cita a "
+              "data de acesso ao portal (15/11/2026) e a versão dos arquivos (atualizados em "
+              "10/08/2026). O portal já publica o 2º e o 4º trimestres de 2023, que podem entrar "
+              "num próximo treino.",
           ]),
           h2("7.2 Modelos"),
           tabela([["Modelo", "Tipo", "Alvo", "Métricas"],
@@ -1211,10 +1215,10 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                   ["CSV do SP156", "<b>Resolvido em 13/11</b> (seção 7.1)", "IA", "—"],
                   ["API Java", "Ainda não iniciada em 15/11; é o caminho crítico do Front "
                                "(seção 12.1)", "Java", "16/11"],
-                  ["Acabamento da IA", "Notebooks alinhados às aulas e reexecutados em 15/11. Falta: "
-                                       "preencher a data de download no notebook 01, reescrever "
-                                       "as conclusões com as palavras do grupo e montar o .zip "
-                                       "com scripts/empacotar.py", "IA", "18/11"],
+                  ["Acabamento da IA", "Notebooks alinhados e reexecutados; fonte e data de acesso "
+                                       "preenchidas; conclusões escritas. Falta: o grupo revisar as "
+                                       "conclusões e montar o .zip com scripts/empacotar.py", "IA",
+                   "18/11"],
                   ["Nome da empresa", "Eng. Software exige nome da empresa e da solução na capa",
                    "Grupo", "13/11"],
                   ["Banco Oracle", "Definir em qual conta FIAP o banco fica e compartilhar o "
@@ -1277,9 +1281,14 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                                  "upload no front; seção 7.4 reescrita (como a previsão chega ao "
                                  "cidadão); alinhamento da IA às aulas (7.2); riscos atualizados",
                    "Leonardo (com apoio de IA)"],
-                  [VERSAO, DATA, "IA alinhada às aulas com resultados na 7.2; D4 aplicada no "
+                  ["1.4", "15/11/2026", "IA alinhada às aulas com resultados na 7.2; D4 aplicada no "
                                  "chatbot; papel dos repositórios (13.3); backlog com RN01–RN18; "
                                  "risco \"Acabamento da IA\" atualizado",
+                   "Leonardo (com apoio de IA)"],
+                  [VERSAO, DATA, "Fonte dos dados registrada com data de acesso (15/11/2026) e "
+                                 "versão dos arquivos do portal (10/08/2026), já que a data do "
+                                 "download não foi registrada; conclusões dos notebooks escritas; "
+                                 "portal já publica 2º e 4º tri/2023 (próximo treino)",
                    "Leonardo (com apoio de IA)"],
                   ], [1.8, 2.4, 9.3, 3.5]),
           Spacer(1, 10),

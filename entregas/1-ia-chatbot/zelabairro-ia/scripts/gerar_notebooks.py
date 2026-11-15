@@ -60,13 +60,14 @@ Matheus Jones Sousa de Freitas (RM 573559) · Vitor Goncalves de Souza (RM 56902
 Objetivo: entender os chamados reais de zeladoria da Prefeitura de São Paulo antes de treinar os
 modelos: o que temos, o quanto está sujo, e se existe sinal para prever **prazo** e **atraso**.
 
-**Preencha antes de entregar (exigência do Documento Base, seção 7.1):**
+**Fonte e data de acesso dos dados (Documento Base, seção 7.1):**
 """),
     code('''
-FONTE = "Dados do SP156 — Portal de Dados Abertos da Prefeitura de São Paulo (dados.prefeitura.sp.gov.br)"
-DATA_DOWNLOAD = "PREENCHER: dd/mm/aaaa"      # data em que o grupo baixou o CSV
-RECORTE = "chamados abertos de 01/01/2020 a 30/09/2023 (arquivos trimestrais; falta o 2º tri/2023)"
-print(FONTE, "|", DATA_DOWNLOAD, "|", RECORTE)
+FONTE = "Dados do SP156 — SMIT, Portal de Dados Abertos da Prefeitura de São Paulo (dados.prefeitura.sp.gov.br, conjunto dados-do-sp156)"
+DATA_ACESSO = "15/11/2026"   # dia em que conferimos o conjunto no portal (padrão ABNT: "Acesso em")
+VERSAO = "arquivos trimestrais na versão atualizada pelo portal em 10/08/2026"
+RECORTE = "chamados abertos de 01/01/2020 a 30/09/2023 (os arquivos usados não traziam o 2º tri/2023)"
+print(FONTE); print("Acesso em:", DATA_ACESSO, "|", VERSAO); print("Recorte:", RECORTE)
 '''),
     md("## 1. Carga e visão geral"),
     code(SETUP),
@@ -264,15 +265,13 @@ pd.concat([sub_atraso.head(5), sub_atraso.tail(5)]).round(3)
   (`handle_unknown="ignore"`), mas a previsão será mais genérica.
 """),
     md("""## 7. Conclusões da exploração
-<!-- RASCUNHO: reescrever estas conclusões com as palavras do grupo antes de entregar (o professor tira pontos de texto copiado de IA). -->
-* **Estatística do tempo de resolução (Aula 02):** média de 28,6 dias contra mediana de 7 e moda de 0; desvio padrão de 62,3 dias; Q1 = 1, Q3 = 24 e IQR = 23 dias. Pela regra Q3 + 1,5 × IQR, todo chamado acima de 58 dias é outlier: são 133.691 (13,6%), e o maior levou 1.668 dias.
-* **Base:** 982.475 chamados finalizados, abertos de 01/01/2020 a 30/09/2023, em 7 das 8 categorias e 32 subprefeituras, sem valores nulos. "Iluminação pública apagada" não tem nenhum chamado no recorte.
-* **Volume concentrado:** Buraco na via (474.597 chamados, 48,3%), Poda de árvore (205.595) e Descarte irregular de lixo (170.435) somam 86,6% da base. Calçada danificada (9.400) e Sinalização (16.006) têm poucos exemplos.
-* **Tempo de resolução com cauda longa:** mediana de 7 dias, média de 28,6, 90% dos chamados em até 79 dias e máximo de 1.668. Por isso o modelo de prazo usa log(1 + dias) e o MAE como métrica principal.
-* **A categoria é o que mais separa os chamados:** as medianas vão de 0 dia (Árvore com risco de queda) e 1 dia (Bueiro e Descarte) até 28 dias (Poda de árvore). A Sinalização tem mediana de 18 dias, acima do prazo de referência de 10.
-* **Atraso (alvo do modelo 2):** 29,8% dos chamados passam do prazo da tabela 6.4 (classes desbalanceadas, cerca de 70/30). Por categoria: Sinalização 61,3%, Poda 48,5%, Buraco 33,0%, Calçada 30,2%, Bueiro 19,0%, Árvore com risco 11,4% e Descarte 2,9%.
-* **Subprefeitura:** entre as que têm pelo menos 30 chamados, o atraso vai de 13,7% (Jabaquara) a 46,0% (Pirituba/Jaraguá). Parte dessa diferença pode vir da mistura de categorias de cada região, e não só do atendimento local.
-* **O que isso sugere para os modelos:** só `categoria`, `subprefeitura`, `mes` e `dia_semana` existem na abertura do chamado, então o ganho esperado sobre uma simples tabela de medianas por categoria é modesto. Por isso os notebooks 02 e 03 comparam sempre com baselines. Os limites dos dados (prazo = fechamento do protocolo, pandemia, meses ausentes, categoria sem histórico) estão na seção 6."""),
+* **O que temos:** 982.475 chamados finalizados do SP156, abertos entre janeiro de 2020 e setembro de 2023, em 7 das nossas 8 categorias e 32 subprefeituras, sem valores nulos. Iluminação pública não tem nenhum chamado nesse período, então não vamos conseguir prever nada para ela.
+* **Buraco na via domina a base:** sozinho é quase metade dos chamados (474.597, 48,3%). Somando Poda de árvore e Descarte de lixo, chegamos a 86,6%. Calçada (9.400) e Sinalização (16.006) têm poucos exemplos.
+* **O tempo de resolução tem muitos valores extremos:** a média é de 28,6 dias, mas a mediana é só 7 e a moda é 0 (muita coisa fecha no mesmo dia). O desvio padrão é de 62,3 dias. Pela regra do IQR (Q3 = 24 e IQR = 23), tudo acima de 58 dias é outlier, o que dá 133.691 chamados (13,6%); o maior levou 1.668 dias. É o mesmo caso do exemplo de tempo de entrega da Aula 02: a média engana. Por isso vamos usar o MAE como métrica principal e treinar o modelo de prazo em log(1 + dias).
+* **O tipo de problema é o que mais muda o tempo:** pela mediana, Árvore com risco de queda fecha em 0 dia, Bueiro e Descarte em 1 dia e Poda em 28 dias. Sinalização tem mediana de 18 dias, mesmo com prazo de referência de 10.
+* **Atraso:** 29,8% dos chamados passam do prazo da tabela 6.4, então as classes são desbalanceadas (cerca de 70/30). Sinalização atrasa 61,3% das vezes, Poda 48,5% e Buraco 33,0%; Descarte, só 2,9%.
+* **Subprefeitura:** entre as que têm pelo menos 30 chamados, o atraso vai de 13,7% (Jabaquara) a 46,0% (Pirituba/Jaraguá). Parte dessa diferença pode ser só a mistura de categorias de cada região.
+* **O que esperamos dos modelos:** na abertura do chamado só sabemos categoria, subprefeitura, mês e dia da semana. Com tão pouca informação, o ganho sobre uma tabela de medianas por categoria deve ser pequeno. Por isso, nos notebooks 02 e 03, comparamos sempre com baselines."""),
 ]
 
 # ======================================================================= 02 PRAZO
@@ -472,13 +471,12 @@ exemplo = pd.DataFrame([{"categoria": "Buraco na via", "subprefeitura": df["subp
 print("Prazo previsto (dias):", int(round(float(joblib.load(os.path.join(RAIZ, "models", "modelo_prazo.joblib"))["pipeline"].predict(exemplo)[0]))))
 '''),
     md("""## 6. Conclusões
-<!-- RASCUNHO: reescrever estas conclusões com as palavras do grupo antes de entregar (o professor tira pontos de texto copiado de IA). -->
-* **Comparação dos modelos (caminho das Aulas 05 e 06):** em dias brutos, a Regressão Linear (MAE 30,2) e a Árvore de Decisão (28,4) erram mais que a tabela de medianas por categoria (24,5), por causa dos outliers. Em log(1 + dias), a Árvore já ganha da tabela (23,9) e o Random Forest ganha de todos (23,3 sem mês). Trocamos interpretabilidade por acurácia, o trade-off mostrado na Aula 06.
-* **Ganhou do baseline?** Sim, mas por pouco. No teste (196.495 chamados) o MAE do Random Forest sobre log(1 + dias) foi de **23,3 dias**, contra 26,6 da mediana geral e **24,5 da mediana por categoria**, que é o baseline que importa (uma tabela simples, sem IA). O ganho sobre ela é de cerca de 1,1 dia (4,6%). Na validação cruzada (5 folds, amostra de 60 mil) o MAE foi 23,28 ± 0,35 dias.
-* **Quanto erra em média:** cerca de 23 dias. RMSE de 61,0 e R² de 0,058: o modelo explica pouco da variação, porque poucos chamados levam centenas de dias e nenhuma das 4 variáveis disponíveis na abertura diz o motivo.
-* **Onde é pior:** o MAE por categoria é de 2,6 dias em Árvore com risco de queda e 2,8 em Descarte (fecham rápido, muitas vezes no mesmo dia); 20,3 em Buraco; 25,6 em Bueiro; 37,6 em Calçada; 45,8 em Poda; e 48,6 em Sinalização, as de cauda mais longa.
-* **Teste no tempo (treino 2020–2022, teste 2023):** MAE de 37,8 dias sem o mês, 38,2 com o mês e 38,7 na mediana por categoria. O mês piora a previsão do futuro, então o modelo final não o usa (a API continua aceitando `mes`). O erro maior que no teste aleatório indica que prever o futuro é mais difícil do que prever chamados sorteados do mesmo período.
-* **Limitações:** só 4 variáveis na abertura (sem descrição, gravidade real ou local exato); o "prazo" é o tempo até o órgão fechar o protocolo, não necessariamente o conserto; os dados de 2020–2023 incluem a pandemia e não cobrem fev–mar/2021 nem abr–jun/2023; "Iluminação pública apagada" não tem histórico, então não há previsão para ela. O resultado deve ser apresentado como estimativa do tempo típico, nunca como garantia."""),
+* **Comparação dos modelos (na ordem das aulas):** em dias brutos, a Regressão Linear (MAE 30,2) e a Árvore de Decisão (28,4) erraram mais do que uma simples tabela com a mediana de cada categoria (24,5). Quando treinamos em log(1 + dias), a Árvore já passou a tabela (23,9) e o Random Forest foi o melhor (23,3, sem o mês). Escolhemos o Random Forest sabendo que ele é mais difícil de explicar do que a árvore.
+* **Ganhou do baseline, mas por pouco:** 23,3 dias de erro médio contra 24,5 da tabela de medianas, uma diferença de 1,1 dia (4,6%). Na validação cruzada com 5 folds deu 23,28 ± 0,35, então o resultado não foi sorte da divisão dos dados.
+* **Por que o R² é baixo:** R² de 0,058 e RMSE de 61,0. O modelo explica pouco da variação porque alguns chamados levam centenas de dias e nenhuma das 4 informações da abertura explica o motivo.
+* **Onde erra menos e onde erra mais:** Árvore com risco (2,6 dias) e Descarte (2,8) fecham rápido e são fáceis de prever. Buraco erra 20,3 dias; Bueiro, 25,6; Calçada, 37,6; Poda, 45,8; e Sinalização, 48,6.
+* **Teste no tempo (treino 2020–2022, teste 2023):** 37,8 dias sem o mês, 38,2 com o mês e 38,7 na tabela de medianas. O mês piora a previsão do futuro, então tiramos o mês do modelo (a API continua aceitando o campo). Também vimos que prever o futuro é mais difícil do que prever chamados sorteados do mesmo período.
+* **Limitações:** temos poucas variáveis; o "prazo" do SP156 vai até o órgão fechar o protocolo, não necessariamente até o conserto; os dados incluem a pandemia e não têm fev–mar/2021 nem abr–jun/2023 (o portal hoje já publica o 2º e o 4º trimestres de 2023, que podem entrar num próximo treino); e Iluminação fica sem previsão. Para o cidadão, mostramos a previsão como estimativa, nunca como garantia."""),
 ]
 
 # ======================================================================= 03 ATRASO
@@ -689,17 +687,15 @@ p = float(pipe.predict_proba(exemplo)[0][list(pipe.classes_).index(1)])
 print({"risco_atraso": "S" if p >= 0.5 else "N", "probabilidade": round(p, 2)})
 '''),
     md("""## 6. Conclusões
-<!-- RASCUNHO: reescrever estas conclusões com as palavras do grupo antes de entregar (o professor tira pontos de texto copiado de IA). -->
-* **Comparação dos modelos (caminho das Aulas 05 e 06):** a Regressão Logística (F1 0,538, AUC 0,739) e a Árvore de Decisão (F1 0,549, AUC 0,736) já ordenam o risco bem melhor que o chute (AUC 0,5). A Árvore pega mais atrasos (recall 0,903), mas com mais alarmes falsos (precisão 0,395). O Random Forest sem mês é o melhor nas duas métricas que importam em base desbalanceada (F1 0,561, AUC 0,759 na comparação), por isso é o modelo final. O Random Forest com mês parece melhor no teste aleatório (AUC 0,807), mas piora no teste "no tempo" (abaixo).
-* **Superou o baseline?** Depende da métrica. Em acurácia, **não**: 0,609 contra 0,702 de quem sempre responde "no prazo", porque `class_weight="balanced"` troca acurácia por recall. O valor do modelo está no **ROC AUC de 0,754** (baseline: 0,5), que mostra que ele ordena bem quem tem mais risco, e no **recall de 0,834** para a classe "atrasou".
-* **Matriz de confusão (teste, 196.495 chamados):** 48.841 atrasos detectados (VP) e 9.710 não detectados (FN, 16,6% dos atrasos); 67.199 falsos alarmes (FP, 48,7% dos chamados que não atrasaram) e 70.745 acertos de "no prazo" (VN). Precisão de 0,421 e F1 de 0,559. Na validação cruzada o F1 foi 0,556 ± 0,002, ou seja, o resultado se mantém.
-* **Por que aceitar tantos falsos positivos:** o falso negativo (não avisar e o chamado atrasar) é o erro mais caro para o cidadão; um alerta a mais custa pouco.
-* **Limiar de decisão:** em 0,5 (padrão do projeto) o recall é 0,834 e a precisão 0,421. Em 0,3 o recall sobe para 0,973, com precisão de 0,367. Em 0,6 a precisão sobe para 0,564, mas o recall já cai para 0,438; em 0,7, precisão 0,646 e recall 0,298. Mantivemos 0,5 porque o falso negativo é o erro mais caro.
-* **Curva ROC:** a curva do Random Forest fica acima das da Logística e da Árvore em quase todos os limiares (AUC 0,754 contra 0,739 e 0,736), ou seja, para a mesma quantidade de alarmes falsos ele encontra mais atrasos.
-* **A probabilidade não é uma chance real:** a média prevista é de 46,2%, mas só 29,8% dos chamados do teste atrasaram. O balanceamento empurra as probabilidades para cima. Por isso o ZelaBairro mostra ao cidadão só **risco alto/baixo**, sem porcentagem.
-* **Ajuste de hiperparâmetros:** a busca (GridSearchCV numa amostra de 30 mil chamados) escolheu `max_depth=16`; no teste completo, a versão sem limite de profundidade da comparação ficou um pouco melhor (AUC 0,759 contra 0,754). A diferença é pequena; repetir a busca numa amostra maior seria o próximo passo.
-* **Teste no tempo (treino 2020–2022, teste 2023):** o ROC AUC é 0,774 sem o mês e 0,689 com o mês, por isso o modelo final não usa o mês.
-* **Limitações e próximos passos:** as mesmas do notebook 02 (poucas variáveis, prazo = fechamento do protocolo, pandemia, meses ausentes, categoria sem histórico). Com mais informação sobre cada chamado (descrição, gravidade real, local exato) o poder de previsão poderia melhorar."""),
+* **Comparação dos modelos (na ordem das aulas):** a Regressão Logística (F1 0,538, AUC 0,739) e a Árvore de Decisão (F1 0,549, AUC 0,736) já são bem melhores que chutar (AUC 0,5). A Árvore pega mais atrasos (recall 0,903), mas dá mais alarmes falsos (precisão 0,395). O Random Forest sem mês foi o melhor em F1 (0,561) e em AUC (0,759), as métricas que a aula indica para base desbalanceada. Com mês ele parece ainda melhor no teste aleatório (AUC 0,807), mas piora no teste no tempo, então ficou sem o mês.
+* **A acurácia engana aqui:** o modelo final tem 0,609, menos que os 0,702 de quem sempre diz "no prazo". Isso acontece porque usamos `class_weight="balanced"` para o modelo não ignorar os atrasos. O que vale olhar é o AUC de 0,754 e o recall de 0,834.
+* **Matriz de confusão (196.495 chamados de teste):** acertamos 48.841 atrasos e deixamos passar 9.710 (16,6% dos atrasos). Foram 67.199 alarmes falsos e 70.745 acertos de "no prazo". Precisão de 0,421 e F1 de 0,559. Na validação cruzada o F1 foi 0,556 ± 0,002, então o resultado se mantém.
+* **Por que aceitamos tantos alarmes falsos:** para o cidadão, o pior erro é não avisar e o problema atrasar (falso negativo). Um alarme a mais só faz a ocorrência subir um pouco na fila do gestor.
+* **Curva ROC:** a curva do Random Forest fica acima das curvas da Logística e da Árvore em quase todos os pontos (AUC 0,754 contra 0,739 e 0,736).
+* **Limiar de decisão:** em 0,5, recall de 0,834 e precisão de 0,421. Em 0,3 o recall vai a 0,973 (precisão de 0,367). Em 0,6 a precisão sobe para 0,564, mas o recall cai para 0,438; em 0,7 fica em 0,646 e 0,298. Ficamos com 0,5.
+* **A probabilidade não é uma chance real:** a média prevista é de 46,2%, mas só 29,8% dos chamados do teste atrasaram. Por isso, no site e no chatbot, mostramos só "risco alto" ou "risco baixo".
+* **Hiperparâmetros:** o GridSearchCV, rodado numa amostra de 30 mil chamados, escolheu `max_depth=16`. No teste completo, a versão sem limite de profundidade ficou um pouco melhor (AUC 0,759 contra 0,754). A diferença é pequena; uma busca com amostra maior seria o próximo passo.
+* **Limitações:** as mesmas do notebook 02. Com mais informação sobre cada chamado (descrição, gravidade real, local exato), o modelo poderia melhorar."""),
 ]
 
 if __name__ == "__main__":

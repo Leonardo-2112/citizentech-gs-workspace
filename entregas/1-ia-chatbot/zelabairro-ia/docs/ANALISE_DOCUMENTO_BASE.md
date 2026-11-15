@@ -1,6 +1,6 @@
 # Análise do Documento Base × disciplina IA & Chatbot
 
-Feita antes da implementação (como pedido) e **atualizada em 15/11** com as decisões registradas no Documento Base v1.4 (seção 14.1). Aqui estão os conflitos, as lacunas e a decisão tomada em cada um. **Nada foi alterado no escopo aprovado sem estar listado aqui**; o que precisa de aval do grupo está marcado com **[GRUPO]**.
+Feita antes da implementação (como pedido) e **atualizada em 15/11** com as decisões registradas no Documento Base v1.5 (seção 14.1). Aqui estão os conflitos, as lacunas e a decisão tomada em cada um. **Nada foi alterado no escopo aprovado sem estar listado aqui**; o que precisa de aval do grupo está marcado com **[GRUPO]**.
 
 ## Conflitos entre os documentos
 
