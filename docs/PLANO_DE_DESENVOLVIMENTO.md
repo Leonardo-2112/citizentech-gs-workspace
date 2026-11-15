@@ -35,7 +35,7 @@ Nenhum projeto anterior tem **Banco de Dados** nem **IA**. Para IA, a referênci
 | # | Decisão | Recomendação | Por quê |
 |---|---|---|---|
 | G1 | Preencher os **responsáveis** da tabela 13.1 do Documento Base | Uma pessoa dona de cada frente, e todos commitando no front | Sem dono, a tarefa não anda; o front exige 5 commits **de cada** integrante |
-| G2 | **Onde fica o código de cada matéria** | Um repositório por matéria: `zelabairro-front` (**público**, exigência do front), `zelabairro-api` (Java), `zelabairro-ia`, `zelabairro-python` e o banco junto da Java (o mesmo `.sql` é entregue nas duas). Deixar os não obrigatórios como privados até a entrega | O front precisa ser público; o restante protegido evita cópia (Java dá nota zero para código copiado) |
+| G2 | **Onde fica o código de cada matéria** | ✅ **Decidido em 15/11:** este repositório (`citizentech-gs-workspace`) é só para **desenvolver e organizar** (pasta `entregas/`). Matérias que exigem repositório ganham um **repositório próprio** para a versão entregue: **Front-end** (público, obrigatório) e **Java** (exigido na prática pelo deploy no Render; pode ser privado); a IA só se publicarem a Flask no Render. Banco, Python e Eng. Software são entregues como `.zip`/PDF direto no Portal | O front precisa ser público; o Render publica a partir de um repositório GitHub |
 | G3 | Confirmar as decisões D1–D5 da seção 14.1 do Documento Base | Aceitar como estão | Já estão implementadas no projeto de IA |
 | G4 | **Conta Oracle** que hospeda o banco (pendência da seção 14) | A de quem faz o Banco | A Java precisa das credenciais (só em variáveis de ambiente) |
 | G5 | Nome da empresa (capa de Eng. Software) | Definir hoje | Exigido na capa (−1 pt se faltar) |

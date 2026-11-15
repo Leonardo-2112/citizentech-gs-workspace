@@ -2,6 +2,8 @@
 
 Depende do **Banco** pronto no Oracle. Base: Documento Base v1.3, seção 8 (pacotes, endpoints, JSON, login 8.5, fotos); padrão do projeto anterior em [`docs/referencias/02-EcoScoreEngine-API.md`](../../docs/referencias/02-EcoScoreEngine-API.md); plano seção 3.
 
+> **Repositório próprio:** o deploy no Render (obrigatório) é feito a partir de um repositório GitHub, então a versão final da API vai para um repositório separado (ex.: `zelabairro-api`, pode ser privado; o Render conecta com repositório privado). Esta pasta serve para desenvolver e guardar a cópia de trabalho e os links.
+
 ## O que colocar nesta pasta
 | Arquivo | Conteúdo |
 |---|---|
