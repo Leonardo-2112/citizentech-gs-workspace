@@ -1,7 +1,7 @@
 """Gera docs/EXEMPLOS_CONVERSAS.md rodando o chatbot de verdade com APIs SIMULADAS.
 
 O texto do chatbot é real (sai do código). Os números de previsão vêm de uma IA simulada
-(prazo 12 dias, 73%) e as ocorrências de uma API Java simulada: servem para demonstrar o
+(prazo 12 dias, risco alto) e as ocorrências de uma API Java simulada: servem para demonstrar o
 FORMATO das respostas, não são resultados do modelo treinado com o SP156.
 """
 import os
@@ -34,7 +34,7 @@ def main():
     cobertas = ["Bueiro entupido", "Buraco na via", "Calçada danificada", "Descarte irregular de lixo", "Poda de árvore",
                 "Sinalização de trânsito danificada", "Árvore com risco de queda"]   # como nos modelos treinados (2020–2023)
     partes = ["# Exemplos de conversa\n",
-              "> Gerado por `scripts/gerar_exemplos.py`. O texto do assistente é o real; a **previsão (12 dias, 73%) e as "
+              "> Gerado por `scripts/gerar_exemplos.py`. O texto do assistente é o real; a **previsão (12 dias, risco alto) e as "
               "ocorrências vêm de APIs simuladas** para demonstrar o formato. Na demonstração, esses números virão dos "
               "modelos treinados com o SP156 e da API Java.\n",
               rodar("1. Registro completo (sem ocorrência parecida)",

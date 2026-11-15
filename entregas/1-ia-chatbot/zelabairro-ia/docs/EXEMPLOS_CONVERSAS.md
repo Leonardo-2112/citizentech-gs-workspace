@@ -1,6 +1,6 @@
 # Exemplos de conversa
 
-> Gerado por `scripts/gerar_exemplos.py`. O texto do assistente é o real; a **previsão (12 dias, 73%) e as ocorrências vêm de APIs simuladas** para demonstrar o formato. Na demonstração, esses números virão dos modelos treinados com o SP156 e da API Java.
+> Gerado por `scripts/gerar_exemplos.py`. O texto do assistente é o real; a **previsão (12 dias, risco alto) e as ocorrências vêm de APIs simuladas** para demonstrar o formato. Na demonstração, esses números virão dos modelos treinados com o SP156 e da API Java.
 
 ## 1. Registro completo (sem ocorrência parecida)
 
@@ -39,7 +39,7 @@
 > - Endereço: Rua Teodoro Sampaio, 800, em frente ao mercado
 > - Descrição: O bueiro da minha rua está entupido e alaga tudo, na Pinheiros
 > 
-> Com base no histórico de ocorrências parecidas, a previsão de resolução é de aproximadamente 12 dias. Sobre atraso, o modelo indica risco de atraso: 73% de chance de passar do prazo normal desse tipo de problema (10 dias).
+> Com base no histórico de ocorrências parecidas, a previsão de resolução é de aproximadamente 12 dias. Sobre atraso, o modelo indica risco ALTO de passar do prazo normal desse tipo de problema (10 dias).
 > Importante: esses números são uma estimativa calculada por inteligência artificial com base no histórico de chamados parecidos. Não são uma garantia de atendimento.
 > 
 > Para registrar de verdade, abra https://zelabairro.vercel.app/ocorrencias/nova, informe seu nome e e-mail e preencha esses dados. A ocorrência nasce com a situação ABERTA e você pode acompanhar depois.
@@ -122,7 +122,7 @@
 > - Endereço: Rua dos Pinheiros, 100
 > - Descrição: tem uma árvore perto da minha casa que me preocupa
 > 
-> Com base no histórico de ocorrências parecidas, a previsão de resolução é de aproximadamente 12 dias. Sobre atraso, o modelo indica risco de atraso: 73% de chance de passar do prazo normal desse tipo de problema (5 dias).
+> Com base no histórico de ocorrências parecidas, a previsão de resolução é de aproximadamente 12 dias. Sobre atraso, o modelo indica risco ALTO de passar do prazo normal desse tipo de problema (5 dias).
 > Importante: esses números são uma estimativa calculada por inteligência artificial com base no histórico de chamados parecidos. Não são uma garantia de atendimento.
 > 
 > Para registrar de verdade, abra https://zelabairro.vercel.app/ocorrencias/nova, informe seu nome e e-mail e preencha esses dados. A ocorrência nasce com a situação ABERTA e você pode acompanhar depois.
@@ -240,7 +240,7 @@
 > - Endereço: Rua A, 5
 > - Descrição: calçada quebrada na minha rua
 > 
-> Com base no histórico de ocorrências parecidas, a previsão de resolução é de aproximadamente 12 dias. Sobre atraso, o modelo indica risco de atraso: 73% de chance de passar do prazo normal desse tipo de problema (30 dias).
+> Com base no histórico de ocorrências parecidas, a previsão de resolução é de aproximadamente 12 dias. Sobre atraso, o modelo indica risco ALTO de passar do prazo normal desse tipo de problema (30 dias).
 > Importante: esses números são uma estimativa calculada por inteligência artificial com base no histórico de chamados parecidos. Não são uma garantia de atendimento.
 > 
 > Para registrar de verdade, abra https://zelabairro.vercel.app/ocorrencias/nova, informe seu nome e e-mail e preencha esses dados. A ocorrência nasce com a situação ABERTA e você pode acompanhar depois.

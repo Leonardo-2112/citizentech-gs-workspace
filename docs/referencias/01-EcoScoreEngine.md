@@ -121,7 +121,7 @@ export type RegistroComAcao = RegistroAcao & { acaoDetalhe: Acao }; // intersect
 
 ## O que reaproveitar no ZelaBairro
 
-| Padrão do EcoScoreEngine | Onde aplicar no ZelaBairro (Documento Base v1.1) |
+| Padrão do EcoScoreEngine | Onde aplicar no ZelaBairro (Documento Base v1.1; login a partir da v1.2) |
 |---|---|
 | `services/api.ts` com `request<T>()`, `ApiError`, mensagens PT-BR por status, tratamento de 204 | 9.2 (toda chamada em `src/services/api.ts`, só fetch, `VITE_API_URL`); status da 8.2 (400, 404, 409, 405, 500) |
 | Tipos com union types e campos camelCase iguais ao JSON | 9.2 (`interface Ocorrencia` com `status: 'ABERTA' \| 'EM_ANDAMENTO' \| 'RESOLVIDA' \| 'CANCELADA'`) e 8.3 |
@@ -135,7 +135,7 @@ export type RegistroComAcao = RegistroAcao & { acaoDetalhe: Acao }; // intersect
 | `data/members.ts` + `IntegrantesPage` | 9.1 `/integrantes` (foto, nome, RM, turma, GitHub, LinkedIn) |
 | `ContatoPage` (RHF, sem API, mensagem de sucesso) | 9.1 `/contato` |
 | `FaqItem`, `PageHero`, `SobrePage` | 9.1 `/faq`, `/sobre`, `/` |
-| Sessão em `localStorage` com `try/catch` (`AuthContext`) | 4.4 "sem login, o front guarda o cidadão escolhido no navegador" |
+| Sessão em `localStorage` com `try/catch` (`AuthContext`) | Sessão do login (Documento Base v1.2+, seção 9.2): guarda `{id, nome, perfil}` |
 | `vercel.json` (rewrite SPA) + `.env.example` + `.env` no `.gitignore` | 9 / 12 (deploy na Vercel); 13.3 (nada de chave no código) |
 | `formatarData` (AAAA-MM-DD → DD/MM/AAAA) | 8.3 (datas AAAA-MM-DD) nas telas de detalhe e painel |
 | README com tabela página → endpoint → verbo, prints e links | 2.1 Front-end (GitHub público, vídeo ≤ 3 min) |

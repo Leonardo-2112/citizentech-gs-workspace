@@ -18,7 +18,7 @@ from reportlab.platypus import (BaseDocTemplate, Frame, KeepTogether, ListFlowab
                                 Preformatted, Spacer, Table, TableStyle)
 from reportlab.platypus.tableofcontents import TableOfContents
 
-VERSAO = "1.3"
+VERSAO = "1.4"
 DATA = "15/11/2026"
 SAIDA = Path(__file__).with_name("ZelaBairro-Documento-Base.pdf")
 
@@ -775,11 +775,14 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
               "(buraco na Lapa: 0,66, mas só 33% dos buracos atrasam). Tratar como "
               "<b>indicador de risco</b>, não como chance real.",
               "M3 (agrupamento) não foi feito: era opcional.",
-              "<b>Alinhamento às aulas (v1.3, a aplicar nos notebooks):</b> antes do Random "
-              "Forest, treinar e comparar os modelos interpretáveis vistos em aula (Regressão "
-              "Linear e Árvore de Decisão no M1; Regressão Logística e Árvore de Decisão no M2), "
-              "trocar o Ridge por LinearRegression, plotar a curva ROC e retirar a curva de "
-              "calibração. Detalhes em docs/referencias/06-ia-aulas-prof-alfonso.md.",
+              "<b>Alinhamento às aulas (aplicado em 15/11, v1.4):</b> os notebooks seguem o "
+              "caminho das aulas: modelo que chuta → modelos interpretáveis → Random Forest. No "
+              "M1 (MAE em dias): Regressão Linear 30,2; Árvore de Decisão 28,4 (dias brutos) e "
+              "23,9 (log); tabela de medianas 24,5; Random Forest 23,3. No M2 (F1 / AUC): "
+              "Regressão Logística 0,538 / 0,739; Árvore de Decisão 0,549 / 0,736; Random Forest "
+              "sem mês 0,561 / 0,759. Também entraram a estatística do IQR, os gráficos no padrão "
+              "da Aula 04, o desenho da árvore e a curva ROC; o Ridge e a curva de calibração "
+              "saíram. Detalhes em docs/referencias/06-ia-aulas-prof-alfonso.md.",
           ]),
           h2("7.3 Contrato da API Flask"),
           tabela([["Método", "Rota", "Resposta 200"],
@@ -1107,7 +1110,7 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                                              "mensalidade se a meta não for cumprida."],
                   ], [4, 13], destaque_primeira_coluna=True),
           Spacer(1, 6),
-          p("O backlog no Jira/Trello deve usar estas mesmas regras (RN01–RN14), os mesmos "
+          p("O backlog no Jira/Trello deve usar estas mesmas regras (RN01–RN18), os mesmos "
             "atores (seção 5.1) e as mesmas telas (seção 9.1), para que diagramas, protótipo e "
             "código representem a mesma solução, como a disciplina exige.")]
 
@@ -1195,6 +1198,11 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
               "(Anthropic) e revisado pelo grupo: registrar isso.",
               "Nada de senha, usuário de banco ou chave no código ou no GitHub.",
               "Cada .zip: sem node_modules, sem target, com o .txt de RM/nome/turma.",
+              "<b>Repositórios (v1.4):</b> o repositório citizentech-gs-workspace serve só para "
+              "desenvolver e organizar (pasta entregas/, uma subpasta por matéria). Front-end "
+              "(público, obrigatório) e Java (o Render publica a partir do GitHub) ganham "
+              "repositório próprio para a versão entregue; Banco, Python, IA e Eng. Software são "
+              "entregues como .zip ou PDF direto no Portal.",
           ])]
 
     # 14 -----------------------------------------------------------------
@@ -1203,10 +1211,10 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                   ["CSV do SP156", "<b>Resolvido em 13/11</b> (seção 7.1)", "IA", "—"],
                   ["API Java", "Ainda não iniciada em 15/11; é o caminho crítico do Front "
                                "(seção 12.1)", "Java", "16/11"],
-                  ["Acabamento da IA", "Preencher a data de download no notebook 01; reexecutar "
-                                       "os notebooks na máquina do grupo; conclusões com as "
-                                       "palavras do grupo; montar o .zip com "
-                                       "scripts/empacotar.py", "IA", "18/11"],
+                  ["Acabamento da IA", "Notebooks alinhados às aulas e reexecutados em 15/11. Falta: "
+                                       "preencher a data de download no notebook 01, reescrever "
+                                       "as conclusões com as palavras do grupo e montar o .zip "
+                                       "com scripts/empacotar.py", "IA", "18/11"],
                   ["Nome da empresa", "Eng. Software exige nome da empresa e da solução na capa",
                    "Grupo", "13/11"],
                   ["Banco Oracle", "Definir em qual conta FIAP o banco fica e compartilhar o "
@@ -1235,10 +1243,12 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                   ["D3", "Iluminação pública apagada: Java grava prazo e risco nulos, como na "
                          "RN12 (seção 7.4)", "Gravar a previsão da API mesmo sem base"],
                   ["D4", "Probabilidade mostrada como indicador de risco, sem prometer chance "
-                         "real (seção 7.2)", "Calibrar o modelo e retreinar"],
+                         "real (seção 7.2). Aplicado no chatbot em 15/11: \"risco ALTO/BAIXO\"", "Calibrar o modelo e retreinar"],
                   ["D5", "Prazo de Sinalização mantido em 10 dias, como congelado em 13/11 "
                          "(seção 6.4)", "Reabrir o congelamento (exige refazer dados e modelos)"],
                   ], [1.2, 9.3, 6.5], destaque_primeira_coluna=True),
+          p("<b>Decidido na v1.4 (15/11):</b> papel dos repositórios (seção 13.3); alinhamento "
+            "da IA às aulas concluído (seção 7.2); D4 aplicada no chatbot."),
           p("<b>Decidido na v1.3 (15/11):</b> fotos das ocorrências em tabela própria (tb_foto) "
             "com BLOB no Oracle (RN18); fluxo da previsão explicitado (seção 7.4); notebooks de IA "
             "serão alinhados às aulas (seção 7.2)."),
@@ -1262,10 +1272,14 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                                  "/gestores; páginas /login e /cadastro; /painel só para gestor; "
                                  "seção 8.5; escopo 4.4 e riscos atualizados",
                    "Leonardo (com apoio de IA)"],
-                  [VERSAO, DATA, "Fotos: tabela tb_foto (9 tabelas), prefixo bl_, RN18, rotas "
+                  ["1.3", "15/11/2026", "Fotos: tabela tb_foto (9 tabelas), prefixo bl_, RN18, rotas "
                                  "/ocorrencias/{id}/fotos e /fotos/{id}, cabeçalho X-Cidadao-Id, "
                                  "upload no front; seção 7.4 reescrita (como a previsão chega ao "
                                  "cidadão); alinhamento da IA às aulas (7.2); riscos atualizados",
+                   "Leonardo (com apoio de IA)"],
+                  [VERSAO, DATA, "IA alinhada às aulas com resultados na 7.2; D4 aplicada no "
+                                 "chatbot; papel dos repositórios (13.3); backlog com RN01–RN18; "
+                                 "risco \"Acabamento da IA\" atualizado",
                    "Leonardo (com apoio de IA)"],
                   ], [1.8, 2.4, 9.3, 3.5]),
           Spacer(1, 10),

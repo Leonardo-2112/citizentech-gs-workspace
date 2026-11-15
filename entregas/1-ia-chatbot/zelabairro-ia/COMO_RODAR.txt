@@ -1,7 +1,7 @@
 ZELABAIRRO - IA & CHATBOT - COMO RODAR E REPLICAR OS RESULTADOS
 Turma 1TDSPV - Global Solution 2026/2
 
-Requisito: Python 3.11 ou mais novo (treinado com Python 3.13).
+Requisito: Python 3.11 ou mais novo (modelos treinados com Python 3.12 e scikit-learn 1.9.1).
 Para conferir: python --version
 
 Rode UM comando por vez. Linhas que começam com # são explicações (não digite).
@@ -104,7 +104,8 @@ jupyter notebook
 # No navegador, abra a pasta notebooks e rode na ordem:
 #   01_eda.ipynb  ->  02_modelo_prazo.ipynb  ->  03_modelo_atraso.ipynb
 # Em cada um: menu "Run" > "Run All Cells" e depois salve (Ctrl + S).
-# O 02 e o 03 demoram de 20 a 35 minutos cada e regravam models/*.joblib.
+# O 01 e o 03 levam poucos minutos; o 02 pode levar até ~3 horas (várias florestas
+# com 785 mil chamados). O 02 e o 03 regravam models/*.joblib.
 # As métricas devem bater com as do README (seção 3.2), pois a semente é fixa (42).
 
 ======================================================================

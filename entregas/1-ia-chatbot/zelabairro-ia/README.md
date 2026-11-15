@@ -4,7 +4,7 @@
 Matheus Jones Sousa de Freitas (RM 573559) · Vitor Goncalves de Souza (RM 569023) · Joao Machado Nascimento (RM 572364)
 
 Parte da disciplina **Artificial Intelligence & Chatbot** da Global Solution 2026/2 (FIAP, CitizenTech).
-Tudo segue o **Documento Base v1.0** (nomes de categorias, status, campos e contratos).
+Tudo segue o **Documento Base v1.4** (nomes de categorias, status, campos e contratos), em `docs/ZelaBairro-Documento-Base.pdf` do repositório do grupo.
 
 **O que tem aqui**
 
@@ -113,7 +113,7 @@ Os notebooks também trazem a estatística descritiva do tempo de resolução (m
 python scripts/preparar_dados.py --entrada "uploads/*trimestre-2020.csv" "uploads/arquivo-final-*trim_-202*.csv" \
     "uploads/arquivo-final-2-trim_-2021.xlsx" --inicio 2020-01-01 --fim 2023-09-30
 # o script imprime o % de chamados com 0 dia por trimestre e AVISA se passar de 40%
-jupyter notebook   # rode 01, 02 e 03 do início ao fim (≈ 20–35 min cada) e salve com as saídas
+jupyter notebook   # rode 01, 02 e 03 do início ao fim e salve com as saídas (01 e 03: minutos; 02: até ~3 h numa máquina comum)
 pip freeze > requirements.lock   # use as mesmas versões do scikit-learn no deploy
 ```
 `python scripts/treinar_modelos.py` refaz os dois modelos com os mesmos algoritmos e hiperparâmetros dos notebooks (sem a busca nem a validação cruzada) e grava em `models/`. Os `.joblib` entregues vêm dos notebooks.

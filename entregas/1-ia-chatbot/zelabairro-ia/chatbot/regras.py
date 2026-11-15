@@ -1,4 +1,4 @@
-"""Regras de negócio do Documento Base v1.0 que o chatbot precisa conhecer.
+"""Regras de negócio do Documento Base (RN10 e RN11) que o chatbot precisa conhecer.
 
 RN10 (prioridade) e RN11 (atrasada) são CALCULADAS pela API Java. Aqui elas existem
 apenas para (1) explicar a fórmula ao cidadão com um exemplo e (2) testar que o

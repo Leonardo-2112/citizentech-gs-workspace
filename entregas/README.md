@@ -20,6 +20,6 @@ Antes de mexer em qualquer pasta, leia [`docs/COMO_O_ZELABAIRRO_FUNCIONA.md`](..
 - **Prazo:** 19/11/2026 até 23h55 no Portal do Aluno, sem prorrogação (meta interna: meio da tarde).
 - **Identificação:** um `.txt` com RM, nome completo e turma em **cada** `.zip` (modelo em [`1-ia-chatbot/zelabairro-ia/identificacao.txt`](1-ia-chatbot/zelabairro-ia/identificacao.txt)).
 - **Nunca** versionar senha, `.env`, `node_modules/`, `target/` nem os `.zip` gerados (já estão no `.gitignore` desta pasta).
-- Nomes de tabelas, rotas, campos e regras: **exatamente** os do Documento Base v1.3.
+- Nomes de tabelas, rotas, campos e regras: **exatamente** os do Documento Base v1.4.
 - Registrem o uso de IA desde já (vale 10 pontos em Eng. Software).
 - Critérios oficiais de cada matéria: [`docs/CRITERIOS_DE_ACEITE.md`](../docs/CRITERIOS_DE_ACEITE.md).

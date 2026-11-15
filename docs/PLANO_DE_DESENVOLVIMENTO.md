@@ -1,7 +1,7 @@
 # Plano de desenvolvimento — ZelaBairro (GS 2026/2)
 
-> Versão de 15/11/2026 (atualizada para o Documento Base **v1.3**: login por e-mail e senha com `tb_gestor` (RN15–RN17), fotos com `tb_foto` (RN18) e o fluxo da previsão da IA explicado na seção 7.4). Entrega: **19/11/2026 até 23h55, sem prorrogação.**
-> Este plano não cria regra nova: as regras e os nomes vêm do **Documento Base v1.3** (`docs/ZelaBairro-Documento-Base.pdf`), os critérios de nota vêm de [`CRITERIOS_DE_ACEITE.md`](CRITERIOS_DE_ACEITE.md) e o "jeito de fazer" vem dos nossos projetos anteriores, resumidos em [`referencias/`](referencias/).
+> Versão de 15/11/2026 (atualizada para o Documento Base **v1.4**: login por e-mail e senha com `tb_gestor` (RN15–RN17), fotos com `tb_foto` (RN18) e o fluxo da previsão da IA explicado na seção 7.4). Entrega: **19/11/2026 até 23h55, sem prorrogação.**
+> Este plano não cria regra nova: as regras e os nomes vêm do **Documento Base v1.4** (`docs/ZelaBairro-Documento-Base.pdf`), os critérios de nota vêm de [`CRITERIOS_DE_ACEITE.md`](CRITERIOS_DE_ACEITE.md) e o "jeito de fazer" vem dos nossos projetos anteriores, resumidos em [`referencias/`](referencias/).
 > Se este plano e o Documento Base discordarem, vale o Documento Base.
 
 ## 0. Como usar este plano
@@ -55,7 +55,7 @@ Nenhum projeto anterior tem **Banco de Dados** nem **IA**. Para IA, a referênci
 | # | Tarefa | Vale | Pronto quando |
 |---|---|---|---|
 | 1 | Preencher `DATA_DOWNLOAD` na 1ª célula do notebook 01 e apagar o aviso "Preencha antes de entregar" | Notebooks (60) | Não sobra nenhum "PREENCHER" nos notebooks |
-| 2 | ~~Reexecutar os 3 notebooks~~ (feito em 15/11; reexecutar de novo só se mudarem dados) — opcional rodar na máquina do grupo (20–35 min cada), o que tira o caminho `/home/claude/...` das saídas | Notebooks (60) + regra de IA | Saídas com o caminho de quem rodou; métricas iguais às do README |
+| 2 | ~~Reexecutar os 3 notebooks~~ (feito em 15/11; reexecutar de novo só se mudarem dados) — opcional rodar na máquina do grupo (01 e 03: minutos; 02: até ~3 h), o que tira o caminho `/home/claude/...` das saídas | Notebooks (60) + regra de IA | Saídas com o caminho de quem rodou; métricas iguais às do README |
 | 3 | Reescrever as conclusões dos notebooks **com as palavras do grupo** (os números estão certos) | Notebooks (60) + arguição | Cada integrante consegue explicar as conclusões |
 | 4 | Gerar o `.zip` com `python scripts/empacotar.py`, incluindo `.idea` na lista de pastas ignoradas | Item zerado se faltar arquivo | O zip abre, tem `identificacao.txt` na raiz e não tem `__pycache__`, `.venv` nem `.idea` |
 | 5 | ~~Chatbot: falar "risco alto/baixo" em vez de "68% de chance" (D4)~~ feito em 15/11 | Apresentação: métricas (20) | Chat sem porcentagem |
@@ -242,7 +242,7 @@ Entrega: **um único PDF**, com os links do backlog e do pitch.
 
 | Dia | Nível 1 (IA, BD, Python) | Nível 2 (Java) | Nível 3 (Front) | Nível 4 (Eng. Software) |
 |---|---|---|---|---|
-| **Dom 15/11** | BD: script e seed rodando no Oracle. Python: menu e regras. IA: itens 1–3 | Projeto criado, `model` e `dto` (sem banco ainda) | Repo público, páginas institucionais, **commits de todos** | Capa, BMC, benchmark, backlog no Jira/Trello |
+| **Dom 15/11** | BD: script e seed rodando no Oracle. Python: menu e regras. IA: itens 1 e 3 (o 2 já foi feito) | Projeto criado, `model` e `dto` (sem banco ainda) | Repo público, páginas institucionais, **commits de todos** | Capa, BMC, benchmark, backlog no Jira/Trello |
 | **Seg 16/11** | BD: modelos no Data Modeler e dicionário. Python: persistência e PDF. IA: zip de teste | DAOs + CRUD no Oracle; **1ª versão no Render à noite** | Tipos, `api.ts`, `/ocorrencias` contra a API | Casos de uso, diagramas de atividades, precificação |
 | **Ter 17/11** | BD: capturas e PDF. Python: **pronto** | Regras, handler, CORS; (opcional) Java ↔ Flask | Nova ocorrência, detalhe, painel; responsividade | ROI e SLA |
 | **Qua 18/11** | Zips finais de IA, BD e Python | PDF técnico | Vercel, README, **vídeo único** | Prints e Nielsen, pitch, registro de IA |

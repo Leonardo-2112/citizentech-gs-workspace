@@ -29,7 +29,7 @@ Objetivo: alinhar o projeto de IA do ZelaBairro (`zelabairro-ia`) ao que foi ens
 - No exercício da Aula 06, exige **código + saída + interpretação**; resposta sem evidência no notebook vale zero.
 - Regra de IA do professor (CP3): pode consultar IA, mas **as respostas devem ser com as próprias palavras**; copiar e colar resposta de IA tira pontos.
 
-## 3. Projeto atual × aulas
+## 3. Projeto (antes do ajuste) × aulas
 
 > **Aplicado em 15/11/2026** na pasta `entregas/1-ia-chatbot/zelabairro-ia/`: notebooks regenerados e executados com Árvore de Decisão, Regressão Linear/Logística, curva ROC, estatística do IQR e gráficos no padrão da Aula 04; Ridge e curva de calibração removidos; chatbot sem porcentagem. Resultados no README do projeto (seção 3.2). A tabela abaixo é a análise que motivou os ajustes.
 
