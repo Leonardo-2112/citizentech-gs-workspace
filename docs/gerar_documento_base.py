@@ -18,7 +18,7 @@ from reportlab.platypus import (BaseDocTemplate, Frame, KeepTogether, ListFlowab
                                 Preformatted, Spacer, Table, TableStyle)
 from reportlab.platypus.tableofcontents import TableOfContents
 
-VERSAO = "1.1"
+VERSAO = "1.2"
 DATA = "15/11/2026"
 SAIDA = Path(__file__).with_name("ZelaBairro-Documento-Base.pdf")
 
@@ -151,7 +151,7 @@ def diagrama_integracao():
     caixa_d(0, 100, 110, 70, "Front-end", "React + Vite + TS\nTailwind · Vercel\nsó Fetch API",
             VERDE_CLARO)
     caixa_d(170, 100, 120, 70, "API Java", "Spring Boot · JDBC\nDocker · Render", VERDE_CLARO)
-    caixa_d(350, 100, 125, 70, "Oracle FIAP", "7 tabelas tb_*\nsequences sq_tb_*", VERDE_CLARO)
+    caixa_d(350, 100, 125, 70, "Oracle FIAP", "8 tabelas tb_*\nsequences sq_tb_*", VERDE_CLARO)
     caixa_d(170, 5, 120, 62, "API de IA", "Flask · 2 modelos\n.joblib", AMBAR_CLARO)
     caixa_d(350, 5, 125, 62, "App Python", "menu no terminal\ndados em JSON local", AMBAR_CLARO)
     seta(110, 135, 170, 135, "HTTP + JSON")
@@ -342,8 +342,8 @@ def conteudo():
             "é mais urgente.</b>"),
           h2("4.2 Como funciona (fluxo principal)"),
           bullets([
-              "O cidadão se identifica (nome e e-mail) e escolhe a <b>categoria</b> e o "
-              "<b>bairro</b> do problema.",
+              "O cidadão cria a conta (nome, e-mail e senha) ou faz <b>login</b> e escolhe a "
+              "<b>categoria</b> e o <b>bairro</b> do problema.",
               "Antes de criar, o sistema mostra ocorrências <b>abertas da mesma categoria no "
               "mesmo bairro</b>. Se o problema já foi registrado, o cidadão <b>apoia</b> a "
               "ocorrência existente em vez de criar outra (RN07).",
@@ -353,7 +353,8 @@ def conteudo():
               "<b>risco de atraso</b> (S/N). Esses valores ficam gravados na ocorrência.",
               "O sistema calcula a <b>pontuação de prioridade</b> (RN10) a partir da gravidade "
               "da categoria, dos apoios, do tempo em aberto e do risco.",
-              "O gestor da prefeitura vê a fila ordenada por prioridade e registra "
+              "O gestor da prefeitura faz login (só quem está em tb_gestor entra no painel), vê "
+              "a fila ordenada por prioridade e registra "
               "<b>atualizações</b> de status (EM_ANDAMENTO, RESOLVIDA ou CANCELADA), com "
               "comentário. O cidadão acompanha o histórico.",
               "O painel por bairro mostra abertas, atrasadas e tempo médio, o que permite "
@@ -372,8 +373,9 @@ def conteudo():
           ]),
           h2("4.4 Escopo do MVP (o que vamos construir)"),
           tabela([["Dentro do escopo", "Fora do escopo (não fazer)"],
-                  ["Cadastro simples de cidadão (nome, e-mail, telefone)",
-                   "Login com senha, tokens, autenticação real"],
+                  ["Cadastro de cidadão (nome, e-mail, senha, telefone) e login por e-mail e "
+                   "senha; painel só para gestores, que cadastram outros gestores",
+                   "Tokens (JWT), recuperação de senha, login social, Spring Security completo"],
                   ["Registrar, listar, filtrar, editar e cancelar ocorrências",
                    "Upload de fotos e mapa interativo / geolocalização"],
                   ["Apoiar e retirar apoio de uma ocorrência",
@@ -385,9 +387,11 @@ def conteudo():
                    "Integração com sistemas reais da prefeitura"],
                   ], [8.5, 8.5]),
           Spacer(1, 6),
-          p("Simplificação assumida: sem login, o front guarda o cidadão escolhido no "
-            "navegador, e a área do gestor é uma página aberta (/painel). Essa decisão deve ser "
-            "citada como limitação conhecida nas apresentações."),
+          p("Simplificação assumida (v1.2): o login é simples, sem token. A API devolve o id e o "
+            "perfil, o front guarda isso no navegador e envia o id nas rotas protegidas; a API "
+            "confere no banco se o id é de um gestor. Funciona e é fácil de explicar, mas o id "
+            "pode ser forjado: citar como limitação conhecida e o JWT como próxima etapa (seção "
+            "8.5)."),
           caixa("<b>Chatbot (v1.1):</b> existe como <b>complemento da disciplina de IA &amp; "
                 "Chatbot</b>, servido pela própria API Flask (GET /, GET /chat/inicio, POST /chat). "
                 "Ele orienta o cidadão, mostra a previsão da IA e manda concluir o registro no "
@@ -401,8 +405,9 @@ def conteudo():
           tabela([["Ator", "O que faz"],
                   ["Cidadão", "Registra ocorrências, apoia ocorrências de outros, acompanha "
                               "status e histórico."],
-                  ["Gestor da prefeitura", "Vê a fila por prioridade e o painel por bairro; "
-                                           "registra atualizações de status."],
+                  ["Gestor da prefeitura", "Faz login, vê a fila por prioridade e o painel por "
+                                           "bairro, registra atualizações de status e cadastra "
+                                           "outros gestores. Pertence a um órgão."],
                   ["Órgão responsável", "Equipe que executa o serviço (iluminação, limpeza...). "
                                         "No MVP é só um cadastro ligado à categoria."],
                   ["Serviço de IA", "Ator de sistema: calcula prazo previsto e risco de "
@@ -427,6 +432,8 @@ def conteudo():
                   ["Atrasada", "Dias em aberto maior que o prazo de referência da categoria."],
                   ["Prioridade", "Pontuação calculada pela RN10 e classe ALTA/MEDIA/BAIXA."],
                   ["Gravidade", "Peso de 1 a 5 da categoria (5 = risco à segurança)."],
+                  ["Perfil", "CIDADAO ou GESTOR. Não é uma coluna: vem da tabela em que o e-mail "
+                             "está (tb_cidadao ou tb_gestor)."],
                   ], [3.6, 13.4], destaque_primeira_coluna=True)]
 
     s += [h2("5.3 Regras de negócio (valem para todas as disciplinas)"),
@@ -436,8 +443,9 @@ def conteudo():
           tabela([["Código", "Regra", "Onde aparece"],
                   ["RN01", "Toda ocorrência tem exatamente 1 cidadão autor, 1 categoria e 1 "
                            "bairro.", "BD (FK NOT NULL), Java, Front"],
-                  ["RN02", "O cidadão é identificado por e-mail único. Não guardamos CPF nem "
-                           "endereço do cidadão (LGPD: minimização de dados).",
+                  ["RN02", "Cidadão e gestor são identificados por e-mail único (UNIQUE em cada "
+                           "tabela). Não guardamos CPF nem endereço do cidadão (LGPD: "
+                           "minimização de dados).",
                    "BD (UNIQUE), Java (409), Front"],
                   ["RN03", "Descrição da ocorrência: obrigatória, de 10 a 500 caracteres. "
                            "Endereço de referência: obrigatório, até 200 caracteres.",
@@ -451,7 +459,8 @@ def conteudo():
                    "Java (exceção própria), Python (match-case)"],
                   ["RN06", "O status só muda criando uma atualização (POST de atualização). "
                            "A data de resolução é preenchida automaticamente quando o novo status"
-                           " é RESOLVIDA.", "Java, BD (tb_atualizacao)"],
+                           " é RESOLVIDA. Toda atualização guarda o gestor que a fez.",
+                   "Java, BD (tb_atualizacao)"],
                   ["RN07", "Antes de criar, o sistema mostra as ocorrências ABERTA/EM_ANDAMENTO "
                            "da mesma categoria e bairro e sugere apoiar. É sugestão, não "
                            "bloqueio.", "Front, Python"],
@@ -473,6 +482,17 @@ def conteudo():
                            "cidadão; mostram só o primeiro nome.", "Java (DTO), Front"],
                   ["RN14", "Categoria e bairro com ocorrências vinculadas não podem ser "
                            "excluídos (409).", "Java, BD (FK)"],
+                  ["RN15", "Login por e-mail e senha (mínimo 6 caracteres). A senha é guardada só "
+                           "como hash BCrypt e nunca volta em nenhuma resposta. Credenciais "
+                           "erradas: 401 com mensagem genérica (\"e-mail ou senha inválidos\").",
+                   "Java, BD, Front"],
+                  ["RN16", "Só gestor muda status, vê o painel e cadastra gestores. A API confere "
+                           "no banco, a cada requisição, se o id enviado existe em tb_gestor; se "
+                           "não existir: 403. Esconder o menu no front não basta.",
+                   "Java, Front"],
+                  ["RN17", "Gestor só é criado por outro gestor, e fica registrado quem o "
+                           "cadastrou. O primeiro gestor vem do seed do banco. O cadastro público "
+                           "(POST /cidadaos) sempre cria cidadão.", "Java, BD (FK própria)"],
                   ], [1.8, 10.7, 4.5], destaque_primeira_coluna=True),
           h3("RN10: fórmula da prioridade"),
           codigo("""
@@ -522,11 +542,21 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
                   ["tb_ocorrencia → tb_atualizacao", "1:N", "tb_atualizacao.cd_ocorrencia"],
                   ["tb_cidadao ↔ tb_ocorrencia (apoio)", "N:N",
                    "associativa tb_apoio (cd_cidadao, cd_ocorrencia)"],
+                  ["tb_orgao → tb_gestor (v1.2)", "1:N", "tb_gestor.cd_orgao"],
+                  ["tb_gestor → tb_gestor (quem cadastrou)", "1:N", "tb_gestor.cd_gestor_cadastro "
+                                                                   "(autorrelacionamento)"],
+                  ["tb_gestor → tb_atualizacao (v1.2)", "1:N", "tb_atualizacao.cd_gestor"],
                   ], [6.5, 1.5, 9]),
           Spacer(1, 6),
-          p("Total: <b>7 tabelas</b> (mínimo exigido: 6). Ordem de criação, respeitando as FKs: "
-            "tb_orgao, tb_bairro, tb_cidadao, tb_categoria, tb_ocorrencia, tb_atualizacao, "
-            "tb_apoio.")]
+          p("Total: <b>8 tabelas</b> (mínimo exigido: 6). Ordem de criação, respeitando as FKs: "
+            "tb_orgao, tb_bairro, tb_cidadao, tb_gestor, tb_categoria, tb_ocorrencia, "
+            "tb_atualizacao, tb_apoio."),
+          caixa("<b>Por que tabelas separadas para cidadão e gestor (v1.2):</b> são papéis do "
+                "domínio com dados diferentes (o gestor pertence a um órgão e sabe quem o "
+                "cadastrou), a mudança não renomeia nada do que já existia e evita a \"tb_usuario\" "
+                "genérica que o PDF de Java critica (\"nada de CRUD genérico de usuário\"). "
+                "Consequência: o mesmo e-mail não deve existir nas duas tabelas; o cadastro de "
+                "cidadão e o de gestor recusam (409) um e-mail que já esteja na outra.")]
 
     col = [3.6, 2.9, 1.3, 9.2]
     s += [h2("6.3 Dicionário de dados"),
@@ -549,7 +579,18 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
                   ["cd_cidadao", "NUMBER(10)", "N", "PK (sq_tb_cidadao)"],
                   ["nm_cidadao", "VARCHAR2(100)", "N", "Nome completo"],
                   ["ds_email", "VARCHAR2(120)", "N", "UNIQUE (RN02)"],
+                  ["ds_senha", "VARCHAR2(100)", "N", "Hash BCrypt da senha (RN15). Nunca a senha"],
                   ["nr_telefone", "VARCHAR2(20)", "S", "Opcional"],
+                  ["dt_cadastro", "DATE", "N", "DEFAULT SYSDATE"]], col),
+          h3("tb_gestor — servidores da prefeitura que acessam o painel (v1.2)"),
+          tabela([["Coluna", "Tipo", "Nulo", "Regra / significado"],
+                  ["cd_gestor", "NUMBER(10)", "N", "PK (sq_tb_gestor)"],
+                  ["nm_gestor", "VARCHAR2(100)", "N", "Nome completo"],
+                  ["ds_email", "VARCHAR2(120)", "N", "UNIQUE (RN02)"],
+                  ["ds_senha", "VARCHAR2(100)", "N", "Hash BCrypt da senha (RN15)"],
+                  ["cd_orgao", "NUMBER(10)", "N", "FK → tb_orgao (onde o gestor trabalha)"],
+                  ["cd_gestor_cadastro", "NUMBER(10)", "S", "FK → tb_gestor: quem cadastrou "
+                                                            "(RN17). Nulo só no gestor do seed"],
                   ["dt_cadastro", "DATE", "N", "DEFAULT SYSDATE"]], col),
           h3("tb_categoria — tipos de problema"),
           tabela([["Coluna", "Tipo", "Nulo", "Regra / significado"],
@@ -582,6 +623,8 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
                   ["st_anterior", "VARCHAR2(15)", "N", "Status antes da mudança"],
                   ["st_novo", "VARCHAR2(15)", "N", "Mesmo CHECK de st_ocorrencia"],
                   ["ds_comentario", "VARCHAR2(300)", "S", "Ex.: \"Equipe agendada para 14/11\""],
+                  ["cd_gestor", "NUMBER(10)", "N", "FK → tb_gestor: quem fez a atualização "
+                                                   "(RN06, v1.2)"],
                   ["dt_atualizacao", "DATE", "N", "DEFAULT SYSDATE"]], col),
           h3("tb_apoio — associativa do N:N cidadão ↔ ocorrência"),
           tabela([["Coluna", "Tipo", "Nulo", "Regra / significado"],
@@ -613,6 +656,11 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
             "Verdes; Trânsito e Sinalização. Bairros: usar distritos reais de São Paulo com a "
             "subprefeitura correta (ex.: Lapa/Lapa, Pinheiros/Pinheiros, Capão Redondo/Campo "
             "Limpo, Itaim Paulista/Itaim Paulista, Sé/Sé), para casar com os dados do SP156."),
+          p("<b>Gestor inicial (v1.2):</b> o seed cria pelo menos um gestor, com "
+            "cd_gestor_cadastro nulo, para que alguém consiga entrar no painel e cadastrar os "
+            "demais (RN17). O hash BCrypt da senha desse gestor é gerado uma vez (pela própria API "
+            "ou por um gerador BCrypt) e colado no INSERT; a senha em texto fica só com o grupo, "
+            "nunca no script nem no GitHub."),
           caixa("<b>v1.1:</b> os nomes de tb_bairro.nm_subprefeitura devem ser <b>exatamente</b> "
                 "os do arquivo data/depara_distrito_subprefeitura.csv do projeto de IA (32 "
                 "subprefeituras). Nome diferente não quebra a API, mas a previsão fica genérica. "
@@ -632,6 +680,8 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
               "Histórico de status de uma ocorrência (JOIN tb_atualizacao + ORDER BY)",
               "Maior e menor prazo previsto pela IA por subprefeitura (MAX/MIN)",
               "Cidadãos mais engajados (soma de ocorrências criadas e apoios)",
+              "(v1.2, alternativa) Atualizações feitas por gestor e por órgão (JOIN tb_gestor + "
+              "tb_orgao) e quem cadastrou cada gestor (autojunção em tb_gestor)",
           ], numerado=True),
           p("Sugestões de UPDATE/DELETE com WHERE: mudar o status de uma ocorrência para "
             "RESOLVIDA (UPDATE) e retirar um apoio (DELETE em tb_apoio).")]
@@ -741,12 +791,16 @@ Erro (400): {"erro": "categoria desconhecida: Buraco"}
             "PreparedStatement, DataSource pelo construtor), <b>dto</b> (entrada e saída, "
             "ModelMapper), <b>controller</b>, <b>exception</b>, <b>handler</b> "
             "(@RestControllerAdvice) e <b>config</b> (CORS). Nunca JPA/Hibernate/Spring Data."),
-          p("Entidades obrigatórias com CRUD completo: <b>Cidadao, Bairro, Categoria, "
+          p("Entidades obrigatórias com CRUD completo: <b>Cidadao, Gestor, Bairro, Categoria, "
             "Ocorrencia</b>, mais as rotas aninhadas de <b>Atualizacao</b> (1:N) e <b>Apoio</b> "
-            "(N:N). tb_orgao fica só no banco (seed) e aparece como nome dentro da categoria."),
+            "(N:N), e o <b>login</b> (AuthController). tb_orgao fica só no banco (seed) e aparece "
+            "como nome dentro da categoria e do gestor. Exceções novas (v1.2): "
+            "CredenciaisInvalidasException (401) e AcessoNegadoException (403)."),
           h2("8.2 Endpoints"),
           tabela([["Método", "Rota", "Sucesso", "Erros"],
-                  ["POST", "/cidadaos", "201 + Location", "400, 409 (e-mail repetido)"],
+                  ["POST", "/auth/login (v1.2)", "200", "400, 401 (RN15)"],
+                  ["POST", "/cidadaos (cadastro público, com senha)", "201 + Location",
+                   "400, 409 (e-mail repetido)"],
                   ["GET", "/cidadaos  ·  /cidadaos/{id}", "200", "404"],
                   ["PUT / DELETE", "/cidadaos/{id}", "200 / 204", "400, 404, 409"],
                   ["CRUD", "/bairros  ·  /bairros/{id}", "201/200/204", "400, 404, 409 (RN14)"],
@@ -760,13 +814,20 @@ Erro (400): {"erro": "categoria desconhecida: Buraco"}
                   ["PUT", "/ocorrencias/{id}", "200", "400, 404, 409 (RN09)"],
                   ["DELETE", "/ocorrencias/{id}", "204", "404, 409 (RN09)"],
                   ["GET", "/ocorrencias/{id}/atualizacoes", "200", "404"],
-                  ["POST", "/ocorrencias/{id}/atualizacoes", "201 + Location",
-                   "400, 404, 409 (RN05)"],
+                  ["POST", "/ocorrencias/{id}/atualizacoes [G]", "201 + Location",
+                   "400, 403, 404, 409 (RN05)"],
                   ["GET", "/ocorrencias/{id}/apoios", "200", "404"],
                   ["POST", "/ocorrencias/{id}/apoios", "201", "400, 404, 409 (RN08)"],
                   ["DELETE", "/ocorrencias/{id}/apoios/{idCidadao}", "204", "404"],
-                  ["GET", "/painel/bairros (desejável)", "200", "—"],
+                  ["GET", "/painel/bairros (desejável) [G]", "200", "403"],
+                  ["POST", "/gestores [G]", "201 + Location", "400, 403, 409 (RN17)"],
+                  ["GET", "/gestores  ·  /gestores/{id} [G]", "200", "403, 404"],
+                  ["PUT / DELETE", "/gestores/{id} [G]", "200 / 204",
+                   "400, 403, 404, 409 (gestor com atualizações)"],
                   ], [2.3, 7.7, 2.8, 4.2]),
+          p("[G] = rota de gestor (RN16): o front envia o cabeçalho <b>X-Gestor-Id</b> e a API "
+            "confere no banco se esse id existe em tb_gestor; senão, 403. As demais rotas são "
+            "abertas, como na v1.1."),
           Spacer(1, 6),
           p("Método não suportado: 405. Erro inesperado: 500 com mensagem genérica. A lista de "
             "ocorrências vem ordenada por prioridade (maior primeiro)."),
@@ -808,7 +869,16 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
             '<font name="Mono" size="8">{"status": "EM_ANDAMENTO", "comentario": "Equipe '
             'agendada"}</font>. <b>POST /ocorrencias/{id}/apoios:</b> '
             '<font name="Mono" size="8">{"idCidadao": 4}</font>. <b>POST /cidadaos:</b> '
-            '<font name="Mono" size="8">{"nome", "email" (@Email), "telefone"}</font>.'),
+            '<font name="Mono" size="8">{"nome", "email" (@Email), "senha" (@Size min=6), '
+            '"telefone"}</font>. <b>POST /gestores:</b> <font name="Mono" size="8">{"nome", '
+            '"email", "senha", "idOrgao"}</font> (quem cadastra vem do X-Gestor-Id). Nenhuma '
+            'resposta devolve a senha ou o hash.'),
+          KeepTogether([p("<b>Login</b> (POST /auth/login):"), codigo("""
+Entrada:  {"email": "mariana@email.com", "senha": "minhasenha"}
+Saída 200: {"id": 7, "nome": "Mariana", "perfil": "CIDADAO"}      // ou "GESTOR"
+Erro 401:  {"status": 401, "erro": "Não autorizado",
+            "mensagem": "RN15: e-mail ou senha inválidos", ...}
+""")]),
           p("<b>Formato padrão de erro</b> (sempre JSON, nunca stack trace ou SQL):"),
           codigo("""
 {
@@ -824,7 +894,24 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
           p("Variáveis de ambiente (nomes fixos; <b>valores nunca no código</b>, sob pena de "
             "−10): DB_URL, DB_USER, DB_PASSWORD, IA_API_URL, CORS_ORIGINS. Dockerfile multi-stage, "
             "deploy no Render. O plano gratuito do Render \"dorme\": abrir a API alguns minutos "
-            "antes de qualquer demonstração.")]
+            "antes de qualquer demonstração."),
+          h2("8.5 Como funciona o login (v1.2)"),
+          bullets([
+              "<b>Cadastro:</b> a API recebe a senha, gera o hash com BCrypt (biblioteca "
+              "spring-security-crypto, a mesma do projeto EcoScoreEngine-API, sem o Spring Security "
+              "completo) e grava só o hash em ds_senha.",
+              "<b>Login:</b> a API procura o e-mail em tb_gestor e depois em tb_cidadao e compara a "
+              "senha com o hash (BCrypt.matches). Acertou: devolve id, nome e perfil. Errou: 401 "
+              "com mensagem genérica, sem dizer se o erro foi no e-mail ou na senha.",
+              "<b>Rotas de gestor:</b> o front manda o id do gestor no cabeçalho X-Gestor-Id. Um "
+              "componente da API (ex.: GestorBo.validarGestor) busca o id em tb_gestor antes de "
+              "executar; se não achar, lança AcessoNegadoException (403).",
+              "<b>CORS:</b> a configuração precisa liberar o cabeçalho X-Gestor-Id (além de "
+              "Content-Type), senão o navegador bloqueia as rotas de gestor.",
+              "<b>Limitação assumida:</b> não há token; quem souber o id de um gestor consegue "
+              "forjar o cabeçalho. Para um MVP acadêmico é aceitável e deve ser dito na "
+              "apresentação. Próxima etapa: JWT assinado com expiração.",
+          ])]
 
     # 9 ------------------------------------------------------------------
     s += [h1("9. Front-end")]
@@ -842,7 +929,10 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
                    "Solução (POST)"],
                   ["/ocorrencias/:id", "Detalhe, histórico, botão Apoiar", "Solução (rota com "
                                                                             "parâmetro)"],
-                  ["/painel", "Área do gestor: fila por prioridade, mudar status, resumo por "
+                  ["/login  ·  /cadastro", "Login (e-mail e senha) e cadastro de cidadão (v1.2)",
+                   "Solução (POST)"],
+                  ["/painel", "[G] Só gestor (v1.2). Fila por prioridade, mudar status, cadastrar "
+                              "gestor, resumo por "
                               "bairro", "Solução (POST/PUT)"],
                   ], [3.6, 9.4, 4]),
           h2("9.2 Organização e regras"),
@@ -859,6 +949,11 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
               "Testar em 390×844, 768×1024 e 1440×900, sem rolagem horizontal.",
               "Acessibilidade: label em todo campo, contraste adequado, foco visível, textos "
               "simples (o público inclui idosos).",
+              "<b>Sessão (v1.2):</b> depois do login, o front guarda {id, nome, perfil} no "
+              "localStorage (com try/catch) num AuthContext, mostra o menu Painel só para GESTOR, "
+              "protege /painel e /ocorrencias/nova com um componente RotaProtegida (como no "
+              "EcoScoreEngine) e envia X-Gestor-Id nas rotas [G]. O id do cidadão logado preenche "
+              "idCidadao no registro e no apoio. Botão Sair limpa a sessão.",
               "Repositório público. <b>Cada integrante faz pelo menos 5 commits</b> neste "
               "repositório (mínimo 15 no total).",
           ])]
@@ -948,7 +1043,7 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
                   ["1", "IA &amp; Chatbot", "Só dos dados do SP156",
                    "pytest passando; /health e /prever/* respondendo localmente"],
                   ["1", "Banco de Dados", "Nada",
-                   "Script .sql rodando no Oracle da FIAP: 7 tabelas, seed com as 8 categorias "
+                   "Script .sql rodando no Oracle da FIAP: 8 tabelas, seed com as 8 categorias, o gestor inicial "
                    "e bairros reais, 10 consultas retornando dados"],
                   ["1", "Python", "Nada (JSON local, sem rede)",
                    "Menu funcionando; busca por \"class \" e por list comprehension sem resultado"],
@@ -956,7 +1051,8 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
                    "Endpoints da seção 8 com dados do Oracle; publicada no Render; RN12 testada "
                    "com a Flask desligada"],
                   ["3", "Front-end", "<b>API Java publicada</b> (mocks não são aceitos)",
-                   "Telas da solução lendo e gravando pela Java, nas 3 resoluções, na Vercel"],
+                   "Login funcionando; telas da solução lendo e gravando pela Java, nas 3 "
+                   "resoluções, na Vercel; /painel bloqueado para cidadão"],
                   ["4", "Eng. Software &amp; Negócio", "Produto pronto (telas, regras, registro "
                                                        "de IA)",
                    "Diagramas e protótipo batendo com o construído; pitch gravado"],
@@ -1031,8 +1127,12 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
                    "Java", "Sempre"],
                   ["Flask publicada", "Se não houver deploy, a integração Java↔IA cai na RN12 "
                                       "(e a demo da IA é local)", "IA", "17/11"],
-                  ["Sem login", "Limitação conhecida do MVP; explicar como próxima etapa",
+                  ["Login sem token", "O id do gestor no cabeçalho pode ser forjado (seção 8.5); "
+                                      "explicar como limitação e o JWT como próxima etapa",
                    "Todos", "—"],
+                  ["Senha do gestor inicial", "Hash BCrypt no seed; a senha em texto fica só com o "
+                                              "grupo, nunca no script nem no GitHub", "BD + Java",
+                   "16/11"],
                   ], [3, 8.8, 2.4, 2.8]),
           h2("14.1 Decisões registradas na v1.1 que o grupo precisa confirmar"),
           tabela([["#", "Decisão adotada", "Alternativa"],
@@ -1047,16 +1147,25 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
                   ["D5", "Prazo de Sinalização mantido em 10 dias, como congelado em 13/11 "
                          "(seção 6.4)", "Reabrir o congelamento (exige refazer dados e modelos)"],
                   ], [1.2, 9.3, 6.5], destaque_primeira_coluna=True),
+          p("<b>Decidido na v1.2 (15/11):</b> login por e-mail e senha para cidadão e gestor; "
+            "cidadão e gestor em tabelas separadas (tb_cidadao e tb_gestor); painel restrito a "
+            "gestores, que cadastram outros gestores (RN15–RN17)."),
           h1("15. Histórico de versões"),
           tabela([["Versão", "Data", "Mudança", "Autor"],
                   ["1.0", "11/11/2026", "Primeira versão: problema, solução, regras RN01–RN14, "
                                         "modelo de dados, contratos de IA, Java, front e Python",
                    "Leonardo (com apoio de IA)"],
-                  [VERSAO, DATA, "Integrantes na capa; CSV do SP156 resolvido e plano B "
+                  ["1.1", "15/11/2026", "Integrantes na capa; CSV do SP156 resolvido e plano B "
                                  "descartado; seção 7 com dados, resultados e decisões reais da "
                                  "IA; nota sobre o chatbot; nomes de subprefeitura ligados ao "
                                  "de-para; ordem de dependência entre disciplinas (12.1); "
                                  "cronograma revisado; decisões a confirmar (14.1)",
+                   "Leonardo (com apoio de IA)"],
+                  [VERSAO, DATA, "Login por e-mail e senha (BCrypt); nova tabela tb_gestor (8 "
+                                 "tabelas) com órgão e quem cadastrou; ds_senha em tb_cidadao; "
+                                 "cd_gestor em tb_atualizacao; RN15–RN17; rotas /auth/login e "
+                                 "/gestores; páginas /login e /cadastro; /painel só para gestor; "
+                                 "seção 8.5; escopo 4.4 e riscos atualizados",
                    "Leonardo (com apoio de IA)"],
                   ], [1.8, 2.4, 9.3, 3.5]),
           Spacer(1, 10),
