@@ -31,6 +31,8 @@ Objetivo: alinhar o projeto de IA do ZelaBairro (`zelabairro-ia`) ao que foi ens
 
 ## 3. Projeto atual × aulas
 
+> **Aplicado em 15/11/2026** na pasta `entregas/1-ia-chatbot/zelabairro-ia/`: notebooks regenerados e executados com Árvore de Decisão, Regressão Linear/Logística, curva ROC, estatística do IQR e gráficos no padrão da Aula 04; Ridge e curva de calibração removidos; chatbot sem porcentagem. Resultados no README do projeto (seção 3.2). A tabela abaixo é a análise que motivou os ajustes.
+
 | No `zelabairro-ia` hoje | Visto em aula? | Recomendação |
 |---|---|---|
 | `train_test_split` 80/20, `random_state=42` | ✅ igual | Manter |

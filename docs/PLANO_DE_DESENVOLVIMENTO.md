@@ -6,6 +6,8 @@
 
 ## 0. Como usar este plano
 
+> **Onde fica cada entrega:** pasta [`entregas/`](../entregas/), uma subpasta por matéria na ordem de dependência, cada uma com um README de checklist.
+
 > **Antes de tudo, leia [COMO_O_ZELABAIRRO_FUNCIONA.md](COMO_O_ZELABAIRRO_FUNCIONA.md):** explica em linguagem simples o sistema inteiro (jornadas, IA, login, fotos, tabelas) e traz as perguntas prováveis dos professores.
 
 1. **A ordem é a da seção 12.1 do Documento Base.** Uma matéria só é dada como pronta quando passa no teste de "pronto" do seu nível. Esse teste é o que libera a próxima.
@@ -46,17 +48,17 @@ Nenhum projeto anterior tem **Banco de Dados** nem **IA**. Para IA, a referênci
 
 **Referência:** o próprio projeto `zelabairro-ia` (versão corrigida "GS IA - Zelabairro.zip"). A análise de 15/11 confirmou os 99 testes passando, a API respondendo e o contrato da seção 7.3 respeitado.
 
-**Alinhamento às aulas:** quase tudo o que o projeto usa foi visto em aula (Random Forest, GridSearchCV, validação cruzada, matriz de confusão, recall, F1, ROC AUC). Os ajustes recomendados estão na seção 3 de [06-ia-aulas-prof-alfonso](referencias/06-ia-aulas-prof-alfonso.md): comparar antes com Árvore de Decisão e Regressão Linear/Logística, trocar Ridge por LinearRegression, plotar a curva ROC, tirar a curva de calibração, reforçar a estatística do EDA e revisar os gráficos pelo framework de Dataviz.
+**Alinhamento às aulas: FEITO em 15/11** (pasta `entregas/1-ia-chatbot/zelabairro-ia/`; notebooks reexecutados, 99 testes passando, API com as mesmas respostas). Quase tudo o que o projeto usa foi visto em aula (Random Forest, GridSearchCV, validação cruzada, matriz de confusão, recall, F1, ROC AUC). Os ajustes recomendados estão na seção 3 de [06-ia-aulas-prof-alfonso](referencias/06-ia-aulas-prof-alfonso.md): comparar antes com Árvore de Decisão e Regressão Linear/Logística, trocar Ridge por LinearRegression, plotar a curva ROC, tirar a curva de calibração, reforçar a estatística do EDA e revisar os gráficos pelo framework de Dataviz.
 
 **Falta (em ordem de impacto na nota):**
 
 | # | Tarefa | Vale | Pronto quando |
 |---|---|---|---|
 | 1 | Preencher `DATA_DOWNLOAD` na 1ª célula do notebook 01 e apagar o aviso "Preencha antes de entregar" | Notebooks (60) | Não sobra nenhum "PREENCHER" nos notebooks |
-| 2 | **Reexecutar os 3 notebooks** na máquina do grupo (20–35 min cada), o que tira o caminho `/home/claude/...` das saídas | Notebooks (60) + regra de IA | Saídas com o caminho de quem rodou; métricas iguais às do README |
+| 2 | ~~Reexecutar os 3 notebooks~~ (feito em 15/11; reexecutar de novo só se mudarem dados) — opcional rodar na máquina do grupo (20–35 min cada), o que tira o caminho `/home/claude/...` das saídas | Notebooks (60) + regra de IA | Saídas com o caminho de quem rodou; métricas iguais às do README |
 | 3 | Reescrever as conclusões dos notebooks **com as palavras do grupo** (os números estão certos) | Notebooks (60) + arguição | Cada integrante consegue explicar as conclusões |
 | 4 | Gerar o `.zip` com `python scripts/empacotar.py`, incluindo `.idea` na lista de pastas ignoradas | Item zerado se faltar arquivo | O zip abre, tem `identificacao.txt` na raiz e não tem `__pycache__`, `.venv` nem `.idea` |
-| 5 | Chatbot: falar "risco alto/baixo" em vez de "68% de chance" (D4) | Apresentação: métricas (20) | Chat sem porcentagem |
+| 5 | ~~Chatbot: falar "risco alto/baixo" em vez de "68% de chance" (D4)~~ feito em 15/11 | Apresentação: métricas (20) | Chat sem porcentagem |
 | 6 | (Opcional, nível 2) Publicar a Flask no Render para a Java chamá-la (seção 7.4 do Documento Base) | — (desejável) | `/health` público respondendo |
 
 **Como a IA entra no sistema (seção 7.4 do Documento Base):** a IA é um serviço à parte. Ela não acessa o banco nem a Java, e o front não a chama. Quem chama é a **Java**, uma vez, ao criar a ocorrência; a Java grava o prazo e o risco no Oracle, e o site mostra a previsão na confirmação, no detalhe e (via prioridade) no painel. Sem a integração, a ocorrência nasce sem previsão (RN12) e a nota de IA não muda: a demo de IA é chamar a Flask direto.

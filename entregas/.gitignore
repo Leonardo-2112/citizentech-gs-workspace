@@ -1,0 +1,12 @@
+# Pacotes gerados para o Portal (gerar de novo antes de entregar; não versionar)
+*.zip
+# Dependências e builds (nunca entram no repositório nem no .zip)
+node_modules/
+target/
+dist/
+.venv/
+venv/
+__pycache__/
+.idea/
+.vscode/
+.env
