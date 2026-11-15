@@ -18,8 +18,8 @@ from reportlab.platypus import (BaseDocTemplate, Frame, KeepTogether, ListFlowab
                                 Preformatted, Spacer, Table, TableStyle)
 from reportlab.platypus.tableofcontents import TableOfContents
 
-VERSAO = "1.0"
-DATA = "11/11/2026"
+VERSAO = "1.1"
+DATA = "15/11/2026"
 SAIDA = Path(__file__).with_name("ZelaBairro-Documento-Base.pdf")
 
 FONTES = "/usr/share/fonts/truetype/dejavu/"
@@ -214,10 +214,15 @@ def capa():
         Spacer(1, 0.4 * cm),
         tabela([["Campo", "Valor"],
                 ["Versão", f"{VERSAO} — {DATA}"],
-                ["Status", "Aprovado para início do desenvolvimento (pendências na seção 14)"],
+                ["Status", "Em desenvolvimento. IA pronta; decisões a confirmar e pendências na "
+                           "seção 14"],
                 ["Entrega da GS", "19/11/2026 até 23h55, no Portal do Aluno (sem prorrogação)"],
                 ["Cadastro do grupo", "até 13/11/2026"],
-                ["Integrantes (RM / nome / turma)", "preencher: ______________________________"]],
+                ["Integrantes (turma 1TDSPV)", "RM 573982 – Leonardo Afonço Sousa<br/>"
+                                               "RM 569259 – Syang Cristina Gomes Souza<br/>"
+                                               "RM 573559 – Matheus Jones Sousa de Freitas<br/>"
+                                               "RM 569023 – Vitor Goncalves de Souza<br/>"
+                                               "RM 572364 – Joao Machado Nascimento"]],
                [5, 12], destaque_primeira_coluna=True),
         Spacer(1, 0.6 * cm),
         caixa("<b>Regra de ouro:</b> se uma regra, nome de tabela, campo ou rota não está neste "
@@ -322,9 +327,11 @@ def conteudo():
             "prefeitura informa uma média de cerca de <b>157 mil solicitações por mês</b> "
             "(dados de 2022). Esse volume mostra a relevância do problema e é a base de dados "
             "dos modelos de IA."),
-          caixa("<b>Pendência:</b> o grupo ainda precisa baixar o CSV atual do SP156 e confirmar "
-                "as colunas (datas de abertura e encerramento, assunto, subprefeitura, status). "
-                "Responsável: integrante de IA, até 12/11. Ver seção 7.5 (plano B).", "atencao")]
+          caixa("<b>Resolvido em 13/11:</b> os arquivos trimestrais do SP156 foram baixados e as "
+                "colunas conferidas. A partir de 2020 existe a coluna \"Data de Finalização\", que "
+                "permite calcular o tempo de resolução. Os modelos foram treinados com "
+                "<b>982.475 chamados reais</b> (1º tri/2020 a 3º tri/2023). Detalhes na seção 7.1; "
+                "o plano B não foi necessário.")]
 
     # 4 ------------------------------------------------------------------
     s += [h1("4. A solução: ZelaBairro")]
@@ -372,14 +379,21 @@ def conteudo():
                   ["Apoiar e retirar apoio de uma ocorrência",
                    "Notificações por e-mail, SMS ou push"],
                   ["Atualizações de status com histórico", "Aplicativo mobile nativo"],
-                  ["Prazo previsto e risco de atraso via IA", "Chatbot"],
+                  ["Prazo previsto e risco de atraso via IA",
+                   "Chatbot dentro do front ou gravando ocorrências (ver nota abaixo)"],
                   ["Fila por prioridade e painel por bairro",
                    "Integração com sistemas reais da prefeitura"],
                   ], [8.5, 8.5]),
           Spacer(1, 6),
           p("Simplificação assumida: sem login, o front guarda o cidadão escolhido no "
             "navegador, e a área do gestor é uma página aberta (/painel). Essa decisão deve ser "
-            "citada como limitação conhecida nas apresentações.")]
+            "citada como limitação conhecida nas apresentações."),
+          caixa("<b>Chatbot (v1.1):</b> existe como <b>complemento da disciplina de IA &amp; "
+                "Chatbot</b>, servido pela própria API Flask (GET /, GET /chat/inicio, POST /chat). "
+                "Ele orienta o cidadão, mostra a previsão da IA e manda concluir o registro no "
+                "front; <b>não grava ocorrências</b> e não muda tabelas, rotas da Java, regras RN "
+                "nem telas do front. A rubrica de IA não exige chatbot: ele não vale ponto, mas "
+                "todos precisam saber explicá-lo. Decisão a confirmar pelo grupo (seção 14).")]
 
     # 5 ------------------------------------------------------------------
     s += [h1("5. Atores, glossário e regras de negócio")]
@@ -599,6 +613,12 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
             "Verdes; Trânsito e Sinalização. Bairros: usar distritos reais de São Paulo com a "
             "subprefeitura correta (ex.: Lapa/Lapa, Pinheiros/Pinheiros, Capão Redondo/Campo "
             "Limpo, Itaim Paulista/Itaim Paulista, Sé/Sé), para casar com os dados do SP156."),
+          caixa("<b>v1.1:</b> os nomes de tb_bairro.nm_subprefeitura devem ser <b>exatamente</b> "
+                "os do arquivo data/depara_distrito_subprefeitura.csv do projeto de IA (32 "
+                "subprefeituras). Nome diferente não quebra a API, mas a previsão fica genérica. "
+                "Os prazos foram congelados em 13/11 sem alteração. Ponto de atenção para as "
+                "apresentações: em Sinalização de trânsito a mediana real (18 dias) já passa do "
+                "prazo de referência (10 dias), e 61% dos chamados atrasam.", "atencao"),
           h2("6.5 Perguntas que o banco responde (base para as 10 consultas)"),
           bullets([
               "Quais bairros têm mais ocorrências abertas? (GROUP BY + HAVING)",
@@ -626,8 +646,18 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
               "<b>Recorte:</b> somente os assuntos que correspondem às 8 categorias da tabela "
               "6.4, criando uma coluna <b>categoria</b> com o nome canônico (de-para). O "
               "de-para fica salvo em data/depara_sp156.csv.",
-              "<b>Tamanho:</b> usar um recorte gerenciável (ex.: os últimos 12 meses "
-              "disponíveis) para treinar rápido em máquina comum.",
+              "<b>Janela usada (v1.1):</b> chamados abertos de <b>01/01/2020 a 30/09/2023</b>, "
+              "982.475 linhas em data/dados_sp156.csv. Antes de 2020 a data de fim era a \"Data "
+              "do Parecer\", que em vários anos cai no mesmo dia da abertura e não mede o "
+              "atendimento. Faltam nos dados o 2º tri/2023 e fev–mar/2021.",
+              "<b>Subprefeitura:</b> derivada do distrito por data/depara_distrito_subprefeitura.csv "
+              "(96 distritos → 32 subprefeituras); confere com a Prefeitura Operacional do SP156 "
+              "em 98,4% dos chamados.",
+              "<b>O que o prazo mede:</b> pelo glossário oficial, a \"Data de Finalização\" é o "
+              "fechamento do protocolo pelo órgão, não necessariamente o dia do conserto.",
+              "<b>Categoria sem dados:</b> \"Iluminação pública apagada\" não tem nenhum chamado no "
+              "SP156 a partir de 2018. Os modelos não aprenderam nada sobre ela (ver 7.4).",
+              "<b>Limitações a citar:</b> período inclui a pandemia; os dados vão só até set/2023.",
           ]),
           h2("7.2 Modelos"),
           tabela([["Modelo", "Tipo", "Alvo", "Métricas"],
@@ -648,6 +678,27 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
             "recebe: categoria, subprefeitura, mes (1–12) e dia_semana (0 = segunda ... 6 = "
             "domingo, igual ao weekday() do Python). Só usar informações que existem <b>no "
             "momento da abertura</b>; nunca usar a data de encerramento como entrada."),
+          h3("Resultado obtido (v1.1) — conjunto de teste de 20%, random_state = 42"),
+          tabela([["Modelo", "Algoritmo final", "Métricas no teste", "Baseline"],
+                  ["M1 – Prazo", "RandomForestRegressor sobre log(1 + dias)",
+                   "MAE 23,3 dias · RMSE 61,0 · R² 0,06",
+                   "MAE 24,5 (mediana por categoria) · 26,6 (mediana geral)"],
+                  ["M2 – Atraso", "RandomForestClassifier com class_weight=\"balanced\"",
+                   "ROC AUC 0,754 · recall 0,834 · precisão 0,421 · F1 0,559 · acurácia 0,609",
+                   "acurácia 0,702 (sempre \"no prazo\")"],
+                  ], [2.6, 4.6, 5.4, 4.4], destaque_primeira_coluna=True),
+          Spacer(1, 6),
+          bullets([
+              "<b>Mês recebido, mas ignorado:</b> no teste \"no tempo\" (treino 2020–2022, teste "
+              "2023) o mês piora os dois modelos. A API continua recebendo mes (contrato), mas os "
+              "modelos não o usam.",
+              "<b>Limiar do risco:</b> risco_atraso = \"S\" quando probabilidade &gt;= 0,5 "
+              "(a v1.0 não definia).",
+              "<b>Probabilidade inflada:</b> o balanceamento empurra as probabilidades para cima "
+              "(buraco na Lapa: 0,66, mas só 33% dos buracos atrasam). Tratar como "
+              "<b>indicador de risco</b>, não como chance real.",
+              "M3 (agrupamento) não foi feito: era opcional.",
+          ]),
           h2("7.3 Contrato da API Flask"),
           tabela([["Método", "Rota", "Resposta 200"],
                   ["GET", "/health", '{"status": "ok"}'],
@@ -668,17 +719,20 @@ Erro (400): {"erro": "categoria desconhecida: Buraco"}
           p("Arquivos esperados: data/*.csv, notebooks/01_eda.ipynb, 02_modelo_prazo.ipynb, "
             "03_modelo_atraso.ipynb, models/modelo_prazo.joblib, models/modelo_atraso.joblib, "
             "app.py (Flask). A demonstração ao vivo da API vale 20 pontos na apresentação."),
+          p("<b>Rotas extras (v1.1, não alteram o contrato acima):</b> GET /modelo/info (lista as "
+            "categorias com histórico suficiente, mínimo de 200 chamados) e as rotas do chatbot "
+            "(GET /, GET /chat/inicio, POST /chat). Modelo ausente ou ilegível: 503."),
           h2("7.4 Integração"),
           p("A API Java chama a Flask ao criar uma ocorrência (desejável, não obrigatório para "
             "Java). Para isso, a Flask precisa estar publicada (ex.: Render). Se não estiver, vale "
             "a RN12. A URL fica na variável IA_API_URL da API Java."),
+          caixa("<b>Iluminação pública apagada:</b> a API aceita a categoria (contrato) e devolve "
+                "uma previsão, mas ela <b>não tem base</b> (nenhum chamado no treino). Proposta: a "
+                "Java trata essa categoria como a RN12 e grava prazo e risco nulos (ou consulta "
+                "GET /modelo/info). Decisão a confirmar pelo grupo (seção 14).", "atencao"),
           h2("7.5 Plano B"),
-          caixa("Se o CSV do SP156 não tiver data de encerramento ou não der para calcular o tempo "
-                "de resolução, a pessoa de IA avisa o grupo <b>até 12/11</b>. Alternativa: M1 vira "
-                "regressão do <b>volume mensal de chamados</b> por subprefeitura e categoria, e M2 "
-                "classifica se a subprefeitura terá <b>volume acima da média</b> no mês. Nesse caso "
-                "este documento é atualizado (v1.1) e o campo nr_prazo_previsto passa a ser "
-                "preenchido com o prazo de referência da categoria.", "risco")]
+          p("Não foi necessário: o CSV do SP156 tem data de finalização a partir de 2020 (ver "
+            "7.1). Mantido aqui apenas como registro da v1.0.")]
 
     # 8 ------------------------------------------------------------------
     s += [h1("8. API Java (Domain Driven Design)")]
@@ -885,6 +939,37 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
               "<b>App Python:</b> independente, com dados locais em JSON e as mesmas regras.",
               "<b>Banco:</b> o mesmo script SQL é entregue em BD e em Java. Credenciais do "
               "Oracle de quem hospedar o banco ficam só nas variáveis de ambiente do Render.",
+          ]),
+          h2("12.1 Ordem de dependência entre as disciplinas (v1.1)"),
+          p("Cada disciplina só aparece depois daquelas de que precisa. Uma frente só é dada como "
+            "pronta quando passa no teste da última coluna; é esse teste que libera a próxima."),
+          tabela([["Nível", "Disciplina", "Depende de", "Teste que libera a próxima"],
+                  ["0", "Documento Base", "—", "Lido e aceito por todos"],
+                  ["1", "IA &amp; Chatbot", "Só dos dados do SP156",
+                   "pytest passando; /health e /prever/* respondendo localmente"],
+                  ["1", "Banco de Dados", "Nada",
+                   "Script .sql rodando no Oracle da FIAP: 7 tabelas, seed com as 8 categorias "
+                   "e bairros reais, 10 consultas retornando dados"],
+                  ["1", "Python", "Nada (JSON local, sem rede)",
+                   "Menu funcionando; busca por \"class \" e por list comprehension sem resultado"],
+                  ["2", "API Java", "<b>Banco</b> (obrigatório); IA (opcional)",
+                   "Endpoints da seção 8 com dados do Oracle; publicada no Render; RN12 testada "
+                   "com a Flask desligada"],
+                  ["3", "Front-end", "<b>API Java publicada</b> (mocks não são aceitos)",
+                   "Telas da solução lendo e gravando pela Java, nas 3 resoluções, na Vercel"],
+                  ["4", "Eng. Software &amp; Negócio", "Produto pronto (telas, regras, registro "
+                                                       "de IA)",
+                   "Diagramas e protótipo batendo com o construído; pitch gravado"],
+                  ], [1.2, 3.3, 4.5, 8]),
+          Spacer(1, 6),
+          bullets([
+              "<b>Caminho crítico:</b> Banco → Java → Front. Atraso no Banco ou na Java atrasa o "
+              "Front, que não pode usar mocks.",
+              "<b>Podem andar em paralelo sem quebrar a ordem:</b> as 5 páginas institucionais do "
+              "front (não usam a API) e BMC, backlog, casos de uso e protótipo de Eng. Software "
+              "(saem deste documento).",
+              "<b>Java ↔ IA</b> é a única ligação opcional: publicar a Flask no Render só quando a "
+              "Java existir. Sem ela, vale a RN12 e nenhuma das duas disciplinas perde ponto.",
           ])]
 
     # 13 -----------------------------------------------------------------
@@ -902,16 +987,17 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
           Spacer(1, 6),
           p("Todos precisam conseguir explicar o projeto inteiro: as apresentações cobram que "
             "<b>qualquer integrante</b> responda. Façam revisões cruzadas."),
-          h2("13.2 Cronograma (hoje: 11/11)"),
+          h2("13.2 Cronograma (revisado em 15/11, seguindo a ordem da seção 12.1)"),
           tabela([["Data", "Entrega interna"],
-                  ["11–12/11", "Validar o CSV do SP156 (IA). Fechar o modelo do banco e o script "
-                               "de criação (BD). Ler este documento todos."],
-                  ["13/11", "<b>Cadastrar o grupo.</b> Congelar categorias/prazos. Banco criado "
-                            "no Oracle com o seed. Backlog criado no Jira/Trello."],
-                  ["14–16/11", "Cada frente desenvolve. Java publica uma primeira versão no "
-                               "Render para o front consumir. IA treina e exporta modelos."],
-                  ["17/11", "Integração: front ↔ Java ↔ Oracle; Java ↔ Flask. Testes nas três "
-                            "resoluções."],
+                  ["11–13/11 (feito)", "CSV do SP156 validado; grupo cadastrado; categorias e "
+                                       "prazos congelados; IA treinada e exportada."],
+                  ["15/11", "<b>Nível 1:</b> fechar e testar Banco (script no Oracle com seed), "
+                            "Python e o acabamento da IA. <b>Iniciar a API Java</b> (ainda não "
+                            "existe e é o caminho crítico). Front faz as páginas institucionais."],
+                  ["16/11", "<b>Nível 2:</b> Java com CRUD sobre o Oracle e primeira versão no "
+                            "Render para o front consumir."],
+                  ["17/11", "<b>Nível 3:</b> front ↔ Java ↔ Oracle; testes nas três resoluções. "
+                            "Se a Java estiver estável: publicar a Flask e ligar Java ↔ IA."],
                   ["18/11", "Gravar vídeos (pitch ≤ 5 min, front ≤ 3 min, Java ≤ 5 min). "
                             "Fechar os PDFs. Testar links em aba anônima."],
                   ["19/11", "Montar cada .zip com o .txt de identificação e entregar <b>até o "
@@ -930,8 +1016,13 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
     # 14 -----------------------------------------------------------------
     s += [h1("14. Riscos e pendências")]
     s += [tabela([["Item", "Risco / pendência", "Dono", "Prazo"],
-                  ["CSV do SP156", "Colunas podem não ter data de encerramento → plano B (7.5)",
-                   "IA", "12/11"],
+                  ["CSV do SP156", "<b>Resolvido em 13/11</b> (seção 7.1)", "IA", "—"],
+                  ["API Java", "Ainda não iniciada em 15/11; é o caminho crítico do Front "
+                               "(seção 12.1)", "Java", "16/11"],
+                  ["Acabamento da IA", "Preencher a data de download no notebook 01; reexecutar "
+                                       "os notebooks na máquina do grupo; conclusões com as "
+                                       "palavras do grupo; montar o .zip com "
+                                       "scripts/empacotar.py", "IA", "18/11"],
                   ["Nome da empresa", "Eng. Software exige nome da empresa e da solução na capa",
                    "Grupo", "13/11"],
                   ["Banco Oracle", "Definir em qual conta FIAP o banco fica e compartilhar o "
@@ -943,10 +1034,29 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
                   ["Sem login", "Limitação conhecida do MVP; explicar como próxima etapa",
                    "Todos", "—"],
                   ], [3, 8.8, 2.4, 2.8]),
+          h2("14.1 Decisões registradas na v1.1 que o grupo precisa confirmar"),
+          tabela([["#", "Decisão adotada", "Alternativa"],
+                  ["D1", "Chatbot como complemento da disciplina de IA, fora do MVP do front "
+                         "(seção 4.4)", "Retirar o chatbot da entrega de IA"],
+                  ["D2", "risco_atraso = \"S\" quando probabilidade &gt;= 0,5 (seção 7.2)",
+                   "Outro limiar (o notebook 03 mostra o efeito de 0,3 a 0,7)"],
+                  ["D3", "Iluminação pública apagada: Java grava prazo e risco nulos, como na "
+                         "RN12 (seção 7.4)", "Gravar a previsão da API mesmo sem base"],
+                  ["D4", "Probabilidade mostrada como indicador de risco, sem prometer chance "
+                         "real (seção 7.2)", "Calibrar o modelo e retreinar"],
+                  ["D5", "Prazo de Sinalização mantido em 10 dias, como congelado em 13/11 "
+                         "(seção 6.4)", "Reabrir o congelamento (exige refazer dados e modelos)"],
+                  ], [1.2, 9.3, 6.5], destaque_primeira_coluna=True),
           h1("15. Histórico de versões"),
           tabela([["Versão", "Data", "Mudança", "Autor"],
-                  [VERSAO, DATA, "Primeira versão: problema, solução, regras RN01–RN14, modelo "
-                                 "de dados, contratos de IA, Java, front e Python",
+                  ["1.0", "11/11/2026", "Primeira versão: problema, solução, regras RN01–RN14, "
+                                        "modelo de dados, contratos de IA, Java, front e Python",
+                   "Leonardo (com apoio de IA)"],
+                  [VERSAO, DATA, "Integrantes na capa; CSV do SP156 resolvido e plano B "
+                                 "descartado; seção 7 com dados, resultados e decisões reais da "
+                                 "IA; nota sobre o chatbot; nomes de subprefeitura ligados ao "
+                                 "de-para; ordem de dependência entre disciplinas (12.1); "
+                                 "cronograma revisado; decisões a confirmar (14.1)",
                    "Leonardo (com apoio de IA)"],
                   ], [1.8, 2.4, 9.3, 3.5]),
           Spacer(1, 10),
