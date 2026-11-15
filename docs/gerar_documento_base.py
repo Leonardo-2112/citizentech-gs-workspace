@@ -18,7 +18,7 @@ from reportlab.platypus import (BaseDocTemplate, Frame, KeepTogether, ListFlowab
                                 Preformatted, Spacer, Table, TableStyle)
 from reportlab.platypus.tableofcontents import TableOfContents
 
-VERSAO = "1.2"
+VERSAO = "1.3"
 DATA = "15/11/2026"
 SAIDA = Path(__file__).with_name("ZelaBairro-Documento-Base.pdf")
 
@@ -151,7 +151,7 @@ def diagrama_integracao():
     caixa_d(0, 100, 110, 70, "Front-end", "React + Vite + TS\nTailwind · Vercel\nsó Fetch API",
             VERDE_CLARO)
     caixa_d(170, 100, 120, 70, "API Java", "Spring Boot · JDBC\nDocker · Render", VERDE_CLARO)
-    caixa_d(350, 100, 125, 70, "Oracle FIAP", "8 tabelas tb_*\nsequences sq_tb_*", VERDE_CLARO)
+    caixa_d(350, 100, 125, 70, "Oracle FIAP", "9 tabelas tb_*\nsequences sq_tb_*", VERDE_CLARO)
     caixa_d(170, 5, 120, 62, "API de IA", "Flask · 2 modelos\n.joblib", AMBAR_CLARO)
     caixa_d(350, 5, 125, 62, "App Python", "menu no terminal\ndados em JSON local", AMBAR_CLARO)
     seta(110, 135, 170, 135, "HTTP + JSON")
@@ -347,10 +347,12 @@ def conteudo():
               "Antes de criar, o sistema mostra ocorrências <b>abertas da mesma categoria no "
               "mesmo bairro</b>. Se o problema já foi registrado, o cidadão <b>apoia</b> a "
               "ocorrência existente em vez de criar outra (RN07).",
-              "Se for um problema novo, o cidadão descreve e informa o endereço de referência. "
-              "A ocorrência nasce com status ABERTA.",
-              "A API Java consulta a API de IA, que devolve o <b>prazo previsto em dias</b> e o "
-              "<b>risco de atraso</b> (S/N). Esses valores ficam gravados na ocorrência.",
+              "Se for um problema novo, o cidadão descreve, informa o endereço de referência e, "
+              "se quiser, anexa <b>até 3 fotos</b> (RN18). A ocorrência nasce com status ABERTA.",
+              "No momento do registro, a <b>API Java</b> (e só ela) consulta a API de IA, que "
+              "devolve o <b>prazo previsto em dias</b> e o <b>risco de atraso</b> (S/N). A Java "
+              "grava esses valores na ocorrência, e o cidadão já vê a previsão na confirmação e "
+              "depois no detalhe (seção 7.4).",
               "O sistema calcula a <b>pontuação de prioridade</b> (RN10) a partir da gravidade "
               "da categoria, dos apoios, do tempo em aberto e do risco.",
               "O gestor da prefeitura faz login (só quem está em tb_gestor entra no painel), vê "
@@ -377,10 +379,12 @@ def conteudo():
                    "senha; painel só para gestores, que cadastram outros gestores",
                    "Tokens (JWT), recuperação de senha, login social, Spring Security completo"],
                   ["Registrar, listar, filtrar, editar e cancelar ocorrências",
-                   "Upload de fotos e mapa interativo / geolocalização"],
+                   "Mapa interativo / geolocalização"],
                   ["Apoiar e retirar apoio de uma ocorrência",
                    "Notificações por e-mail, SMS ou push"],
                   ["Atualizações de status com histórico", "Aplicativo mobile nativo"],
+                  ["Até 3 fotos por ocorrência (v1.3), guardadas no Oracle",
+                   "Análise das fotos por IA (citar como evolução futura)"],
                   ["Prazo previsto e risco de atraso via IA",
                    "Chatbot dentro do front ou gravando ocorrências (ver nota abaixo)"],
                   ["Fila por prioridade e painel por bairro",
@@ -493,6 +497,10 @@ def conteudo():
                   ["RN17", "Gestor só é criado por outro gestor, e fica registrado quem o "
                            "cadastrou. O primeiro gestor vem do seed do banco. O cadastro público "
                            "(POST /cidadaos) sempre cria cidadão.", "Java, BD (FK própria)"],
+                  ["RN18", "Fotos (v1.3): só o autor envia ou remove, só enquanto a ocorrência "
+                           "estiver ABERTA; no máximo 3 por ocorrência; só JPG ou PNG de até 2 MB. "
+                           "Tipo ou tamanho inválido: 400; quarta foto ou ocorrência não ABERTA: "
+                           "409; quem não é o autor: 403.", "Java, BD (CHECK), Front"],
                   ], [1.8, 10.7, 4.5], destaque_primeira_coluna=True),
           h3("RN10: fórmula da prioridade"),
           codigo("""
@@ -532,6 +540,7 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
                   ["nr_", "número", "nr_prazo_dias, nr_telefone"],
                   ["st_", "status", "st_ocorrencia"],
                   ["fl_", "flag S/N", "fl_risco_atraso"],
+                  ["bl_", "arquivo binário (BLOB) — v1.3", "bl_imagem"],
                   ], [2.5, 8, 6.5]),
           h2("6.2 Tabelas e relacionamentos"),
           tabela([["Relacionamento", "Tipo", "FK"],
@@ -546,11 +555,12 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
                   ["tb_gestor → tb_gestor (quem cadastrou)", "1:N", "tb_gestor.cd_gestor_cadastro "
                                                                    "(autorrelacionamento)"],
                   ["tb_gestor → tb_atualizacao (v1.2)", "1:N", "tb_atualizacao.cd_gestor"],
+                  ["tb_ocorrencia → tb_foto (v1.3)", "1:N", "tb_foto.cd_ocorrencia"],
                   ], [6.5, 1.5, 9]),
           Spacer(1, 6),
-          p("Total: <b>8 tabelas</b> (mínimo exigido: 6). Ordem de criação, respeitando as FKs: "
+          p("Total: <b>9 tabelas</b> (mínimo exigido: 6). Ordem de criação, respeitando as FKs: "
             "tb_orgao, tb_bairro, tb_cidadao, tb_gestor, tb_categoria, tb_ocorrencia, "
-            "tb_atualizacao, tb_apoio."),
+            "tb_atualizacao, tb_apoio, tb_foto."),
           caixa("<b>Por que tabelas separadas para cidadão e gestor (v1.2):</b> são papéis do "
                 "domínio com dados diferentes (o gestor pertence a um órgão e sabe quem o "
                 "cadastrou), a mudança não renomeia nada do que já existia e evita a \"tb_usuario\" "
@@ -631,6 +641,18 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
                   ["cd_cidadao", "NUMBER(10)", "N", "PK composta + FK → tb_cidadao"],
                   ["cd_ocorrencia", "NUMBER(10)", "N", "PK composta + FK → tb_ocorrencia"],
                   ["dt_apoio", "DATE", "N", "DEFAULT SYSDATE"]], col),
+          h3("tb_foto — fotos do problema (v1.3)"),
+          tabela([["Coluna", "Tipo", "Nulo", "Regra / significado"],
+                  ["cd_foto", "NUMBER(10)", "N", "PK (sq_tb_foto)"],
+                  ["cd_ocorrencia", "NUMBER(10)", "N", "FK → tb_ocorrencia"],
+                  ["bl_imagem", "BLOB", "N", "O arquivo da imagem (bytes)"],
+                  ["ds_tipo", "VARCHAR2(20)", "N", "CHECK IN ('image/jpeg','image/png') (RN18)"],
+                  ["nr_tamanho", "NUMBER(8)", "N", "Bytes. CHECK (nr_tamanho BETWEEN 1 AND "
+                                                    "2097152), ou seja, até 2 MB (RN18)"],
+                  ["dt_envio", "DATE", "N", "DEFAULT SYSDATE"]], col),
+          p("Prefixo novo <b>bl_</b> = BLOB (arquivo binário). O limite de 3 fotos por ocorrência "
+            "é verificado na Java (contagem antes de inserir), porque um CHECK não consegue "
+            "contar linhas de outra consulta."),
           caixa("Cada tabela precisa de COMMENT ON TABLE no script (exigência de BD). As "
                 "sequences existem para todas as tabelas, menos tb_apoio, que usa chave "
                 "composta.")]
@@ -656,6 +678,9 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
             "Verdes; Trânsito e Sinalização. Bairros: usar distritos reais de São Paulo com a "
             "subprefeitura correta (ex.: Lapa/Lapa, Pinheiros/Pinheiros, Capão Redondo/Campo "
             "Limpo, Itaim Paulista/Itaim Paulista, Sé/Sé), para casar com os dados do SP156."),
+          p("<b>Fotos no seed (v1.3):</b> para que tb_foto também tenha registros (exigência de "
+            "BD), usar imagens PNG minúsculas (1×1 pixel, cerca de 70 bytes) inseridas com "
+            "HEXTORAW('89504E47...') no INSERT. Fotos reais entram pela aplicação."),
           p("<b>Gestor inicial (v1.2):</b> o seed cria pelo menos um gestor, com "
             "cd_gestor_cadastro nulo, para que alguém consiga entrar no painel e cadastrar os "
             "demais (RN17). O hash BCrypt da senha desse gestor é gerado uma vez (pela própria API "
@@ -680,6 +705,8 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
               "Histórico de status de uma ocorrência (JOIN tb_atualizacao + ORDER BY)",
               "Maior e menor prazo previsto pela IA por subprefeitura (MAX/MIN)",
               "Cidadãos mais engajados (soma de ocorrências criadas e apoios)",
+              "(v1.3, alternativa) Ocorrências abertas sem nenhuma foto (LEFT JOIN tb_foto + "
+              "WHERE cd_foto IS NULL)",
               "(v1.2, alternativa) Atualizações feitas por gestor e por órgão (JOIN tb_gestor + "
               "tb_orgao) e quem cadastrou cada gestor (autojunção em tb_gestor)",
           ], numerado=True),
@@ -748,6 +775,11 @@ A pontuação é CALCULADA na hora; não é gravada no banco.
               "(buraco na Lapa: 0,66, mas só 33% dos buracos atrasam). Tratar como "
               "<b>indicador de risco</b>, não como chance real.",
               "M3 (agrupamento) não foi feito: era opcional.",
+              "<b>Alinhamento às aulas (v1.3, a aplicar nos notebooks):</b> antes do Random "
+              "Forest, treinar e comparar os modelos interpretáveis vistos em aula (Regressão "
+              "Linear e Árvore de Decisão no M1; Regressão Logística e Árvore de Decisão no M2), "
+              "trocar o Ridge por LinearRegression, plotar a curva ROC e retirar a curva de "
+              "calibração. Detalhes em docs/referencias/06-ia-aulas-prof-alfonso.md.",
           ]),
           h2("7.3 Contrato da API Flask"),
           tabela([["Método", "Rota", "Resposta 200"],
@@ -772,10 +804,42 @@ Erro (400): {"erro": "categoria desconhecida: Buraco"}
           p("<b>Rotas extras (v1.1, não alteram o contrato acima):</b> GET /modelo/info (lista as "
             "categorias com histórico suficiente, mínimo de 200 chamados) e as rotas do chatbot "
             "(GET /, GET /chat/inicio, POST /chat). Modelo ausente ou ilegível: 503."),
-          h2("7.4 Integração"),
-          p("A API Java chama a Flask ao criar uma ocorrência (desejável, não obrigatório para "
-            "Java). Para isso, a Flask precisa estar publicada (ex.: Render). Se não estiver, vale "
-            "a RN12. A URL fica na variável IA_API_URL da API Java."),
+          h2("7.4 Integração: como a previsão chega ao cidadão"),
+          p("A IA é um <b>serviço separado</b> (API Flask com os arquivos .joblib). Ela <b>não "
+            "acessa o banco</b> nem a API Java: recebe 4 informações e devolve o prazo e o risco, "
+            "como uma calculadora. O <b>front também não chama a IA</b>: ele só conhece a API "
+            "Java. Quem chama a IA é a Java, uma única vez, quando a ocorrência é criada."),
+          codigo("""
+Cidadão → Front (React) → POST /ocorrencias → API Java
+                                                │ 1. valida e monta {categoria, subprefeitura,
+                                                │    mes, dia_semana}
+                                                │ 2. POST /prever/prazo e /prever/atraso → API de IA
+                                                │ 3. grava a ocorrência + nr_prazo_previsto +
+                                                │    fl_risco_atraso no Oracle
+Front ← 201 com "prazoPrevistoDias" e "riscoAtraso" ┘
+"""),
+          tabela([["Onde a previsão aparece", "Quem vê", "De onde vem"],
+                  ["Confirmação do registro", "Cidadão", "Resposta do POST /ocorrencias"],
+                  ["/ocorrencias/:id (detalhe)", "Qualquer pessoa",
+                   "GET /ocorrencias/{id}: lida do banco, sem chamar a IA de novo"],
+                  ["/ocorrencias (lista)", "Qualquer pessoa", "Selo de prioridade, que inclui o "
+                                                              "risco (RN10)"],
+                  ["/painel", "Gestor", "Fila por prioridade: risco S soma +15 pontos (RN10)"],
+                  ], [4.5, 3, 9.5]),
+          Spacer(1, 6),
+          bullets([
+              "<b>No site,</b> a previsão é sempre apresentada como estimativa: \"Previsão: cerca "
+              "de 16 dias. Risco de atraso: alto.\" Sem porcentagem (D4).",
+              "<b>Configuração:</b> a URL da Flask fica na variável IA_API_URL da API Java. A Flask "
+              "precisa estar publicada (ex.: Render) para a Java alcançá-la.",
+              "<b>Se a IA estiver fora do ar ou não integrada,</b> a ocorrência é criada sem "
+              "previsão (RN12) e o site mostra \"previsão indisponível\". A integração é "
+              "desejável: nem IA nem Java perdem nota sem ela, e a demo de IA é feita chamando a "
+              "Flask direto (Postman/Insomnia).",
+              "<b>Por que não o front chamando a IA:</b> a previsão não ficaria gravada (o gestor "
+              "não a veria), o front dependeria de duas APIs e a prioridade, calculada na Java, "
+              "ficaria sem o risco.",
+          ]),
           caixa("<b>Iluminação pública apagada:</b> a API aceita a categoria (contrato) e devolve "
                 "uma previsão, mas ela <b>não tem base</b> (nenhum chamado no treino). Proposta: a "
                 "Java trata essa categoria como a RN12 e grava prazo e risco nulos (ou consulta "
@@ -793,7 +857,7 @@ Erro (400): {"erro": "categoria desconhecida: Buraco"}
             "(@RestControllerAdvice) e <b>config</b> (CORS). Nunca JPA/Hibernate/Spring Data."),
           p("Entidades obrigatórias com CRUD completo: <b>Cidadao, Gestor, Bairro, Categoria, "
             "Ocorrencia</b>, mais as rotas aninhadas de <b>Atualizacao</b> (1:N) e <b>Apoio</b> "
-            "(N:N), e o <b>login</b> (AuthController). tb_orgao fica só no banco (seed) e aparece "
+            "(N:N), as <b>fotos</b> (FotoDAO, rotas aninhadas, v1.3) e o <b>login</b> (AuthController). tb_orgao fica só no banco (seed) e aparece "
             "como nome dentro da categoria e do gestor. Exceções novas (v1.2): "
             "CredenciaisInvalidasException (401) e AcessoNegadoException (403)."),
           h2("8.2 Endpoints"),
@@ -819,12 +883,19 @@ Erro (400): {"erro": "categoria desconhecida: Buraco"}
                   ["GET", "/ocorrencias/{id}/apoios", "200", "404"],
                   ["POST", "/ocorrencias/{id}/apoios", "201", "400, 404, 409 (RN08)"],
                   ["DELETE", "/ocorrencias/{id}/apoios/{idCidadao}", "204", "404"],
+                  ["POST", "/ocorrencias/{id}/fotos  [A] (multipart, campo \"arquivo\")",
+                   "201 + Location", "400, 403, 404, 409 (RN18)"],
+                  ["GET", "/ocorrencias/{id}/fotos (lista sem os bytes)", "200", "404"],
+                  ["GET", "/fotos/{idFoto} (devolve a imagem)", "200 (image/jpeg ou png)", "404"],
+                  ["DELETE", "/ocorrencias/{id}/fotos/{idFoto}  [A]", "204", "403, 404, 409"],
                   ["GET", "/painel/bairros (desejável) [G]", "200", "403"],
                   ["POST", "/gestores [G]", "201 + Location", "400, 403, 409 (RN17)"],
                   ["GET", "/gestores  ·  /gestores/{id} [G]", "200", "403, 404"],
                   ["PUT / DELETE", "/gestores/{id} [G]", "200 / 204",
                    "400, 403, 404, 409 (gestor com atualizações)"],
                   ], [2.3, 7.7, 2.8, 4.2]),
+          p("[A] = só o autor da ocorrência (RN18): o front envia o cabeçalho <b>X-Cidadao-Id</b> "
+            "e a API compara com tb_ocorrencia.cd_cidadao; diferente: 403."),
           p("[G] = rota de gestor (RN16): o front envia o cabeçalho <b>X-Gestor-Id</b> e a API "
             "confere no banco se esse id existe em tb_gestor; senão, 403. As demais rotas são "
             "abertas, como na v1.1."),
@@ -859,6 +930,7 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
   "prazoPrevistoDias": 12,
   "riscoAtraso": "S",
   "qtdApoios": 3,
+  "qtdFotos": 2,
   "diasEmAberto": 1,
   "atrasada": false,
   "pontuacaoPrioridade": 62,
@@ -873,6 +945,11 @@ Validações: descricao @NotBlank @Size(min=10, max=500); endereco @NotBlank @Si
             '"telefone"}</font>. <b>POST /gestores:</b> <font name="Mono" size="8">{"nome", '
             '"email", "senha", "idOrgao"}</font> (quem cadastra vem do X-Gestor-Id). Nenhuma '
             'resposta devolve a senha ou o hash.'),
+          KeepTogether([p("<b>Foto</b> (item de GET /ocorrencias/{id}/fotos, v1.3):"), codigo("""
+{"id": 3, "tipo": "image/jpeg", "tamanho": 183402, "dataEnvio": "2026-11-16",
+ "url": "/fotos/3"}
+O front exibe com <img src={VITE_API_URL + url}>. A saída da ocorrência ganha "qtdFotos".
+""")]),
           KeepTogether([p("<b>Login</b> (POST /auth/login):"), codigo("""
 Entrada:  {"email": "mariana@email.com", "senha": "minhasenha"}
 Saída 200: {"id": 7, "nome": "Mariana", "perfil": "CIDADAO"}      // ou "GESTOR"
@@ -906,8 +983,13 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
               "<b>Rotas de gestor:</b> o front manda o id do gestor no cabeçalho X-Gestor-Id. Um "
               "componente da API (ex.: GestorBo.validarGestor) busca o id em tb_gestor antes de "
               "executar; se não achar, lança AcessoNegadoException (403).",
-              "<b>CORS:</b> a configuração precisa liberar o cabeçalho X-Gestor-Id (além de "
-              "Content-Type), senão o navegador bloqueia as rotas de gestor.",
+              "<b>CORS:</b> a configuração precisa liberar os cabeçalhos X-Gestor-Id e X-Cidadao-Id "
+              "(além de Content-Type), senão o navegador bloqueia essas rotas.",
+              "<b>Fotos (v1.3):</b> o controller recebe MultipartFile; o FotoDAO grava com "
+              "PreparedStatement.setBytes e lê com getBytes. No application.properties: "
+              "spring.servlet.multipart.max-file-size=2MB e max-request-size=7MB. O disco do "
+              "Render não serve para guardar arquivos (some ao reiniciar), por isso a foto fica "
+              "no Oracle.",
               "<b>Limitação assumida:</b> não há token; quem souber o id de um gestor consegue "
               "forjar o cabeçalho. Para um MVP acadêmico é aceitável e deve ser dito na "
               "apresentação. Próxima etapa: JWT assinado com expiração.",
@@ -925,9 +1007,11 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                   ["/contato", "Formulário de contato com validação", "Institucional"],
                   ["/ocorrencias", "Lista com filtros (status, bairro, categoria) e badges de "
                                    "prioridade", "Solução (GET)"],
-                  ["/ocorrencias/nova", "Formulário de registro com sugestão de apoio (RN07)",
+                  ["/ocorrencias/nova", "Formulário de registro com sugestão de apoio (RN07) e "
+                                        "anexo de até 3 fotos com pré-visualização (RN18)",
                    "Solução (POST)"],
-                  ["/ocorrencias/:id", "Detalhe, histórico, botão Apoiar", "Solução (rota com "
+                  ["/ocorrencias/:id", "Detalhe, previsão da IA, histórico, galeria de fotos, botão "
+                                       "Apoiar", "Solução (rota com "
                                                                             "parâmetro)"],
                   ["/login  ·  /cadastro", "Login (e-mail e senha) e cadastro de cidadão (v1.2)",
                    "Solução (POST)"],
@@ -954,6 +1038,10 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
               "protege /painel e /ocorrencias/nova com um componente RotaProtegida (como no "
               "EcoScoreEngine) e envia X-Gestor-Id nas rotas [G]. O id do cidadão logado preenche "
               "idCidadao no registro e no apoio. Botão Sair limpa a sessão.",
+              "<b>Fotos (v1.3):</b> input type=file com accept=\"image/jpeg,image/png\"; validar "
+              "tipo, tamanho (2 MB) e quantidade (3) antes de enviar; enviar cada foto com fetch e "
+              "FormData (continua sendo Fetch API) depois que o POST /ocorrencias devolver o id; "
+              "não definir Content-Type à mão (o navegador monta o multipart).",
               "Repositório público. <b>Cada integrante faz pelo menos 5 commits</b> neste "
               "repositório (mínimo 15 no total).",
           ])]
@@ -1043,7 +1131,7 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                   ["1", "IA &amp; Chatbot", "Só dos dados do SP156",
                    "pytest passando; /health e /prever/* respondendo localmente"],
                   ["1", "Banco de Dados", "Nada",
-                   "Script .sql rodando no Oracle da FIAP: 8 tabelas, seed com as 8 categorias, o gestor inicial "
+                   "Script .sql rodando no Oracle da FIAP: 9 tabelas, seed com as 8 categorias, o gestor inicial "
                    "e bairros reais, 10 consultas retornando dados"],
                   ["1", "Python", "Nada (JSON local, sem rede)",
                    "Menu funcionando; busca por \"class \" e por list comprehension sem resultado"],
@@ -1130,6 +1218,10 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                   ["Login sem token", "O id do gestor no cabeçalho pode ser forjado (seção 8.5); "
                                       "explicar como limitação e o JWT como próxima etapa",
                    "Todos", "—"],
+                  ["Fotos no Oracle (v1.3)", "Espaço do Oracle da FIAP é limitado: respeitar 3 fotos "
+                                             "de 2 MB. Upload é a última funcionalidade a entrar; "
+                                             "o site funciona sem foto", "BD + Java + Front",
+                   "17/11"],
                   ["Senha do gestor inicial", "Hash BCrypt no seed; a senha em texto fica só com o "
                                               "grupo, nunca no script nem no GitHub", "BD + Java",
                    "16/11"],
@@ -1147,6 +1239,9 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                   ["D5", "Prazo de Sinalização mantido em 10 dias, como congelado em 13/11 "
                          "(seção 6.4)", "Reabrir o congelamento (exige refazer dados e modelos)"],
                   ], [1.2, 9.3, 6.5], destaque_primeira_coluna=True),
+          p("<b>Decidido na v1.3 (15/11):</b> fotos das ocorrências em tabela própria (tb_foto) "
+            "com BLOB no Oracle (RN18); fluxo da previsão explicitado (seção 7.4); notebooks de IA "
+            "serão alinhados às aulas (seção 7.2)."),
           p("<b>Decidido na v1.2 (15/11):</b> login por e-mail e senha para cidadão e gestor; "
             "cidadão e gestor em tabelas separadas (tb_cidadao e tb_gestor); painel restrito a "
             "gestores, que cadastram outros gestores (RN15–RN17)."),
@@ -1161,11 +1256,16 @@ Erro 401:  {"status": 401, "erro": "Não autorizado",
                                  "de-para; ordem de dependência entre disciplinas (12.1); "
                                  "cronograma revisado; decisões a confirmar (14.1)",
                    "Leonardo (com apoio de IA)"],
-                  [VERSAO, DATA, "Login por e-mail e senha (BCrypt); nova tabela tb_gestor (8 "
+                  ["1.2", "15/11/2026", "Login por e-mail e senha (BCrypt); nova tabela tb_gestor (8 "
                                  "tabelas) com órgão e quem cadastrou; ds_senha em tb_cidadao; "
                                  "cd_gestor em tb_atualizacao; RN15–RN17; rotas /auth/login e "
                                  "/gestores; páginas /login e /cadastro; /painel só para gestor; "
                                  "seção 8.5; escopo 4.4 e riscos atualizados",
+                   "Leonardo (com apoio de IA)"],
+                  [VERSAO, DATA, "Fotos: tabela tb_foto (9 tabelas), prefixo bl_, RN18, rotas "
+                                 "/ocorrencias/{id}/fotos e /fotos/{id}, cabeçalho X-Cidadao-Id, "
+                                 "upload no front; seção 7.4 reescrita (como a previsão chega ao "
+                                 "cidadão); alinhamento da IA às aulas (7.2); riscos atualizados",
                    "Leonardo (com apoio de IA)"],
                   ], [1.8, 2.4, 9.3, 3.5]),
           Spacer(1, 10),

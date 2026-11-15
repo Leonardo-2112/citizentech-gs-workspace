@@ -160,7 +160,7 @@ Não há. A pasta `src/` só tem `main/` (sem `src/test`), nenhum `@Test`, nenhu
 | `ResponseDto` + `ResumoDto` aninhado | `OcorrenciaResponseDto` com `CategoriaResumoDto`, `BairroResumoDto`, `autor` = primeiro nome (RN13), campos calculados (RN10/RN11) |
 | ModelMapper com achatamento | `categoria.orgao.nome` → `orgao`; campos calculados preenchidos no BO após o `map` |
 | `ResponseEntity.created(uri)` / `noContent()` | Todos os POST (inclusive aninhados) e DELETE da seção 8.2 |
-| `CorsFilter` com `CORS_ORIGINS` | Reaproveitar praticamente igual, liberando o cabeçalho `X-Gestor-Id` (v1.2) nos headers permitidos do CORS |
+| `CorsFilter` com `CORS_ORIGINS` | Reaproveitar praticamente igual, liberando os cabeçalhos `X-Gestor-Id` (v1.2) e `X-Cidadao-Id` (v1.3) nos headers permitidos do CORS |
 | `HealthResource` `/health` | Manter para o Render e para checar o banco antes da demo |
 | Dockerfile multi-stage | Reaproveitar, trocando o nome do jar |
 
