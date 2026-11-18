@@ -1,0 +1,152 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="89BA25AE-19C4-051F-3545-41FEA98031B1" name="Ocorrencia">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:19:57 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="codigo" id="AC78A690-9D6F-AA48-7193-F521C965F01E">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:20:08 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="descricao" id="2F6A586D-E78E-2404-7991-D46F76EDB3E6">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:20:17 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="endereco" id="540066D6-BAE4-0B14-9218-9B908632E868">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:20:30 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="status" id="4AC95AA9-C5B0-45F7-1794-4AC36E61EE80">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:20:40 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="data_abertura" id="C3C01F32-B594-60BF-E35D-ED93B330B522">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:20:47 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="data_resolucao" id="4CD8F61B-C778-494B-6CE1-33FF9EABD323">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:20:53 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="prazo_previsto" id="DD354723-A21C-0588-4A2E-A01136795AC1">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:20:58 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="risco_atraso" id="AACB7236-2A87-2EB2-E91C-C30DC751E739">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:21:03 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="codigo1" id="95F1F8BA-9345-6640-934A-57ABD9C9FACB">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:28:44 UTC</createdTime>
+<generatorID>2804B682-2E2E-347C-C1D0-3F9A07CAB386</generatorID>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<referedAttribute>5FB3DE4B-30E9-8161-A818-B887582C5716</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="codigo2" id="E40BB694-E7D3-916E-8A5B-6616101B1AD9">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:28:57 UTC</createdTime>
+<generatorID>193993A2-862F-2876-13CE-5852213760E7</generatorID>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<referedAttribute>AD9B4B3B-3634-564C-B516-7A5B5E4B9372</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="codigo3" id="AB7F63CD-5B1B-4098-43CE-7E3F1E6B4874">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:29:09 UTC</createdTime>
+<generatorID>8FC5FFC2-D390-3B30-0052-E1EF18A12C1E</generatorID>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<referedAttribute>6DDEE10A-9520-1B9E-4F33-A79CF1326E5A</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="5144F285-E3D7-A0D6-01B8-027B9DDC796F" name="Ocorrencia PK">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:20:15 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>AC78A690-9D6F-AA48-7193-F521C965F01E</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

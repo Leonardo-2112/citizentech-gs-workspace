@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="1A15A09C-2C78-2E43-5956-16AC512412E6" name="Foto">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:22:30 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="codigo" id="20FC1B9F-1A9C-6129-ADF2-BF6B193658F1">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:22:39 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="imagem" id="9DE34716-0704-7567-70DB-14BF68B80435">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:22:43 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="tipo" id="71440781-05DE-4142-4718-141EC95B7EEA">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:22:49 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="tamanho" id="DF7C4613-2146-49FA-F6C8-8730C019A8F3">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:22:58 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="codigo1" id="492F762A-9C12-2BE2-5CEA-3216DD4CD902">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:29:44 UTC</createdTime>
+<generatorID>B8927C32-6024-9533-7B77-C307867416A7</generatorID>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<referedAttribute>AC78A690-9D6F-AA48-7193-F521C965F01E</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="F3749D4C-E76F-304A-BAA9-F46B2E7747F0" name="Foto PK">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:22:41 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>20FC1B9F-1A9C-6129-ADF2-BF6B193658F1</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

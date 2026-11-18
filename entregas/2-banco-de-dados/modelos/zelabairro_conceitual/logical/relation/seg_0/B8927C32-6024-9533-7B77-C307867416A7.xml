@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="contem" directorySegmentName="seg_0" id="B8927C32-6024-9533-7B77-C307867416A7">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:29:44 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<sourcePk>5144F285-E3D7-A0D6-01B8-027B9DDC796F</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>89BA25AE-19C4-051F-3545-41FEA98031B1</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>1A15A09C-2C78-2E43-5956-16AC512412E6</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

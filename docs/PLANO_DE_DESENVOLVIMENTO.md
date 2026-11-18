@@ -69,22 +69,24 @@ Nenhum projeto anterior tem **Banco de Dados** nem **IA**. Para IA, a referênci
 
 ---
 
-### 2.2 Banco de Dados — **primeiro do caminho crítico**
+### 2.2 Banco de Dados — **primeiro do caminho crítico** · script pronto (15/11), falta rodar na FIAP
+
+**Status em 15/11:** `zelabairro.sql`, `documentacao.pdf` (gerado por `gerar_documentacao.py`), `identificacao.txt` e `GUIA_EXECUCAO.md` prontos em [`entregas/2-banco-de-dados/`](../entregas/2-banco-de-dados/). O script foi executado do zero, e reexecutado com os DROPs, num Oracle Free local (container oficial): 60 linhas, as 10 consultas retornando linhas, UPDATE e DELETE afetando 1 linha cada e as constraints recusando dados inválidos. **Falta o grupo:** rodar na conta Oracle da FIAP, desenhar os 3 modelos no Data Modeler, tirar as capturas, regenerar o PDF e montar o zip (passo a passo no `GUIA_EXECUCAO.md`).
 
 **Referência:** não temos projeto anterior de banco. Base: seção 6 do Documento Base (**9 tabelas** desde a v1.3, dicionário e seed), conteúdo da disciplina (Oracle SQL Developer + Data Modeler).
 Da API Java antiga ([02](referencias/02-EcoScoreEngine-API.md)) aprendemos o que **não** repetir: lá as colunas eram `ID_`/`DS_` e o id vinha de IDENTITY. Aqui é `cd_`/`st_` e **sequences `sq_tb_*`**, porque a Java exige.
 
-| # | Tarefa | Vale (entrega 100) |
-|---|---|---|
-| 1 | Levantamento: problema, público, objetivo, atores, dados, perguntas e ODS, **escrito sobre o ZelaBairro** (seções 3, 5.1 e 6.5 do Documento Base) | 10 |
-| 2 | Data Modeler: modelos **conceitual, lógico e relacional** (três desenhos separados) | 10 + 15 |
-| 3 | Dicionário de dados: tabela, coluna, tipo, tamanho, nulo, chave, restrição e significado (seção 6.3) | 15 |
-| 4 | Script: CREATE TABLE na ordem das FKs (`tb_orgao`, `tb_bairro`, `tb_cidadao`, `tb_gestor`, `tb_categoria`, `tb_ocorrencia`, `tb_atualizacao`, `tb_apoio`, `tb_foto`), incluindo `tb_foto` com BLOB e os CHECKs de tipo e tamanho (RN18), `ds_senha` em `tb_cidadao`/`tb_gestor`, o autorrelacionamento `tb_gestor.cd_gestor_cadastro` e `tb_atualizacao.cd_gestor`, `COMMENT ON TABLE` em todas, PK/FK/NOT NULL/UNIQUE/CHECK, sequences `sq_tb_*` (menos `tb_apoio`) | 15 |
-| 5 | **60 registros** (o PDF diz 50 e 60, então 60 atende os dois) espalhados por todas as tabelas. Seed: 5 órgãos, 8 categorias da tabela 6.4, bairros reais com a subprefeitura **igual ao `depara_distrito_subprefeitura.csv`**, cidadãos, **pelo menos um gestor inicial** (com `cd_gestor_cadastro` nulo e senha como hash BCrypt, nunca em texto), ocorrências em todos os status, atualizações (cada uma com o gestor), apoios e **algumas fotos** (PNG minúsculo via `HEXTORAW`, para a tabela ter registros) | 15 |
-| 6 | UPDATE e DELETE **com WHERE** (sugestão do Documento Base: mudar status para RESOLVIDA; retirar um apoio) | dentro do 15 |
-| 7 | 10 consultas numeradas a partir da seção 6.5, cobrindo WHERE, ORDER BY, cálculo no SELECT, COUNT/SUM/AVG/MAX/MIN com GROUP BY, HAVING, subconsulta, INNER, LEFT e RIGHT JOIN | 15 + 15 |
-| 8 | Capturas da execução (tabelas, inserts, consultas, update e delete) **dentro do PDF** | 5 |
-| 9 | Ordem do `.sql`: tabelas → inserts → 10 consultas → UPDATE → DELETE. Capa com nomes, RM e turma; `.txt` no zip | 5 |
+| # | Tarefa | Vale (entrega 100) | Status (15/11) |
+|---|---|---|---|
+| 1 | Levantamento: problema, público, objetivo, atores, dados, perguntas e ODS, **escrito sobre o ZelaBairro** (seções 3, 5.1 e 6.5 do Documento Base) | 10 | Feito (PDF, seção 1) |
+| 2 | Data Modeler: modelos **conceitual, lógico e relacional** (três desenhos separados) | 10 + 15 | **Falta o grupo** (espaço reservado no PDF; passo a passo no GUIA) |
+| 3 | Dicionário de dados: tabela, coluna, tipo, tamanho, nulo, chave, restrição e significado (seção 6.3) | 15 | Feito (PDF, seção 5) |
+| 4 | Script: CREATE TABLE na ordem das FKs (`tb_orgao`, `tb_bairro`, `tb_cidadao`, `tb_gestor`, `tb_categoria`, `tb_ocorrencia`, `tb_atualizacao`, `tb_apoio`, `tb_foto`), incluindo `tb_foto` com BLOB e os CHECKs de tipo e tamanho (RN18), `ds_senha` em `tb_cidadao`/`tb_gestor`, o autorrelacionamento `tb_gestor.cd_gestor_cadastro` e `tb_atualizacao.cd_gestor`, `COMMENT ON TABLE` em todas, PK/FK/NOT NULL/UNIQUE/CHECK, sequences `sq_tb_*` (menos `tb_apoio`) | 15 | Feito e testado em Oracle local |
+| 5 | **60 registros** (o PDF diz 50 e 60, então 60 atende os dois) espalhados por todas as tabelas. Seed: 5 órgãos, 8 categorias da tabela 6.4, bairros reais com a subprefeitura **igual ao `depara_distrito_subprefeitura.csv`**, cidadãos, **pelo menos um gestor inicial** (com `cd_gestor_cadastro` nulo e senha como hash BCrypt, nunca em texto), ocorrências em todos os status, atualizações (cada uma com o gestor), apoios e **algumas fotos** (PNG minúsculo via `HEXTORAW`, para a tabela ter registros) | 15 | Feito (5/6/8/3/8/12/9/6/3) |
+| 6 | UPDATE e DELETE **com WHERE** (sugestão do Documento Base: mudar status para RESOLVIDA; retirar um apoio) | dentro do 15 | Feito |
+| 7 | 10 consultas numeradas a partir da seção 6.5, cobrindo WHERE, ORDER BY, cálculo no SELECT, COUNT/SUM/AVG/MAX/MIN com GROUP BY, HAVING, subconsulta, INNER, LEFT e RIGHT JOIN | 15 + 15 | Feito; todas retornam linhas |
+| 8 | Capturas da execução (tabelas, inserts, consultas, update e delete) **dentro do PDF** | 5 | **Falta o grupo** (17 imagens em `imagens/`, nomes no GUIA) |
+| 9 | Ordem do `.sql`: tabelas → inserts → 10 consultas → UPDATE → DELETE. Capa com nomes, RM e turma; `.txt` no zip | 5 | Feito; zip montado pelo grupo no fim |
 
 **Teste de pronto (libera a Java):** script (9 tabelas) roda do zero no Oracle da FIAP sem erro; as 10 consultas retornam linhas; quem faz a Java consegue conectar com as credenciais combinadas.
 

@@ -1,0 +1,74 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="1BFA1158-03E5-DA76-B012-21C8002982A9" name="Bairro">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:19:10 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="codigo" id="AD9B4B3B-3634-564C-B516-7A5B5E4B9372">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:19:18 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nome" id="4502212B-7AD1-E360-C89B-D53E4505AF1B">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:19:24 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="subprefeitura" id="2A8C7CDF-9EA6-E87B-D29A-A713E67FC42A">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:19:31 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="populacao" id="D42AD51C-DDC9-6E06-3817-64A98CE5EB41">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:19:47 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="8955678B-1146-E65F-DE04-73A402B0E20E" name="Bairro PK">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:19:23 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>AD9B4B3B-3634-564C-B516-7A5B5E4B9372</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

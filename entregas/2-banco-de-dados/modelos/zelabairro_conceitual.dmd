@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="zelabairro_conceitual" id="F4155099-855F-E916-CE17-FDE4036BF122" version="3.5">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:11:39 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>F4155099-855F-E916-CE17-FDE4036BF122</designId>
+</OSDM_Design>

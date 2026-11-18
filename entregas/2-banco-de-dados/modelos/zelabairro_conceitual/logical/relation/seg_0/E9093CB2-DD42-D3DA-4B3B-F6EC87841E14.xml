@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="cadastra" directorySegmentName="seg_0" id="E9093CB2-DD42-D3DA-4B3B-F6EC87841E14">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:30:01 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<targetPk>3725610C-691F-C52C-E52F-A31319FEB168</targetPk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>8040561F-925D-6791-3D01-B7904D535FE9</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>8040561F-925D-6791-3D01-B7904D535FE9</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>
