@@ -1,0 +1,352 @@
+=== ZelaBairro API - teste de endpoints em https://zelabairro-api-08ut.onrender.com (18/11/2026 15:54) ===
+
+--- Saude ---
+[OK   ] Health: API e banco no ar
+        GET /health -> 200 (esperado 200)
+        {"status":"UP","banco":"UP"}
+[OK   ] Rota inexistente devolve 404 em JSON
+        GET /rota-que-nao-existe -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Rota não encontrada.","caminho":"/rota-que-nao-existe","timestamp":"2026-11-18T15:54:58","campos":[]}
+
+--- Cidadaos (cadastro publico) ---
+[OK   ] Cadastrar cidadao
+        POST /cidadaos -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/cidadaos/16
+        {"id":16,"nome":"Teste Cidadao Silva","email":"teste.1795028097@email.exemplo.com","telefone":"(11) 99999-0000","dataCadastro":"2026-11-18"}
+[OK   ] Resposta do cadastro nao traz senha (RN15)
+[OK   ] Cadastrar com e-mail repetido (RN02)
+        POST /cidadaos -> 409 (esperado 409)
+        {"status":409,"erro":"Conflito","mensagem":"RN02: este e-mail já está cadastrado.","caminho":"/cidadaos","timestamp":"2026-11-18T15:55:01","campos":[]}
+[OK   ] Cadastro invalido devolve 400 com campos
+        POST /cidadaos -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"Um ou mais campos estão inválidos.","caminho":"/cidadaos","timestamp":"2026-11-18T15:55:02","campos":[{"campo":"senha","mensagem":"RN15: a senha deve ter de 6 a 60 caracteres."},{"campo":"nome","mensagem":"O nome deve ter de 3 a 100 caracte
+[OK   ] Erro 400 lista os campos invalidos
+[OK   ] JSON mal formado
+        POST /cidadaos -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"Corpo da requisição ausente ou com JSON inválido.","caminho":"/cidadaos","timestamp":"2026-11-18T15:55:02","campos":[]}
+[OK   ] Listar cidadaos (RN13: so primeiro nome)
+        GET /cidadaos -> 200 (esperado 200)
+        [{"id":1,"nome":"Ana"},{"id":2,"nome":"Bruno"},{"id":3,"nome":"Carla"},{"id":4,"nome":"Diego"},{"id":5,"nome":"Elaine"},{"id":6,"nome":"Felipe"},{"id":7,"nome":"Gabriela"},{"id":8,"nome":"Henrique"},{"id":15,"nome":"Leonardo"},{"id":11,"nome":"Mariana"},{"id":16,"nome":"Teste"},{"id":9,"nome":"Teste
+[OK   ] Listagem publica sem e-mail (RN13)
+[OK   ] Buscar cidadao por id
+        GET /cidadaos/16 -> 200 (esperado 200)
+        {"id":16,"nome":"Teste Cidadao Silva","email":"teste.1795028097@email.exemplo.com","telefone":"(11) 99999-0000","dataCadastro":"2026-11-18"}
+[OK   ] Buscar cidadao inexistente
+        GET /cidadaos/999999 -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Cidadão 999999 não encontrado.","caminho":"/cidadaos/999999","timestamp":"2026-11-18T15:55:04","campos":[]}
+[OK   ] Atualizar cidadao
+        PUT /cidadaos/16 -> 200 (esperado 200)
+        {"id":16,"nome":"Teste Cidadao Souza","email":"teste.1795028097@email.exemplo.com","telefone":"(11) 98888-0000","dataCadastro":"2026-11-18"}
+
+--- Login (RN15) ---
+[OK   ] Login do cidadao
+        POST /auth/login -> 200 (esperado 200)
+        {"id":16,"nome":"Teste Cidadao Souza","perfil":"CIDADAO"}
+[OK   ] Perfil CIDADAO no login
+[OK   ] Login com senha errada
+        POST /auth/login -> 401 (esperado 401)
+        {"status":401,"erro":"Não autorizado","mensagem":"RN15: e-mail ou senha inválidos.","caminho":"/auth/login","timestamp":"2026-11-18T15:55:07","campos":[]}
+[OK   ] Login com e-mail inexistente (mesma mensagem)
+        POST /auth/login -> 401 (esperado 401)
+        {"status":401,"erro":"Não autorizado","mensagem":"RN15: e-mail ou senha inválidos.","caminho":"/auth/login","timestamp":"2026-11-18T15:55:08","campos":[]}
+[OK   ] Login sem e-mail
+        POST /auth/login -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"Um ou mais campos estão inválidos.","caminho":"/auth/login","timestamp":"2026-11-18T15:55:09","campos":[{"campo":"email","mensagem":"Informe o e-mail."}]}
+
+--- Gestores (RN16, RN17) ---
+[OK   ] Cadastrar gestor sem X-Gestor-Id
+        POST /gestores -> 403 (esperado 403)
+        {"status":403,"erro":"Acesso negado","mensagem":"RN16: rota exclusiva de gestor. Envie um X-Gestor-Id válido.","caminho":"/gestores","timestamp":"2026-11-18T15:55:09","campos":[]}
+[OK   ] Cadastrar gestor com X-Gestor-Id inexistente
+        POST /gestores -> 403 (esperado 403)
+        {"status":403,"erro":"Acesso negado","mensagem":"RN16: rota exclusiva de gestor. Envie um X-Gestor-Id válido.","caminho":"/gestores","timestamp":"2026-11-18T15:55:10","campos":[]}
+[OK   ] Gestor 1 (seed) cadastra outro gestor
+        POST /gestores -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/gestores/8
+        {"id":8,"nome":"Gestor Teste","email":"gestor.1795028097@prefeitura.exemplo.gov.br","idOrgao":1,"orgao":"Subprefeitura - Zeladoria","idGestorCadastro":1,"dataCadastro":"2026-11-18"}
+[OK   ] Fica registrado quem cadastrou (RN17)
+[OK   ] Gestor com e-mail ja usado por cidadao (RN02)
+        POST /gestores -> 409 (esperado 409)
+        {"status":409,"erro":"Conflito","mensagem":"RN02: este e-mail já está cadastrado.","caminho":"/gestores","timestamp":"2026-11-18T15:55:13","campos":[]}
+[OK   ] Gestor com orgao inexistente
+        POST /gestores -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Órgão 999 não encontrado.","caminho":"/gestores","timestamp":"2026-11-18T15:55:14","campos":[]}
+[OK   ] Login do gestor
+        POST /auth/login -> 200 (esperado 200)
+        {"id":8,"nome":"Gestor Teste","perfil":"GESTOR"}
+[OK   ] Perfil GESTOR no login
+[OK   ] Listar gestores
+        GET /gestores -> 200 (esperado 200)
+        [{"id":8,"nome":"Gestor Teste","email":"gestor.1795028097@prefeitura.exemplo.gov.br","idOrgao":1,"orgao":"Subprefeitura - Zeladoria","idGestorCadastro":1,"dataCadastro":"2026-11-18"},{"id":4,"nome":"Gestor Teste Editado","email":"gestor.1795011915@prefeitura.exemplo.gov.br","idOrgao":3,"orgao":"Limp
+[OK   ] Listar gestores sem cabecalho
+        GET /gestores -> 403 (esperado 403)
+        {"status":403,"erro":"Acesso negado","mensagem":"RN16: rota exclusiva de gestor. Envie um X-Gestor-Id válido.","caminho":"/gestores","timestamp":"2026-11-18T15:55:16","campos":[]}
+[OK   ] Buscar gestor
+        GET /gestores/8 -> 200 (esperado 200)
+        {"id":8,"nome":"Gestor Teste","email":"gestor.1795028097@prefeitura.exemplo.gov.br","idOrgao":1,"orgao":"Subprefeitura - Zeladoria","idGestorCadastro":1,"dataCadastro":"2026-11-18"}
+[OK   ] Buscar gestor inexistente
+        GET /gestores/999999 -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Gestor 999999 não encontrado.","caminho":"/gestores/999999","timestamp":"2026-11-18T15:55:17","campos":[]}
+[OK   ] Atualizar gestor
+        PUT /gestores/8 -> 200 (esperado 200)
+        {"id":8,"nome":"Gestor Teste Editado","email":"gestor.1795028097@prefeitura.exemplo.gov.br","idOrgao":3,"orgao":"Limpeza Urbana","idGestorCadastro":1,"dataCadastro":"2026-11-18"}
+[OK   ] Listar orgaos (so leitura)
+        GET /orgaos -> 200 (esperado 200)
+        [{"id":2,"nome":"Iluminação Pública","email":"iluminacao@prefeitura.exemplo.gov.br","telefone":"(11) 3000-0002"},{"id":3,"nome":"Limpeza Urbana","email":"limpeza@prefeitura.exemplo.gov.br","telefone":"(11) 3000-0003"},{"id":1,"nome":"Subprefeitura - Zeladoria","email":"zeladoria@prefeitura.exempl
+
+--- Bairros (RN14) ---
+[OK   ] Cadastrar bairro
+        POST /bairros -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/bairros/9
+        {"id":9,"nome":"Bairro Teste 1795028097","subprefeitura":"Lapa","populacao":1000}
+[OK   ] Bairro repetido
+        POST /bairros -> 409 (esperado 409)
+        {"status":409,"erro":"Conflito","mensagem":"Já existe um bairro com esse nome nessa subprefeitura.","caminho":"/bairros","timestamp":"2026-11-18T15:55:21","campos":[]}
+[OK   ] Bairro invalido
+        POST /bairros -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"Um ou mais campos estão inválidos.","caminho":"/bairros","timestamp":"2026-11-18T15:55:21","campos":[{"campo":"nome","mensagem":"Informe o nome do bairro."},{"campo":"subprefeitura","mensagem":"Informe a subprefeitura."},{"campo":"populacao
+[OK   ] Listar bairros
+        GET /bairros -> 200 (esperado 200)
+        [{"id":9,"nome":"Bairro Teste 1795028097","subprefeitura":"Lapa","populacao":1000},{"id":3,"nome":"Capão Redondo","subprefeitura":"Campo Limpo","populacao":268729},{"id":6,"nome":"Cidade Tiradentes","subprefeitura":"Cidade Tiradentes","populacao":211501},{"id":4,"nome":"Itaim Paulista","subprefeitu
+[OK   ] Buscar bairro
+        GET /bairros/9 -> 200 (esperado 200)
+        {"id":9,"nome":"Bairro Teste 1795028097","subprefeitura":"Lapa","populacao":1000}
+[OK   ] Buscar bairro inexistente
+        GET /bairros/999999 -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Bairro 999999 não encontrado.","caminho":"/bairros/999999","timestamp":"2026-11-18T15:55:23","campos":[]}
+[OK   ] Atualizar bairro
+        PUT /bairros/9 -> 200 (esperado 200)
+        {"id":9,"nome":"Bairro Teste 1795028097 B","subprefeitura":"Lapa","populacao":2000}
+[OK   ] Ocorrencias do bairro 1 (1:N)
+        GET /bairros/1/ocorrencias -> 200 (esperado 200)
+        [{"id":1,"descricao":"Buraco grande no meio da faixa, carros desviando para a contramão.","endereco":"Rua Guaicurus, 1200 - em frente à padaria","status":"ABERTA","dataAbertura":"2026-10-28","dataResolucao":null,"categoria":{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfal
+[OK   ] Ocorrencias de bairro inexistente
+        GET /bairros/999999/ocorrencias -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Bairro 999999 não encontrado.","caminho":"/bairros/999999/ocorrencias","timestamp":"2026-11-18T15:55:24","campos":[]}
+[OK   ] Excluir bairro com ocorrencias (RN14)
+        DELETE /bairros/1 -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN14: o bairro tem ocorrências vinculadas e não pode ser excluído.","caminho":"/bairros/1","timestamp":"2026-11-18T15:55:25","campos":[]}
+
+--- Categorias (RN14) ---
+[OK   ] Cadastrar categoria
+        POST /categorias -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/categorias/11
+        {"id":11,"nome":"Categoria Teste 1795028097","descricao":"Teste","prazoDias":12,"gravidade":3,"idOrgao":1,"orgao":"Subprefeitura - Zeladoria"}
+[OK   ] Categoria com gravidade 6
+        POST /categorias -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"Um ou mais campos estão inválidos.","caminho":"/categorias","timestamp":"2026-11-18T15:55:26","campos":[{"campo":"gravidade","mensagem":"A gravidade vai de 1 a 5."}]}
+[OK   ] Categoria com orgao inexistente
+        POST /categorias -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Órgão 999 não encontrado.","caminho":"/categorias","timestamp":"2026-11-18T15:55:27","campos":[]}
+[OK   ] Categoria com nome repetido
+        POST /categorias -> 409 (esperado 409)
+        {"status":409,"erro":"Conflito","mensagem":"Já existe uma categoria com esse nome.","caminho":"/categorias","timestamp":"2026-11-18T15:55:27","campos":[]}
+[OK   ] Listar categorias
+        GET /categorias -> 200 (esperado 200)
+        [{"id":7,"nome":"Bueiro entupido","descricao":"Boca de lobo ou bueiro entupido, com risco de alagamento.","prazoDias":10,"gravidade":4,"idOrgao":1,"orgao":"Subprefeitura - Zeladoria"},{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfalto da rua.","prazoDias":15,"gravidade":4,"
+[OK   ] Buscar categoria
+        GET /categorias/11 -> 200 (esperado 200)
+        {"id":11,"nome":"Categoria Teste 1795028097","descricao":"Teste","prazoDias":12,"gravidade":3,"idOrgao":1,"orgao":"Subprefeitura - Zeladoria"}
+[OK   ] Atualizar categoria
+        PUT /categorias/11 -> 200 (esperado 200)
+        {"id":11,"nome":"Categoria Teste 1795028097 B","descricao":null,"prazoDias":20,"gravidade":2,"idOrgao":4,"orgao":"Áreas Verdes"}
+[OK   ] Ocorrencias da categoria 1 (1:N)
+        GET /categorias/1/ocorrencias -> 200 (esperado 200)
+        [{"id":1,"descricao":"Buraco grande no meio da faixa, carros desviando para a contramão.","endereco":"Rua Guaicurus, 1200 - em frente à padaria","status":"ABERTA","dataAbertura":"2026-10-28","dataResolucao":null,"categoria":{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfal
+[OK   ] Excluir categoria com ocorrencias (RN14)
+        DELETE /categorias/1 -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN14: a categoria tem ocorrências vinculadas e não pode ser excluída.","caminho":"/categorias/1","timestamp":"2026-11-18T15:55:31","campos":[]}
+
+--- Ocorrencias (RN03, RN04, RN09, RN10, RN12) ---
+[OK   ] Registrar ocorrencia
+        POST /ocorrencias -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/ocorrencias/21
+        {"id":21,"descricao":"Buraco grande perto do ponto de onibus","endereco":"Rua de Teste, 100","status":"ABERTA","dataAbertura":"2026-11-18","dataResolucao":null,"categoria":{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfalto da rua.","prazoDias":15,"gravidade":4,"idOrgao":1,"
+[OK   ] Nasce ABERTA (RN04)
+[OK   ] Previsao da IA gravada: prazo em dias e risco ALTO/BAIXO (D4)
+[OK   ] Autor so com primeiro nome (RN13)
+[OK   ] Descricao curta (RN03)
+        POST /ocorrencias -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"Um ou mais campos estão inválidos.","caminho":"/ocorrencias","timestamp":"2026-11-18T15:55:33","campos":[{"campo":"descricao","mensagem":"RN03: a descrição deve ter de 10 a 500 caracteres."},{"campo":"endereco","mensagem":"Informe o ender
+[OK   ] Categoria inexistente
+        POST /ocorrencias -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Categoria 999 não encontrada.","caminho":"/ocorrencias","timestamp":"2026-11-18T15:55:34","campos":[]}
+[OK   ] Listar ocorrencias (por prioridade, RN10)
+        GET /ocorrencias -> 200 (esperado 200)
+        [{"id":1,"descricao":"Buraco grande no meio da faixa, carros desviando para a contramão.","endereco":"Rua Guaicurus, 1200 - em frente à padaria","status":"ABERTA","dataAbertura":"2026-10-28","dataResolucao":null,"categoria":{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfal
+[OK   ] Lista ordenada pela pontuacao (maior primeiro)
+[OK   ] Filtrar por status e bairro
+        GET /ocorrencias?status=ABERTA&idBairro=1 -> 200 (esperado 200)
+        [{"id":1,"descricao":"Buraco grande no meio da faixa, carros desviando para a contramão.","endereco":"Rua Guaicurus, 1200 - em frente à padaria","status":"ABERTA","dataAbertura":"2026-10-28","dataResolucao":null,"categoria":{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfal
+[OK   ] Filtro com status invalido
+        GET /ocorrencias?status=QUALQUER -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"RN04: status deve ser ABERTA, EM_ANDAMENTO, RESOLVIDA ou CANCELADA.","caminho":"/ocorrencias","timestamp":"2026-11-18T15:55:35","campos":[]}
+[OK   ] Buscar ocorrencia
+        GET /ocorrencias/21 -> 200 (esperado 200)
+        {"id":21,"descricao":"Buraco grande perto do ponto de onibus","endereco":"Rua de Teste, 100","status":"ABERTA","dataAbertura":"2026-11-18","dataResolucao":null,"categoria":{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfalto da rua.","prazoDias":15,"gravidade":4,"idOrgao":1,"
+[OK   ] Buscar ocorrencia inexistente
+        GET /ocorrencias/999999 -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Ocorrência 999999 não encontrada.","caminho":"/ocorrencias/999999","timestamp":"2026-11-18T15:55:37","campos":[]}
+[OK   ] Editar ocorrencia ABERTA
+        PUT /ocorrencias/21 -> 200 (esperado 200)
+        {"id":21,"descricao":"Buraco grande perto do ponto de onibus (editado)","endereco":"Rua de Teste, 102","status":"ABERTA","dataAbertura":"2026-11-18","dataResolucao":null,"categoria":{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfalto da rua.","prazoDias":15,"gravidade":4,"id
+[OK   ] Metodo nao suportado
+        PATCH /ocorrencias/21 -> 405 (esperado 405)
+        {"status":405,"erro":"Método não permitido","mensagem":"O método PATCH não é suportado nesta rota.","caminho":"/ocorrencias/21","timestamp":"2026-11-18T15:55:38","campos":[]}
+
+--- Apoios (RN08) ---
+[OK   ] Autor apoiando a propria ocorrencia
+        POST /ocorrencias/21/apoios -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN08: o cidadão não pode apoiar a própria ocorrência.","caminho":"/ocorrencias/21/apoios","timestamp":"2026-11-18T15:55:38","campos":[]}
+[OK   ] Cidadao 2 apoia
+        POST /ocorrencias/21/apoios -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/ocorrencias/21/apoios/2
+        {"idOcorrencia":21,"idCidadao":2,"cidadao":"Bruno","dataApoio":"2026-11-18"}
+[OK   ] Apoio repetido
+        POST /ocorrencias/21/apoios -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN08: o cidadão já apoia esta ocorrência.","caminho":"/ocorrencias/21/apoios","timestamp":"2026-11-18T15:55:40","campos":[]}
+[OK   ] Apoio sem idCidadao
+        POST /ocorrencias/21/apoios -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"Um ou mais campos estão inválidos.","caminho":"/ocorrencias/21/apoios","timestamp":"2026-11-18T15:55:40","campos":[{"campo":"idCidadao","mensagem":"Informe o cidadão que apoia."}]}
+[OK   ] Listar apoios
+        GET /ocorrencias/21/apoios -> 200 (esperado 200)
+        [{"idOcorrencia":21,"idCidadao":2,"cidadao":"Bruno","dataApoio":"2026-11-18"}]
+[OK   ] Buscar apoio
+        GET /ocorrencias/21/apoios/2 -> 200 (esperado 200)
+        {"idOcorrencia":21,"idCidadao":2,"cidadao":"Bruno","dataApoio":"2026-11-18"}
+[OK   ] Retirar apoio
+        DELETE /ocorrencias/21/apoios/2 -> 204 (esperado 204)
+        
+[OK   ] Retirar apoio que nao existe
+        DELETE /ocorrencias/21/apoios/2 -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"O cidadão 2 não apoia a ocorrência 21.","caminho":"/ocorrencias/21/apoios/2","timestamp":"2026-11-18T15:55:43","campos":[]}
+[OK   ] Cidadao 3 apoia de novo
+        POST /ocorrencias/21/apoios -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/ocorrencias/21/apoios/3
+        {"idOcorrencia":21,"idCidadao":3,"cidadao":"Carla","dataApoio":"2026-11-18"}
+
+--- Atualizacoes de status (RN05, RN06, RN16) ---
+[OK   ] Mudar status sem ser gestor
+        POST /ocorrencias/21/atualizacoes -> 403 (esperado 403)
+        {"status":403,"erro":"Acesso negado","mensagem":"RN16: rota exclusiva de gestor. Envie um X-Gestor-Id válido.","caminho":"/ocorrencias/21/atualizacoes","timestamp":"2026-11-18T15:55:44","campos":[]}
+[OK   ] Transicao proibida ABERTA -> RESOLVIDA (RN05)
+        POST /ocorrencias/21/atualizacoes -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN05: transição de ABERTA para RESOLVIDA não é permitida.","caminho":"/ocorrencias/21/atualizacoes","timestamp":"2026-11-18T15:55:45","campos":[]}
+[OK   ] Status invalido
+        POST /ocorrencias/21/atualizacoes -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"Um ou mais campos estão inválidos.","caminho":"/ocorrencias/21/atualizacoes","timestamp":"2026-11-18T15:55:45","campos":[{"campo":"status","mensagem":"RN04: status deve ser ABERTA, EM_ANDAMENTO, RESOLVIDA ou CANCELADA."}]}
+[OK   ] Gestor muda para EM_ANDAMENTO
+        POST /ocorrencias/21/atualizacoes -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/ocorrencias/21/atualizacoes/16
+        {"id":16,"idOcorrencia":21,"statusAnterior":"ABERTA","statusNovo":"EM_ANDAMENTO","comentario":"Equipe agendada","data":"2026-11-18","idGestor":8,"gestor":"Gestor Teste Editado"}
+[OK   ] Listar historico (1:N)
+        GET /ocorrencias/21/atualizacoes -> 200 (esperado 200)
+        [{"id":16,"idOcorrencia":21,"statusAnterior":"ABERTA","statusNovo":"EM_ANDAMENTO","comentario":"Equipe agendada","data":"2026-11-18","idGestor":8,"gestor":"Gestor Teste Editado"}]
+[OK   ] Buscar atualizacao
+        GET /ocorrencias/21/atualizacoes/16 -> 200 (esperado 200)
+        {"id":16,"idOcorrencia":21,"statusAnterior":"ABERTA","statusNovo":"EM_ANDAMENTO","comentario":"Equipe agendada","data":"2026-11-18","idGestor":8,"gestor":"Gestor Teste Editado"}
+[OK   ] Corrigir comentario
+        PUT /ocorrencias/21/atualizacoes/16 -> 200 (esperado 200)
+        {"id":16,"idOcorrencia":21,"statusAnterior":"ABERTA","statusNovo":"EM_ANDAMENTO","comentario":"Equipe agendada para amanha","data":"2026-11-18","idGestor":8,"gestor":"Gestor Teste Editado"}
+[OK   ] Editar ocorrencia EM_ANDAMENTO (RN09)
+        PUT /ocorrencias/21 -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN09: a ocorrência só pode ser editada enquanto estiver ABERTA (status atual: EM_ANDAMENTO).","caminho":"/ocorrencias/21","timestamp":"2026-11-18T15:55:49","campos":[]}
+[OK   ] Gestor resolve
+        POST /ocorrencias/21/atualizacoes -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/ocorrencias/21/atualizacoes/17
+        {"id":17,"idOcorrencia":21,"statusAnterior":"EM_ANDAMENTO","statusNovo":"RESOLVIDA","comentario":"Buraco tapado","data":"2026-11-18","idGestor":8,"gestor":"Gestor Teste Editado"}
+[OK   ] Ocorrencia resolvida
+        GET /ocorrencias/21 -> 200 (esperado 200)
+        {"id":21,"descricao":"Buraco grande perto do ponto de onibus (editado)","endereco":"Rua de Teste, 102","status":"RESOLVIDA","dataAbertura":"2026-11-18","dataResolucao":"2026-11-18","categoria":{"id":1,"nome":"Buraco na via","descricao":"Buraco ou afundamento no asfalto da rua.","prazoDias":15,"gravi
+[OK   ] dataResolucao preenchida e prioridade nula (RN06, RN10)
+[OK   ] RESOLVIDA e final (RN05)
+        POST /ocorrencias/21/atualizacoes -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN05: transição de RESOLVIDA para CANCELADA não é permitida.","caminho":"/ocorrencias/21/atualizacoes","timestamp":"2026-11-18T15:55:52","campos":[]}
+[OK   ] Apoiar ocorrencia resolvida (RN08)
+        POST /ocorrencias/21/apoios -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN08: só é possível apoiar ocorrências ABERTA ou EM_ANDAMENTO.","caminho":"/ocorrencias/21/apoios","timestamp":"2026-11-18T15:55:52","campos":[]}
+[OK   ] Excluir ocorrencia com historico (RN09)
+        DELETE /ocorrencias/21 -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN09: a ocorrência tem apoios ou atualizações e não pode ser excluída; ela deve ser CANCELADA.","caminho":"/ocorrencias/21","timestamp":"2026-11-18T15:55:53","campos":[]}
+
+--- Fotos (RN18) ---
+[OK   ] Nova ocorrencia para fotos
+        POST /ocorrencias -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/ocorrencias/22
+        {"id":22,"descricao":"Lixo acumulado na esquina da praca","endereco":"Praca de Teste","status":"ABERTA","dataAbertura":"2026-11-18","dataResolucao":null,"categoria":{"id":3,"nome":"Descarte irregular de lixo","descricao":"Lixo ou entulho deixado na calçada ou em terreno.","prazoDias":10,"gravidade"
+[OK   ] Foto sem X-Cidadao-Id
+        POST /ocorrencias/22/fotos (foto.png) -> 403 (esperado 403)
+        {"status":403,"erro":"Acesso negado","mensagem":"RN18: só o autor da ocorrência pode enviar ou remover fotos.","caminho":"/ocorrencias/22/fotos","timestamp":"2026-11-18T15:55:55","campos":[]}
+[OK   ] Foto de quem nao e o autor
+        POST /ocorrencias/22/fotos (foto.png) -> 403 (esperado 403)
+        {"status":403,"erro":"Acesso negado","mensagem":"RN18: só o autor da ocorrência pode enviar ou remover fotos.","caminho":"/ocorrencias/22/fotos","timestamp":"2026-11-18T15:55:56","campos":[]}
+[OK   ] Arquivo que nao e JPG/PNG
+        POST /ocorrencias/22/fotos (texto.txt) -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"RN18: só são aceitas fotos JPG ou PNG.","caminho":"/ocorrencias/22/fotos","timestamp":"2026-11-18T15:55:56","campos":[]}
+[OK   ] Foto maior que 2 MB
+        POST /ocorrencias/22/fotos (grande.jpg) -> 400 (esperado 400)
+        {"status":400,"erro":"Requisição inválida","mensagem":"RN18: a foto deve ter no máximo 2 MB.","caminho":"/ocorrencias/22/fotos","timestamp":"2026-11-18T15:55:58","campos":[]}
+[OK   ] Autor envia foto 1
+        POST /ocorrencias/22/fotos (foto.png) -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/fotos/9
+        {"id":9,"tipo":"image/png","tamanho":74,"dataEnvio":"2026-11-18","url":"/fotos/9"}
+[OK   ] Autor envia foto 2
+        POST /ocorrencias/22/fotos (foto.png) -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/fotos/10
+        {"id":10,"tipo":"image/png","tamanho":74,"dataEnvio":"2026-11-18","url":"/fotos/10"}
+[OK   ] Autor envia foto 3
+        POST /ocorrencias/22/fotos (foto.png) -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/fotos/11
+        {"id":11,"tipo":"image/png","tamanho":74,"dataEnvio":"2026-11-18","url":"/fotos/11"}
+[OK   ] Quarta foto
+        POST /ocorrencias/22/fotos (foto.png) -> 409 (esperado 409)
+        {"status":409,"erro":"Regra de negócio violada","mensagem":"RN18: a ocorrência já tem o máximo de 3 fotos.","caminho":"/ocorrencias/22/fotos","timestamp":"2026-11-18T15:56:02","campos":[]}
+[OK   ] Listar fotos (sem os bytes)
+        GET /ocorrencias/22/fotos -> 200 (esperado 200)
+        [{"id":9,"tipo":"image/png","tamanho":74,"dataEnvio":"2026-11-18","url":"/fotos/9"},{"id":10,"tipo":"image/png","tamanho":74,"dataEnvio":"2026-11-18","url":"/fotos/10"},{"id":11,"tipo":"image/png","tamanho":74,"dataEnvio":"2026-11-18","url":"/fotos/11"}]
+[OK   ] GET /fotos/{id} devolve a imagem (image/png)
+[OK   ] Foto inexistente
+        GET /fotos/999999 -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Foto 999999 não encontrada.","caminho":"/fotos/999999","timestamp":"2026-11-18T15:56:03","campos":[]}
+[OK   ] Remover foto (autor)
+        DELETE /ocorrencias/22/fotos/9 -> 204 (esperado 204)
+        
+[OK   ] Remover foto sem ser autor
+        DELETE /ocorrencias/22/fotos/10 -> 403 (esperado 403)
+        {"status":403,"erro":"Acesso negado","mensagem":"RN18: só o autor da ocorrência pode enviar ou remover fotos.","caminho":"/ocorrencias/22/fotos/10","timestamp":"2026-11-18T15:56:05","campos":[]}
+[OK   ] Excluir ocorrencia sem apoios/historico (fotos saem junto)
+        DELETE /ocorrencias/22 -> 204 (esperado 204)
+        
+[OK   ] Ocorrencia excluida
+        GET /ocorrencias/22 -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Ocorrência 22 não encontrada.","caminho":"/ocorrencias/22","timestamp":"2026-11-18T15:56:06","campos":[]}
+
+--- Painel do gestor ---
+[OK   ] Painel sem ser gestor
+        GET /painel/bairros -> 403 (esperado 403)
+        {"status":403,"erro":"Acesso negado","mensagem":"RN16: rota exclusiva de gestor. Envie um X-Gestor-Id válido.","caminho":"/painel/bairros","timestamp":"2026-11-18T15:56:06","campos":[]}
+[OK   ] Painel por bairro
+        GET /painel/bairros -> 200 (esperado 200)
+        [{"idBairro":3,"bairro":"Capão Redondo","subprefeitura":"Campo Limpo","abertas":3,"emAndamento":0,"atrasadas":1,"resolvidas":1,"canceladas":0,"total":4},{"idBairro":1,"bairro":"Lapa","subprefeitura":"Lapa","abertas":2,"emAndamento":0,"atrasadas":1,"resolvidas":4,"canceladas":0,"total":6},{"idBairro
+
+--- CORS ---
+[OK   ] Preflight libera http://localhost:5173 e X-Gestor-Id/X-Cidadao-Id
+[OK   ] Origem nao liberada nao recebe Allow-Origin
+
+--- Remocoes finais ---
+[OK   ] Excluir cidadao com ocorrencias
+        DELETE /cidadaos/16 -> 409 (esperado 409)
+        {"status":409,"erro":"Conflito","mensagem":"O cidadão tem ocorrências ou apoios registrados e não pode ser removido.","caminho":"/cidadaos/16","timestamp":"2026-11-18T15:56:08","campos":[]}
+[OK   ] Excluir gestor com atualizacoes
+        DELETE /gestores/8 -> 409 (esperado 409)
+        {"status":409,"erro":"Conflito","mensagem":"O gestor tem atualizações ou gestores cadastrados por ele e não pode ser removido.","caminho":"/gestores/8","timestamp":"2026-11-18T15:56:09","campos":[]}
+[OK   ] Cadastrar gestor descartavel
+        POST /gestores -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/gestores/9
+        {"id":9,"nome":"Gestor Descartavel","email":"desc.1795028097@prefeitura.exemplo.gov.br","idOrgao":2,"orgao":"Iluminação Pública","idGestorCadastro":1,"dataCadastro":"2026-11-18"}
+[OK   ] Excluir gestor sem vinculos
+        DELETE /gestores/9 -> 204 (esperado 204)
+        
+[OK   ] Cadastrar cidadao descartavel
+        POST /cidadaos -> 201 (esperado 201)  Location: https://zelabairro-api-08ut.onrender.com/cidadaos/17
+        {"id":17,"nome":"Cidadao Descartavel","email":"desc.1795028097@email.exemplo.com","telefone":null,"dataCadastro":"2026-11-18"}
+[OK   ] Excluir cidadao sem vinculos
+        DELETE /cidadaos/17 -> 204 (esperado 204)
+        
+[OK   ] Excluir categoria sem ocorrencias
+        DELETE /categorias/11 -> 204 (esperado 204)
+        
+[OK   ] Excluir bairro sem ocorrencias
+        DELETE /bairros/9 -> 204 (esperado 204)
+        
+[OK   ] Excluir de novo
+        DELETE /bairros/9 -> 404 (esperado 404)
+        {"status":404,"erro":"Não encontrado","mensagem":"Bairro 9 não encontrado.","caminho":"/bairros/9","timestamp":"2026-11-18T15:56:16","campos":[]}
+
+=== Resultado: 117 OK, 0 FALHA ===
