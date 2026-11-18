@@ -1,0 +1,17 @@
+=== Integracao Java -> IA (Flask local em http://localhost:5005), 18/11/2026 01:38 ===
+
+1) Buraco na via / Lapa: a IA responde e a previsao e gravada
+{"id":15,"categoria":"Buraco na via","prazoPrevistoDias":16,"riscoAtraso":"ALTO","pontuacaoPrioridade":55,"prioridade":"MEDIA"}
+   HTTP 201 em 1.046947s
+
+2) Iluminacao publica apagada: previsao nula por decisao D3
+{"id":16,"categoria":"Iluminação pública apagada","prazoPrevistoDias":null,"riscoAtraso":null}
+   HTTP 201 em 0.011757s
+
+3) GET da ocorrencia criada em 1: a previsao vem do banco (sem chamar a IA de novo)
+{"id":15,"prazoPrevistoDias":16,"riscoAtraso":"ALTO"}
+
+4) Flask DESLIGADA: a ocorrencia e criada mesmo assim, sem previsao (RN12)
+{"id":17,"categoria":"Bueiro entupido","prazoPrevistoDias":null,"riscoAtraso":null,"status":"ABERTA"}
+   HTTP 201 em 0.027769s
+   Log da API: API de IA indisponivel, ocorrencia criada sem previsao (RN12): I/O error on POST request for "http://localhost:5005/prev

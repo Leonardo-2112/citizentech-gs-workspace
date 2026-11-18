@@ -1,0 +1,2062 @@
+{
+  "info": {
+    "name": "ZelaBairro API - GS 2026/2 (DDD Java)",
+    "description": "Todos os endpoints da API ZelaBairro (Documento Base 8.2). Troque a variável baseUrl pela URL do Render. Rode as pastas na ordem: os ids criados ficam salvos nas variáveis da coleção. A pasta '99 - Erros para a demo' mostra 400, 401, 403, 404, 405 e 409 ao vivo.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://zelabairro-api-08ut.onrender.com"
+    },
+    {
+      "key": "idGestor",
+      "value": "1"
+    },
+    {
+      "key": "idCidadao",
+      "value": "1"
+    },
+    {
+      "key": "idCidadaoApoio",
+      "value": "2"
+    },
+    {
+      "key": "idBairro",
+      "value": "1"
+    },
+    {
+      "key": "idCategoria",
+      "value": "1"
+    },
+    {
+      "key": "idOcorrencia",
+      "value": "1"
+    },
+    {
+      "key": "idAtualizacao",
+      "value": "1"
+    },
+    {
+      "key": "idFoto",
+      "value": "1"
+    },
+    {
+      "key": "idGestorNovo",
+      "value": "2"
+    },
+    {
+      "key": "emailLogin",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "00 - Saúde",
+      "item": [
+        {
+          "name": "Health (API e banco)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 - Cidadãos",
+      "item": [
+        {
+          "name": "Cadastrar cidadão (201 + Location)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cidadaos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidadaos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Mariana Lopes\",\n  \"email\": \"mariana.{{$timestamp}}@email.exemplo.com\",\n  \"senha\": \"senha123\",\n  \"telefone\": \"(11) 98888-7777\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set('emailLogin', pm.response.json().email); }",
+                  "if (pm.response.code === 201 || pm.response.code === 200) { pm.collectionVariables.set('idCidadao', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar cidadãos (RN13: só primeiro nome)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cidadaos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidadaos"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar cidadão por id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cidadaos/{{idCidadao}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidadaos",
+                "{{idCidadao}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atualizar cidadão",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cidadaos/{{idCidadao}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidadaos",
+                "{{idCidadao}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Mariana Lopes Silva\",\n  \"email\": \"{{emailLogin}}\",\n  \"senha\": \"senha123\",\n  \"telefone\": \"(11) 97777-6666\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "02 - Login",
+      "item": [
+        {
+          "name": "Login (cidadão ou gestor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{emailLogin}}\",\n  \"senha\": \"senha123\"\n}"
+            },
+            "description": "Usa o e-mail do cidadão cadastrado na pasta 01. Devolve {id, nome, perfil}. Erro: 401 com mensagem genérica (RN15)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "03 - Gestores [X-Gestor-Id]",
+      "item": [
+        {
+          "name": "Cadastrar gestor (RN17)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/gestores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gestores"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Carlos Gestor\",\n  \"email\": \"carlos.{{$timestamp}}@prefeitura.exemplo.gov.br\",\n  \"senha\": \"gestor123\",\n  \"idOrgao\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201 || pm.response.code === 200) { pm.collectionVariables.set('idGestorNovo', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar gestores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/gestores",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gestores"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar gestor",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/gestores/{{idGestorNovo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gestores",
+                "{{idGestorNovo}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atualizar gestor",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/gestores/{{idGestorNovo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gestores",
+                "{{idGestorNovo}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Carlos Gestor Souza\",\n  \"email\": \"carlos.ed.{{$timestamp}}@prefeitura.exemplo.gov.br\",\n  \"senha\": \"gestor123\",\n  \"idOrgao\": 3\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remover gestor (sem vínculos)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/gestores/{{idGestorNovo}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gestores",
+                "{{idGestorNovo}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Rotas só de gestor (RN16): o cabeçalho X-Gestor-Id é conferido em tb_gestor. O gestor 1 vem do seed."
+    },
+    {
+      "name": "04 - Órgãos (leitura)",
+      "item": [
+        {
+          "name": "Listar órgãos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orgaos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orgaos"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar órgão",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orgaos/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "orgaos",
+                "1"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "05 - Bairros",
+      "item": [
+        {
+          "name": "Cadastrar bairro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bairros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bairros"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Vila Madalena {{$timestamp}}\",\n  \"subprefeitura\": \"Pinheiros\",\n  \"populacao\": 50000\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201 || pm.response.code === 200) { pm.collectionVariables.set('idBairro', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar bairros",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bairros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bairros"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar bairro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bairros/{{idBairro}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bairros",
+                "{{idBairro}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atualizar bairro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/bairros/{{idBairro}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bairros",
+                "{{idBairro}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Vila Madalena {{$timestamp}}\",\n  \"subprefeitura\": \"Pinheiros\",\n  \"populacao\": 52000\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ocorrências do bairro 1 (1:N)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bairros/1/ocorrencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bairros",
+                "1",
+                "ocorrencias"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remover bairro (sem ocorrências)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bairros/{{idBairro}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bairros",
+                "{{idBairro}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "06 - Categorias",
+      "item": [
+        {
+          "name": "Cadastrar categoria",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Pichação {{$timestamp}}\",\n  \"descricao\": \"Pichação em muro ou equipamento público.\",\n  \"prazoDias\": 20,\n  \"gravidade\": 2,\n  \"idOrgao\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201 || pm.response.code === 200) { pm.collectionVariables.set('idCategoria', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar categorias",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar categoria",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{idCategoria}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias",
+                "{{idCategoria}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Atualizar categoria",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{idCategoria}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias",
+                "{{idCategoria}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Pichação {{$timestamp}}\",\n  \"descricao\": \"Pichação em muro.\",\n  \"prazoDias\": 25,\n  \"gravidade\": 2,\n  \"idOrgao\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ocorrências da categoria 1 (1:N)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/1/ocorrencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias",
+                "1",
+                "ocorrencias"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remover categoria (sem ocorrências)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/categorias/{{idCategoria}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categorias",
+                "{{idCategoria}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "07 - Ocorrências",
+      "item": [
+        {
+          "name": "Registrar ocorrência (201 + Location; chama a IA)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Buraco grande na faixa da direita, perto do ponto de ônibus\",\n  \"endereco\": \"Rua Guaicurus, 1200\",\n  \"idCidadao\": {{idCidadao}},\n  \"idCategoria\": 1,\n  \"idBairro\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201 || pm.response.code === 200) { pm.collectionVariables.set('idOcorrencia', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar ocorrências (por prioridade - RN10)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Filtrar ocorrências",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias?status=ABERTA&idBairro=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "ABERTA"
+                },
+                {
+                  "key": "idBairro",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar ocorrência",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Editar ocorrência (só ABERTA - RN09)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Buraco grande na faixa da direita, em frente à padaria\",\n  \"endereco\": \"Rua Guaicurus, 1210\",\n  \"idCategoria\": 1,\n  \"idBairro\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "08 - Apoios (N:N)",
+      "item": [
+        {
+          "name": "Apoiar ocorrência",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/apoios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "apoios"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCidadao\": {{idCidadaoApoio}}\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar apoios",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/apoios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "apoios"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar apoio",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/apoios/{{idCidadaoApoio}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "apoios",
+                "{{idCidadaoApoio}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Retirar apoio",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/apoios/{{idCidadaoApoio}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "apoios",
+                "{{idCidadaoApoio}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "09 - Fotos [X-Cidadao-Id]",
+      "item": [
+        {
+          "name": "Enviar foto (multipart, campo arquivo)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Cidadao-Id",
+                "value": "{{idCidadao}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "arquivo",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/fotos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "fotos"
+              ]
+            },
+            "description": "Escolha um JPG ou PNG de até 2 MB no campo 'arquivo'. Só o autor (X-Cidadao-Id = idCidadao) e só com a ocorrência ABERTA (RN18)."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 201) { pm.collectionVariables.set('idFoto', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Listar fotos (sem os bytes)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/fotos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "fotos"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ver a imagem",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/fotos/{{idFoto}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "fotos",
+                "{{idFoto}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Remover foto",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Cidadao-Id",
+                "value": "{{idCidadao}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/fotos/{{idFoto}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "fotos",
+                "{{idFoto}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "10 - Atualizações de status (1:N) [X-Gestor-Id]",
+      "item": [
+        {
+          "name": "Gestor muda para EM_ANDAMENTO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/atualizacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "atualizacoes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"EM_ANDAMENTO\",\n  \"comentario\": \"Equipe agendada\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201 || pm.response.code === 200) { pm.collectionVariables.set('idAtualizacao', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Histórico da ocorrência",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/atualizacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "atualizacoes"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Buscar atualização",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/atualizacoes/{{idAtualizacao}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "atualizacoes",
+                "{{idAtualizacao}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Corrigir comentário",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/atualizacoes/{{idAtualizacao}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "atualizacoes",
+                "{{idAtualizacao}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comentario\": \"Equipe agendada para amanhã de manhã\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gestor resolve (preenche dataResolucao - RN06)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrencia}}/atualizacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrencia}}",
+                "atualizacoes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"RESOLVIDA\",\n  \"comentario\": \"Buraco tapado\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "11 - Painel do gestor",
+      "item": [
+        {
+          "name": "Painel por bairro",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/painel/bairros",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "painel",
+                "bairros"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "12 - Remoções",
+      "item": [
+        {
+          "name": "Registrar ocorrência descartável",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Ocorrência criada só para testar a exclusão\",\n  \"endereco\": \"Rua de Teste, 1\",\n  \"idCidadao\": {{idCidadao}},\n  \"idCategoria\": 3,\n  \"idBairro\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201 || pm.response.code === 200) { pm.collectionVariables.set('idOcorrenciaDescartavel', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Excluir ocorrência sem apoios/histórico",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/{{idOcorrenciaDescartavel}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "{{idOcorrenciaDescartavel}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cadastrar cidadão descartável",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/cidadaos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidadaos"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Cidadão Descartável\",\n  \"email\": \"desc.{{$timestamp}}@email.exemplo.com\",\n  \"senha\": \"senha123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                  "if (pm.response.code === 201 || pm.response.code === 200) { pm.collectionVariables.set('idCidadaoDescartavel', pm.response.json().id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Excluir cidadão sem vínculos",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/cidadaos/{{idCidadaoDescartavel}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "cidadaos",
+                "{{idCidadaoDescartavel}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "99 - Erros para a demo",
+      "item": [
+        {
+          "name": "400 - cadastro inválido (lista os campos)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"curta\",\n  \"endereco\": \"\",\n  \"idCidadao\": null,\n  \"idCategoria\": 1,\n  \"idBairro\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "404 - id que não existe",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "999999"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "404 - FK inexistente no cadastro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descricao\": \"Descrição válida com mais de dez letras\",\n  \"endereco\": \"Rua X\",\n  \"idCidadao\": 1,\n  \"idCategoria\": 999,\n  \"idBairro\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "405 - método não suportado",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "1"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 405', () => pm.response.to.have.status(405));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "401 - login inválido (RN15)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"ninguem@email.exemplo.com\",\n  \"senha\": \"errada123\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 401', () => pm.response.to.have.status(401));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "403 - mudar status sem ser gestor (RN16)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/1/atualizacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "1",
+                "atualizacoes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"EM_ANDAMENTO\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 - transição proibida ABERTA -> RESOLVIDA (RN05)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Gestor-Id",
+                "value": "{{idGestor}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/1/atualizacoes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "1",
+                "atualizacoes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"RESOLVIDA\"\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 - excluir bairro com ocorrências (RN14)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/bairros/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "bairros",
+                "1"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 - excluir ocorrência com apoios (RN09)",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "1"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "409 - autor apoiando a própria ocorrência (RN08)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/ocorrencias/1/apoios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "ocorrencias",
+                "1",
+                "apoios"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"idCidadao\": 1\n}"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "description": "Casos de erro para mostrar ao vivo na apresentação (critério 02: um 400 e um 404)."
+    }
+  ]
+}
