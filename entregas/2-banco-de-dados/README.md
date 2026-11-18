@@ -23,11 +23,12 @@ Base: Documento Base v1.5, seção 6 (9 tabelas, dicionário e seed), e [`docs/P
 - [x] UPDATE e DELETE com WHERE
 - [x] Script testado do zero e reexecutado com DROPs num Oracle Free local (15/11): 0 erros, todas as consultas com linhas, constraints recusando dados inválidos
 - [x] `documentacao.pdf` gerado por script, com espaços marcados para os modelos e as capturas; `identificacao.txt`
-- [ ] **Grupo:** rodar `zelabairro.sql` na conta Oracle da FIAP (GUIA, passo 1)
-- [ ] **Grupo:** desenhar e exportar os 3 modelos no Data Modeler para `imagens/` (GUIA, passo 4)
-- [ ] **Grupo:** tirar as 14 capturas da execução para `imagens/` (GUIA, passo 3)
-- [ ] **Grupo:** regenerar o PDF e conferir que não sobrou nenhum quadro "INSERIR IMAGEM"
-- [ ] **Grupo:** zip **somente com o PDF, o `.sql` e o `.txt`** (capturas dentro do PDF) e envio no Portal até 19/11 23h55
+- [x] **Grupo:** rodar `zelabairro.sql` na conta Oracle da FIAP (GUIA, passo 1)
+- [x] **Grupo:** desenhar e exportar os 3 modelos no Data Modeler para `imagens/` (GUIA, passo 4); exportados em SVG e convertidos para PNG em alta resolução (18/11)
+- [x] **Grupo:** tirar as 14 capturas da execução para `imagens/` (GUIA, passo 3)
+- [x] **Grupo:** regenerar o PDF e conferir que não sobrou nenhum quadro "INSERIR IMAGEM"
+- [x] Zip `ZelaBairro_BD_1TDSPV.zip` (fica só na pasta local: `entregas/.gitignore` ignora *.zip) montado **somente com o PDF, o `.sql` e o `.txt`** (capturas dentro do PDF); script retestado do zero num Oracle Free local em 18/11: 0 erros, 60 linhas, 10 consultas com resultado
+- [ ] **Grupo:** enviar o zip no Portal até 19/11 23h55
 
 ## Critério do PDF → onde está atendido
 Fonte: [`docs/CRITERIOS_DE_ACEITE.md`](../../docs/CRITERIOS_DE_ACEITE.md), seção 2. "PDF §n" é a seção do `documentacao.pdf`; "SQL" é o `zelabairro.sql`.
@@ -47,7 +48,7 @@ Fonte: [`docs/CRITERIOS_DE_ACEITE.md`](../../docs/CRITERIOS_DE_ACEITE.md), seç�
 |---|---|---|
 | 01 Levantamento: problema, público, objetivo, atores, dados, perguntas e ODS | PDF §1.1 a §1.8 | OK |
 | 02 Texto da própria solução | PDF §1 cita SP156, RNs, tabelas e consultas do ZelaBairro | OK |
-| 03 Três desenhos no Data Modeler | PDF §2, §3 e §4 com espaço reservado; esquema relacional em texto no §4 | **Grupo** (exportar as imagens) |
+| 03 Três desenhos no Data Modeler | PDF §2 (conceitual Barker, N:N apoia direto), §3 e §4, desenhados no Data Modeler; esquema relacional em texto no §4 | OK |
 | 04 Dicionário: tabela, coluna, tipo, tamanho, nulo, chave, restrição, significado | PDF §5, com as 9 tabelas e as 7 colunas pedidas | OK |
 | 05 Sem multivalorado nem grupo repetido; nomes sem espaço e sem acento | Fotos e apoios em tabelas próprias; nomes `tb_`/`cd_`/... (PDF §2 e §4) | OK |
 | 06 CREATE TABLE no Oracle, na ordem das FKs, com comentário em cada tabela | PARTE 1 do SQL; `COMMENT ON TABLE` nas 9 | OK |

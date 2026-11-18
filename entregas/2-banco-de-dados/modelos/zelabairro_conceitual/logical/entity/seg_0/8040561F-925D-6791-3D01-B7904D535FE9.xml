@@ -1,0 +1,88 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="8040561F-925D-6791-3D01-B7904D535FE9" name="Gestor">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:18:39 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="codigo" id="7BF3F58D-99DE-8BA6-365C-E551254B0589">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:18:44 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="nome" id="DE090628-65FD-823B-C527-08026440B0D9">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:18:52 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="email" id="1E239EAD-6677-3247-1775-23B492775269">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:18:57 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="codigo1" id="98D9C5E9-58AC-EA06-29CC-32A219C170C3">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:28:32 UTC</createdTime>
+<generatorID>87FAB80B-CB69-8EB1-1A1F-5022A035EB48</generatorID>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<referedAttribute>6A6DBA65-9ABD-563F-692C-ADF37A15C67C</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="codigo2" id="45244DDE-A637-5EC8-8DFE-3EBCE9DDFFEF">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:30:01 UTC</createdTime>
+<generatorID>E9093CB2-DD42-D3DA-4B3B-F6EC87841E14</generatorID>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>7BF3F58D-99DE-8BA6-365C-E551254B0589</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="3725610C-691F-C52C-E52F-A31319FEB168" name="Gestor PK">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:18:51 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>7BF3F58D-99DE-8BA6-365C-E551254B0589</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

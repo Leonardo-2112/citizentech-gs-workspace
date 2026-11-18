@@ -1,0 +1,108 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="FB154BFA-C41D-8C73-27C8-B24B91747F98" name="Atualizacao">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:21:06 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="codigo" id="CB214A43-7CAF-EB8B-6156-A76CA65DE5D7">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:21:16 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="status_anterior" id="850EBE94-F69C-34D5-13E9-3443EA7098AE">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:21:23 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="status_novo" id="AE56404B-8650-E562-B030-9929ABF97A21">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:21:29 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="comentario" id="90DD783B-CEFC-02B0-13F4-90F03E192083">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:21:36 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="data" id="8998805B-C4A9-25C5-A324-CE51758CB19E">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:21:40 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="codigo1" id="53D942C5-F262-AB5D-2EC0-E78F22A835C6">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:29:20 UTC</createdTime>
+<generatorID>C357DB60-5B75-A1B6-2447-7CD481012872</generatorID>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<referedAttribute>AC78A690-9D6F-AA48-7193-F521C965F01E</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="codigo2" id="725C0A8D-D536-3E77-72CE-DAB75AEC0924">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:29:35 UTC</createdTime>
+<generatorID>03219BB9-D0A7-1843-F400-044FB531259B</generatorID>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<referedAttribute>7BF3F58D-99DE-8BA6-365C-E551254B0589</referedAttribute>
+<use>0</use>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="89428B33-B8D7-6663-55F5-FBB666510EBF" name="Atualizacao PK">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:21:18 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>CB214A43-7CAF-EB8B-6156-A76CA65DE5D7</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

@@ -1,0 +1,18 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="apoia" directorySegmentName="seg_0" id="2B11EBDD-83DB-3EED-7524-9FB3A36BD33F">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:31:16 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>*</sourceCardinality>
+<sourceEntity>0A190CC6-5C5C-889B-FE02-AF6AC17A63B3</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>89BA25AE-19C4-051F-3545-41FEA98031B1</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

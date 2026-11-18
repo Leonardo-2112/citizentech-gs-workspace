@@ -1,0 +1,19 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="responsavel_por" directorySegmentName="seg_0" id="307483EB-49CD-5C43-3D71-215C36B878EF">
+<createdBy>leonardo</createdBy>
+<createdTime>2026-11-18 03:27:10 UTC</createdTime>
+<ownerDesignName>zelabairro_conceitual</ownerDesignName>
+<engineerTo>
+<item key="BB3E00BA-F176-41CE-712F-8A95F9846A32" value="true"/>
+</engineerTo>
+<sourcePk>37FD6E9D-3731-73A3-EE49-F2285856197B</sourcePk>
+<identifying>false</identifying>
+<optionalSource>true</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>4E70C99F-AB42-B4F2-2900-A270FC267D29</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>DDC5C2A5-BA6C-AFAB-31FB-E7B17C0607CC</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

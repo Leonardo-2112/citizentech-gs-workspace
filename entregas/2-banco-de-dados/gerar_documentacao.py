@@ -286,7 +286,7 @@ DICIONARIO = [
          "Gestor que fez o cadastro; nulo só no gestor inicial do seed"),
         ("dt_cadastro", "DATE", "—", "Não", "", "DEFAULT SYSDATE", "Data do cadastro"),
     ]),
-    ("tb_categoria", "Tipos de problema, com prazo de referência e gravidade (tabela 6.4).", [
+    ("tb_categoria", "Tipos de problema, com prazo de referência e gravidade.", [
         ("cd_categoria", "NUMBER", "10", "Não", "PK", "sequence sq_tb_categoria",
          "Código da categoria"),
         ("nm_categoria", "VARCHAR2", "60", "Não", "UK", "UNIQUE", "Nome canônico da categoria"),
@@ -349,24 +349,24 @@ DICIONARIO = [
 ]
 
 RELACIONAMENTOS = [
-    ["tb_orgao → tb_categoria", "1:N", "Um órgão é responsável por várias categorias",
+    ["Orgao → Categoria (responsavel_por)", "1:N", "Um órgão é responsável por várias categorias",
      "tb_categoria.cd_orgao"],
-    ["tb_orgao → tb_gestor", "1:N", "Um órgão tem vários gestores", "tb_gestor.cd_orgao"],
-    ["tb_gestor → tb_gestor", "1:N", "Um gestor cadastra outros gestores (RN17)",
+    ["Orgao → Gestor (lota)", "1:N", "Um órgão tem vários gestores", "tb_gestor.cd_orgao"],
+    ["Gestor → Gestor (cadastra)", "1:N", "Um gestor cadastra outros gestores (RN17)",
      "tb_gestor.cd_gestor_cadastro"],
-    ["tb_categoria → tb_ocorrencia", "1:N", "Uma categoria classifica várias ocorrências",
+    ["Categoria → Ocorrencia (classifica)", "1:N", "Uma categoria classifica várias ocorrências",
      "tb_ocorrencia.cd_categoria"],
-    ["tb_bairro → tb_ocorrencia", "1:N", "Um bairro tem várias ocorrências",
+    ["Bairro → Ocorrencia (localiza)", "1:N", "Um bairro tem várias ocorrências",
      "tb_ocorrencia.cd_bairro"],
-    ["tb_cidadao → tb_ocorrencia", "1:N", "Um cidadão é autor de várias ocorrências (RN01)",
+    ["Cidadao → Ocorrencia (registra)", "1:N", "Um cidadão é autor de várias ocorrências (RN01)",
      "tb_ocorrencia.cd_cidadao"],
-    ["tb_ocorrencia → tb_atualizacao", "1:N", "Uma ocorrência tem várias atualizações de status",
+    ["Ocorrencia → Atualizacao (possui)", "1:N", "Uma ocorrência tem várias atualizações de status",
      "tb_atualizacao.cd_ocorrencia"],
-    ["tb_gestor → tb_atualizacao", "1:N", "Um gestor faz várias atualizações (RN06)",
+    ["Gestor → Atualizacao (realiza)", "1:N", "Um gestor faz várias atualizações (RN06)",
      "tb_atualizacao.cd_gestor"],
-    ["tb_ocorrencia → tb_foto", "1:N", "Uma ocorrência tem até 3 fotos (RN18)",
+    ["Ocorrencia → Foto (contem)", "1:N", "Uma ocorrência tem até 3 fotos (RN18)",
      "tb_foto.cd_ocorrencia"],
-    ["tb_cidadao ↔ tb_ocorrencia", "N:N", "Um cidadão apoia várias ocorrências e uma ocorrência "
+    ["Cidadao ↔ Ocorrencia (apoia)", "N:N", "Um cidadão apoia várias ocorrências e uma ocorrência "
      "recebe vários apoios (RN08)", "associativa tb_apoio (cd_cidadao, cd_ocorrencia)"],
 ]
 
@@ -464,13 +464,19 @@ def conteudo():
                                 "data", "tb_atualizacao.cd_gestor NOT NULL; CHECK de datas"],
                   ["RN08", "Cidadão apoia uma ocorrência no máximo uma vez",
                    "PK composta de tb_apoio"],
+                  ["RN10", "Prioridade da fila considera a gravidade da categoria (1 a 5)",
+                   "nr_gravidade com CHECK BETWEEN 1 AND 5"],
                   ["RN11", "Atrasada = dias em aberto &gt; prazo da categoria",
                    "nr_prazo_dias com CHECK; consulta 03"],
                   ["RN12", "Se a IA cair, a ocorrência é criada sem previsão",
                    "nr_prazo_previsto e fl_risco_atraso aceitam nulo"],
+                  ["RN13", "Em listas públicas, o cidadão aparece só pelo primeiro nome",
+                   "consulta 10 (SUBSTR/INSTR)"],
                   ["RN14", "Categoria e bairro com ocorrências não podem ser excluídos",
                    "FKs sem ON DELETE CASCADE"],
                   ["RN15", "Senha guardada só como hash BCrypt", "ds_senha VARCHAR2(100)"],
+                  ["RN16", "Só gestores (servidores) acessam o painel da prefeitura",
+                   "tabela tb_gestor separada de tb_cidadao"],
                   ["RN17", "Gestor é cadastrado por outro gestor; o primeiro vem do seed",
                    "FK cd_gestor_cadastro (autorrelacionamento)"],
                   ["RN18", "Até 3 fotos JPG/PNG de até 2 MB por ocorrência",
@@ -492,13 +498,17 @@ def conteudo():
 
     # 2 ---------------------------------------------------------------------
     s += [h1("2. Modelo conceitual"),
-          p("Entidades e relacionamentos do ZelaBairro, com as cardinalidades. O modelo não tem "
-            "atributo multivalorado nem grupo repetido: as fotos e os apoios, que poderiam se "
-            "repetir dentro da ocorrência, viraram tabelas próprias (tb_foto e tb_apoio)."),
+          p("Visão de negócio do ZelaBairro, independente do banco: 8 entidades (Orgao, Categoria, "
+            "Gestor, Bairro, Ocorrencia, Atualizacao, Cidadao e Foto), seus atributos (P = "
+            "identificador primário, * = obrigatório, o = opcional) e os relacionamentos nomeados com as "
+            "cardinalidades, em notação Barker. Aqui o N:N <b>apoia</b> entre Cidadao e Ocorrencia "
+            "aparece direto, sem entidade intermediária, e não há chaves estrangeiras: elas só "
+            "surgem no modelo lógico e no relacional, onde o N:N vira a associativa tb_apoio. Não há "
+            "atributo multivalorado nem grupo repetido: as fotos são a entidade Foto."),
           imagem("modelo_conceitual.png", "Figura 1 – Modelo conceitual (Oracle SQL Developer "
                                           "Data Modeler)"),
-          tabela([["Relacionamento", "Card.", "Leitura", "Implementado por"]] + RELACIONAMENTOS,
-                 [4.3, 1.2, 6.5, 5]),
+          tabela([["Relacionamento (nome)", "Card.", "Leitura", "No banco (lógico/relacional)"]] + RELACIONAMENTOS,
+                 [4.6, 1.3, 6.0, 5.1]),
           Spacer(1, 4),
           p("Exigência da disciplina: mínimo de 6 tabelas, dois relacionamentos 1:N e um N:N "
             "com tabela associativa. O ZelaBairro tem 9 tabelas, 9 relacionamentos 1:N e o N:N "
