@@ -13,7 +13,7 @@ Como rodar: [`zelabairro-ia/COMO_RODAR.txt`](zelabairro-ia/COMO_RODAR.txt). Resu
 - [x] Conclusões dos 3 notebooks reescritas em linguagem simples, na voz do grupo
 - [ ] **Leonardo revisa e ajusta as conclusões** (divisão por integrante em [`ROTEIRO_APRESENTACAO_IA.md`](ROTEIRO_APRESENTACAO_IA.md), que não entra no zip)
 - [ ] Gerar o zip: `cd zelabairro-ia && python scripts/empacotar.py` (sai em `../zelabairro-ia.zip`, fora do git) e conferir que abre
-- [ ] (Opcional) Publicar a Flask no Render para a Java chamar (Documento Base 7.4)
+- [x] Flask publicada no Render: https://zelabairro-ia.onrender.com (repositório https://github.com/Leonardo-2112/zelabairro-ia, sem o CSV de 63 MB) e `IA_API_URL` preenchida na API Java. Testado em 18/11: `/health`, `/prever/*`, erro 400, chatbot e ocorrência criada pela Java com prazo 16 e risco ALTO. Plano gratuito dorme após 15 min sem uso: **abra `/health` uns 2 minutos antes da demo**, senão a 1ª ocorrência nasce sem previsão (timeout de 4 s, RN12)
 
 ## Para a apresentação (23 a 27/11)
 Roteiro de estudo, perguntas por notebook e divisão por integrante: [`ROTEIRO_APRESENTACAO_IA.md`](ROTEIRO_APRESENTACAO_IA.md) (uso interno).
