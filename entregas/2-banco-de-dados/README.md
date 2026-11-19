@@ -27,7 +27,7 @@ Base: Documento Base v1.5, seção 6 (9 tabelas, dicionário e seed), e [`docs/P
 - [x] **Grupo:** desenhar e exportar os 3 modelos no Data Modeler para `imagens/` (GUIA, passo 4); exportados em SVG e convertidos para PNG em alta resolução (18/11)
 - [x] **Grupo:** tirar as 14 capturas da execução para `imagens/` (GUIA, passo 3)
 - [x] **Grupo:** regenerar o PDF e conferir que não sobrou nenhum quadro "INSERIR IMAGEM"
-- [x] Zip `ZelaBairro_BD_1TDSPV.zip` (fica só na pasta local: `entregas/.gitignore` ignora *.zip) montado **somente com o PDF, o `.sql` e o `.txt`** (capturas dentro do PDF); script retestado do zero num Oracle Free local em 18/11: 0 erros, 60 linhas, 10 consultas com resultado
+- [x] Zip `ZelaBairro_BD_1TDSPV.zip` (fica só na pasta local: `entregas/.gitignore` ignora *.zip) montado (refeito em 18/11 às 23h36) **somente com o PDF, o `.sql` e o `.txt`** (capturas dentro do PDF); script retestado do zero num Oracle Free local em 18/11: 0 erros, 60 linhas, 10 consultas com resultado
 - [ ] **Grupo:** enviar o zip no Portal até 19/11 23h55
 
 ## Critério do PDF → onde está atendido
