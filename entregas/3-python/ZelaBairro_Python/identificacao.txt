@@ -1,0 +1,16 @@
+GLOBAL SOLUTION 2026/2 - CITIZENTECH - FIAP
+Disciplina: Computational Thinking Using Python
+Projeto: ZelaBairro Terminal (zeladoria urbana colaborativa com priorização inteligente)
+Turma: 1TDSPV
+
+Integrantes:
+RM573982 - Leonardo Afonço Sousa - 1TDSPV
+RM569259 - Syang Cristina Gomes Souza - 1TDSPV
+RM573559 - Matheus Jones Sousa de Freitas - 1TDSPV
+RM569023 - Vitor Gonçalves de Souza - 1TDSPV
+RM572364 - Joao Machado Nascimento - 1TDSPV
+
+Como executar: veja o README.md e a documentação em PDF.
+  pip install -r requirements.txt
+  python main.py
+O programa funciona sem internet. Oracle, ViaCEP e API de IA são opcionais (menu 8).

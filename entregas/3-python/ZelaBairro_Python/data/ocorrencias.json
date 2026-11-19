@@ -1,0 +1,414 @@
+[
+    {
+        "id": 1,
+        "id_oracle": null,
+        "descricao": "Árvore grande inclinada sobre a calçada, com raízes expostas depois da chuva forte.",
+        "endereco": "Rua dos Pinheiros, 850, em frente à padaria",
+        "status": "ABERTA",
+        "data_abertura": "2026-11-15",
+        "data_resolucao": null,
+        "categoria": "Árvore com risco de queda",
+        "bairro": "Pinheiros",
+        "autor_nome": "Mariana Souza",
+        "autor_email": "mariana.souza@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com"
+        ],
+        "prazo_previsto": 6,
+        "risco_atraso": "S",
+        "historico": []
+    },
+    {
+        "id": 2,
+        "id_oracle": null,
+        "descricao": "Buraco grande na faixa da direita, perto do ponto de ônibus.",
+        "endereco": "Rua Guaicurus, 1200",
+        "status": "ABERTA",
+        "data_abertura": "2026-11-12",
+        "data_resolucao": null,
+        "categoria": "Buraco na via",
+        "bairro": "Lapa",
+        "autor_nome": "Carlos Lima",
+        "autor_email": "carlos.lima@exemplo.com",
+        "apoiadores": [],
+        "prazo_previsto": 12,
+        "risco_atraso": "N",
+        "historico": []
+    },
+    {
+        "id": 3,
+        "id_oracle": null,
+        "descricao": "Galhos encostando na fiação e tampando a luz do poste.",
+        "endereco": "Rua Alvarenga, 410, próximo à escola",
+        "status": "ABERTA",
+        "data_abertura": "2026-11-07",
+        "data_resolucao": null,
+        "categoria": "Poda de árvore",
+        "bairro": "Butantã",
+        "autor_nome": "Ana Ribeiro",
+        "autor_email": "ana.ribeiro@exemplo.com",
+        "apoiadores": [],
+        "prazo_previsto": 28,
+        "risco_atraso": "N",
+        "historico": []
+    },
+    {
+        "id": 4,
+        "id_oracle": null,
+        "descricao": "Quarteirão inteiro às escuras há semanas; moradores têm medo de sair à noite.",
+        "endereco": "Estrada de Itapecerica, 3200",
+        "status": "EM_ANDAMENTO",
+        "data_abertura": "2026-10-08",
+        "data_resolucao": null,
+        "categoria": "Iluminação pública apagada",
+        "bairro": "Capão Redondo",
+        "autor_nome": "Joana Martins",
+        "autor_email": "joana.martins@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com",
+            "morador04@exemplo.com",
+            "morador05@exemplo.com",
+            "morador06@exemplo.com",
+            "morador07@exemplo.com",
+            "morador08@exemplo.com",
+            "morador09@exemplo.com",
+            "morador10@exemplo.com",
+            "morador11@exemplo.com",
+            "morador12@exemplo.com",
+            "morador13@exemplo.com",
+            "morador14@exemplo.com",
+            "morador15@exemplo.com",
+            "morador16@exemplo.com",
+            "morador17@exemplo.com",
+            "morador18@exemplo.com",
+            "morador19@exemplo.com",
+            "morador20@exemplo.com",
+            "morador21@exemplo.com",
+            "morador22@exemplo.com",
+            "morador23@exemplo.com",
+            "morador24@exemplo.com",
+            "morador25@exemplo.com"
+        ],
+        "prazo_previsto": 8,
+        "risco_atraso": "S",
+        "historico": [
+            {
+                "data": "2026-10-20",
+                "de": "ABERTA",
+                "para": "EM_ANDAMENTO",
+                "comentario": "Equipe de iluminação agendada",
+                "enviado": false
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "id_oracle": null,
+        "descricao": "Bueiro cheio de lixo; a rua alaga a cada chuva.",
+        "endereco": "Av. Marechal Tito, 5600",
+        "status": "ABERTA",
+        "data_abertura": "2026-11-01",
+        "data_resolucao": null,
+        "categoria": "Bueiro entupido",
+        "bairro": "Itaim Paulista",
+        "autor_nome": "Pedro Alves",
+        "autor_email": "pedro.alves@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com",
+            "morador04@exemplo.com",
+            "morador05@exemplo.com"
+        ],
+        "prazo_previsto": 9,
+        "risco_atraso": "S",
+        "historico": []
+    },
+    {
+        "id": 6,
+        "id_oracle": null,
+        "descricao": "Entulho e sofá velho jogados na calçada, atrapalhando a passagem.",
+        "endereco": "Rua do Glicério, 300",
+        "status": "EM_ANDAMENTO",
+        "data_abertura": "2026-11-05",
+        "data_resolucao": null,
+        "categoria": "Descarte irregular de lixo",
+        "bairro": "Sé",
+        "autor_nome": "Fernanda Costa",
+        "autor_email": "fernanda.costa@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com"
+        ],
+        "prazo_previsto": 10,
+        "risco_atraso": "N",
+        "historico": [
+            {
+                "data": "2026-11-10",
+                "de": "ABERTA",
+                "para": "EM_ANDAMENTO",
+                "comentario": "Limpeza programada para a próxima semana",
+                "enviado": false
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "id_oracle": null,
+        "descricao": "Calçada com buracos e pedras soltas; cadeirantes não conseguem passar.",
+        "endereco": "Rua da Mooca, 2100",
+        "status": "ABERTA",
+        "data_abertura": "2026-10-20",
+        "data_resolucao": null,
+        "categoria": "Calçada danificada",
+        "bairro": "Mooca",
+        "autor_nome": "Lucas Pereira",
+        "autor_email": "lucas.pereira@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com",
+            "morador04@exemplo.com",
+            "morador05@exemplo.com",
+            "morador06@exemplo.com",
+            "morador07@exemplo.com"
+        ],
+        "prazo_previsto": 32,
+        "risco_atraso": "S",
+        "historico": []
+    },
+    {
+        "id": 8,
+        "id_oracle": null,
+        "descricao": "Placa de PARE caída no cruzamento da escola.",
+        "endereco": "Av. Itaquera, 800",
+        "status": "ABERTA",
+        "data_abertura": "2026-11-14",
+        "data_resolucao": null,
+        "categoria": "Sinalização de trânsito danificada",
+        "bairro": "Itaquera",
+        "autor_nome": "Beatriz Gomes",
+        "autor_email": "beatriz.gomes@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com"
+        ],
+        "prazo_previsto": 9,
+        "risco_atraso": "N",
+        "historico": []
+    },
+    {
+        "id": 9,
+        "id_oracle": null,
+        "descricao": "Buraco fundo na esquina, causando estouro de pneus.",
+        "endereco": "Av. Adolfo Pinheiro, 900",
+        "status": "RESOLVIDA",
+        "data_abertura": "2026-10-10",
+        "data_resolucao": "2026-10-22",
+        "categoria": "Buraco na via",
+        "bairro": "Santo Amaro",
+        "autor_nome": "Carlos Lima",
+        "autor_email": "carlos.lima@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com",
+            "morador04@exemplo.com"
+        ],
+        "prazo_previsto": 14,
+        "risco_atraso": "N",
+        "historico": [
+            {
+                "data": "2026-10-14",
+                "de": "ABERTA",
+                "para": "EM_ANDAMENTO",
+                "comentario": "Tapa-buraco programado",
+                "enviado": false
+            },
+            {
+                "data": "2026-10-22",
+                "de": "EM_ANDAMENTO",
+                "para": "RESOLVIDA",
+                "comentario": "Buraco tapado",
+                "enviado": false
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "id_oracle": null,
+        "descricao": "Poste apagado na praça, escuro à noite.",
+        "endereco": "Praça Benedito Calixto, s/n",
+        "status": "RESOLVIDA",
+        "data_abertura": "2026-10-15",
+        "data_resolucao": "2026-10-27",
+        "categoria": "Iluminação pública apagada",
+        "bairro": "Pinheiros",
+        "autor_nome": "Mariana Souza",
+        "autor_email": "mariana.souza@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com"
+        ],
+        "prazo_previsto": 8,
+        "risco_atraso": "S",
+        "historico": [
+            {
+                "data": "2026-10-20",
+                "de": "ABERTA",
+                "para": "EM_ANDAMENTO",
+                "comentario": "Lâmpada será trocada",
+                "enviado": false
+            },
+            {
+                "data": "2026-10-27",
+                "de": "EM_ANDAMENTO",
+                "para": "RESOLVIDA",
+                "comentario": "Lâmpada trocada",
+                "enviado": false
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "id_oracle": null,
+        "descricao": "Pedido de poda de árvore na calçada em frente ao prédio.",
+        "endereco": "Rua Clélia, 700",
+        "status": "CANCELADA",
+        "data_abertura": "2026-10-25",
+        "data_resolucao": null,
+        "categoria": "Poda de árvore",
+        "bairro": "Lapa",
+        "autor_nome": "Ana Ribeiro",
+        "autor_email": "ana.ribeiro@exemplo.com",
+        "apoiadores": [],
+        "prazo_previsto": null,
+        "risco_atraso": null,
+        "historico": [
+            {
+                "data": "2026-10-26",
+                "de": "ABERTA",
+                "para": "CANCELADA",
+                "comentario": "Pedido duplicado; já existia outra ocorrência",
+                "enviado": false
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "id_oracle": null,
+        "descricao": "Árvore com tronco rachado perto de um ponto de ônibus.",
+        "endereco": "Av. Deputado Emílio Carlos, 1500",
+        "status": "EM_ANDAMENTO",
+        "data_abertura": "2026-11-10",
+        "data_resolucao": null,
+        "categoria": "Árvore com risco de queda",
+        "bairro": "Brasilândia",
+        "autor_nome": "Joana Martins",
+        "autor_email": "joana.martins@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com",
+            "morador04@exemplo.com",
+            "morador05@exemplo.com",
+            "morador06@exemplo.com",
+            "morador07@exemplo.com",
+            "morador08@exemplo.com",
+            "morador09@exemplo.com"
+        ],
+        "prazo_previsto": 7,
+        "risco_atraso": "S",
+        "historico": [
+            {
+                "data": "2026-11-12",
+                "de": "ABERTA",
+                "para": "EM_ANDAMENTO",
+                "comentario": "Equipe de Áreas Verdes fará a avaliação",
+                "enviado": false
+            }
+        ]
+    },
+    {
+        "id": 13,
+        "id_oracle": null,
+        "descricao": "Bueiro entupido na entrada da vila.",
+        "endereco": "Rua Mateus Fernandes, 120",
+        "status": "RESOLVIDA",
+        "data_abertura": "2026-10-30",
+        "data_resolucao": "2026-11-06",
+        "categoria": "Bueiro entupido",
+        "bairro": "Capão Redondo",
+        "autor_nome": "Pedro Alves",
+        "autor_email": "pedro.alves@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com",
+            "morador04@exemplo.com",
+            "morador05@exemplo.com",
+            "morador06@exemplo.com"
+        ],
+        "prazo_previsto": 8,
+        "risco_atraso": "N",
+        "historico": [
+            {
+                "data": "2026-11-03",
+                "de": "ABERTA",
+                "para": "EM_ANDAMENTO",
+                "comentario": "Desentupimento agendado",
+                "enviado": false
+            },
+            {
+                "data": "2026-11-06",
+                "de": "EM_ANDAMENTO",
+                "para": "RESOLVIDA",
+                "comentario": "Bueiro limpo",
+                "enviado": false
+            }
+        ]
+    },
+    {
+        "id": 14,
+        "id_oracle": null,
+        "descricao": "Lixo e restos de obra descartados no terreno ao lado da escola.",
+        "endereco": "Rua Cavalheiro Vignoli, 55",
+        "status": "ABERTA",
+        "data_abertura": "2026-11-16",
+        "data_resolucao": null,
+        "categoria": "Descarte irregular de lixo",
+        "bairro": "Grajaú",
+        "autor_nome": "Fernanda Costa",
+        "autor_email": "fernanda.costa@exemplo.com",
+        "apoiadores": [],
+        "prazo_previsto": 9,
+        "risco_atraso": "N",
+        "historico": []
+    },
+    {
+        "id": 15,
+        "id_oracle": null,
+        "descricao": "Calçada afundada na saída do terminal de ônibus.",
+        "endereco": "Av. dos Metalúrgicos, 1000",
+        "status": "ABERTA",
+        "data_abertura": "2026-11-09",
+        "data_resolucao": null,
+        "categoria": "Calçada danificada",
+        "bairro": "Cidade Tiradentes",
+        "autor_nome": "Lucas Pereira",
+        "autor_email": "lucas.pereira@exemplo.com",
+        "apoiadores": [
+            "morador01@exemplo.com",
+            "morador02@exemplo.com",
+            "morador03@exemplo.com",
+            "morador04@exemplo.com"
+        ],
+        "prazo_previsto": 30,
+        "risco_atraso": "N",
+        "historico": []
+    }
+]
